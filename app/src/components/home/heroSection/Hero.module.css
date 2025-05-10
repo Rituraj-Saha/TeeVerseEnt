@@ -1,0 +1,63 @@
+.parent {
+  display: flex;
+  min-height: 65vh !important;
+  flex: 1;
+  flex-direction: row;
+}
+/* From https://css.glass */
+.glassEffectOne {
+  display: flex;
+  margin-top: 2%;
+  margin-right: 18%;
+  width: 70%;
+  background: rgba(193, 183, 232, 0.612);
+  border-radius: 6px;
+  box-shadow: 0 4px 30px rgba(225, 94, 114, 0.632);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  /* border: 1px solid rgba(255, 255, 255, 0.3); */
+  height: 10%;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.valueAdderTextStyle {
+  font-family: "poppins";
+  font-size: 14px;
+  font-weight: 700;
+  color: rgb(37, 35, 35);
+}
+.boldMsgTxt {
+  width: 90%;
+  text-align: left;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 40px;
+  color: rgba(37, 35, 35, 0.855);
+  line-height: 50px;
+  margin-top: 25px;
+  padding-right: 250px;
+  padding-left: 50px;
+}
+.boldMsgTxtBolder {
+  width: 90%;
+  text-align: left;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 35px;
+  color: rgba(2, 4, 52, 0.855);
+  line-height: 50px;
+  padding-right: 250px;
+  padding-left: 50px;
+  font-weight: 700;
+}
+.statMsg {
+  width: 90%;
+  text-align: left;
+  font-family: "poppins";
+  font-size: 15px;
+  color: rgba(27, 27, 28, 0.855);
+  line-height: 18px;
+  padding-right: 200px;
+  padding-left: 50px;
+  font-weight: 700;
+  margin-top: 20px;
+}

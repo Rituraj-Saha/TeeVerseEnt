@@ -1,0 +1,36 @@
+.parent {
+  display: flex;
+  height: 15vh;
+  background: rgba(34, 25, 72, 0.897);
+  border-radius: 6px;
+  box-shadow: 0 4px 30px rgba(225, 94, 114, 0.632);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  width: 75vw;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.msgLine {
+  display: flex;
+  gap: 8px;
+}
+.whitecolorText {
+  color: white;
+}
+.outColorText {
+  color: var(--color-error-main);
+  font-weight: 800;
+}
+.bannerPointerContainer {
+  display: flex;
+  gap: 8px;
+}
+.emojiStyle {
+  font-size: 20px;
+}
+.emojiText {
+  font-size: 12px;
+  color: white;
+}

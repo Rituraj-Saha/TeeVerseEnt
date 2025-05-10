@@ -1,0 +1,11 @@
+.parent {
+  display: flex;
+  /* border: 1px solid black; */
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-inline: 5%;
+  padding-top: 2%;
+  gap: 25px;
+  padding-bottom: 2%;
+}

@@ -9,12 +9,22 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/poppins": "^5.2.5",
+    "@fontsource/roboto": "^5.2.5",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.2",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
+    "@vitejs/plugin-react": "^4.4.1",
+    "html-react-parser": "^5.2.3",
     "isbot": "^5.1.27",
+    "lodash": "^4.17.21",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.5.3"
+    "react-router": "^7.5.3",
+    "swiper": "^11.2.6"
   },
   "devDependencies": {
     "@react-router/dev": "^7.5.3",

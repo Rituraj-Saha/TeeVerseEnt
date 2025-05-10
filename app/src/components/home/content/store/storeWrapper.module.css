@@ -1,0 +1,10 @@
+.parent {
+  display: flex;
+  flex-direction: row;
+  /* border: 1px solid black; */
+  width: 100%;
+  margin-top: 5vh;
+  width: 95%;
+  box-shadow: 0 4px 40px rgba(184, 175, 246, 0.632);
+  border-radius: 5px;
+}

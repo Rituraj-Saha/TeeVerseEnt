@@ -1,0 +1,10 @@
+.parent {
+  position: relative;
+  display: flex;
+  height: 25vh;
+  background-color: rgb(232, 124, 8);
+  width: 75vw;
+  margin-top: 90px;
+  border-radius: 5px;
+  margin-bottom: 55px;
+}

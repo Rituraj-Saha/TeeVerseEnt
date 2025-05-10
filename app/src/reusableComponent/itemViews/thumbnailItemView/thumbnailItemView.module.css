@@ -1,0 +1,87 @@
+.parentTumbnail {
+  display: flex;
+  width: 20vw;
+  height: 55vh;
+  flex-direction: column;
+  padding: 5px;
+  background-color: "white";
+  box-shadow: 0 4px 40px rgba(185, 179, 228, 0.721);
+  margin: 5px;
+  border-radius: 15px;
+}
+.imageContainer {
+  display: flex;
+  flex: 0.65;
+}
+.infoContainerS {
+  display: flex;
+  flex: 0.35;
+  flex-direction: column;
+  padding-top: 2.5px;
+}
+.productName {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 14px;
+  color: rgb(1, 1, 18);
+  font-weight: 700;
+  padding-left: 15px;
+  padding-top: 5px;
+}
+.gaContainer {
+  display: flex;
+  flex: 0.1;
+}
+.nameValue {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 14px;
+  color: rgb(48, 48, 79);
+  padding-left: 5px;
+  padding-top: 5px;
+}
+.priceContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin-top: 1px;
+}
+.sizeSelectorParent {
+  display: flex;
+  gap: 15px;
+  height: 23px;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 15px;
+  margin-top: 5px;
+  padding-top: 5px;
+}
+.sizeSelectorItemParent {
+  display: flex;
+  flex: 1;
+  gap: 2px;
+  height: 100%;
+  align-items: center;
+}
+.sizeSelectorBoxParent {
+  display: flex;
+  width: 40%;
+  padding: 2px;
+  height: 100%;
+}
+.sizeSelectorseletedBox {
+  background: green;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.cartWrapper {
+  background: rgb(3, 3, 37);
+  padding: 5px 6px 3px 5px;
+  border-radius: 35%;
+  margin-left: 75px;
+  height: 40px;
+  width: 40px;
+}
+.nameContainer {
+  display: flex;
+  justify-content: space-between;
+}
