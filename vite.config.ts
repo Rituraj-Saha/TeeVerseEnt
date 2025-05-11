@@ -19,5 +19,9 @@ export default defineConfig(({ mode }) => {
       __BASE_URL__: JSON.stringify(env.VITE_API_BASE_URL),
     },
     plugins: [tailwindcss(), react(), reactRouter(), tsconfigPaths()],
+    server: {
+      host: "0.0.0.0",
+      hmr: false, // 🔧 disable HMR temporarily
+    },
   };
 });

@@ -50,15 +50,14 @@ const theme = createTheme({
   },
 });
 export const injectCssVariables = (theme) => {
+  if (typeof document === "undefined") return; // Skip during SSR
+
   const root = document.documentElement;
 
-  // Loop over each key in theme.palette
   Object.keys(theme.palette).forEach((item) => {
-    // Dynamically access the `main` color for each palette item
-    const colorValue = theme.palette[item]?.main;
-    if (colorValue) {
-      // Set the CSS variable for the color
-      root.style.setProperty(`--color-${item}-main`, colorValue);
+    const palette = theme.palette[item];
+    if (palette?.main) {
+      root.style.setProperty(`--color-${item}-main`, palette.main);
     }
   });
 };

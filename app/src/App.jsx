@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Nav from "./components/navigationBar/Nav";
 import LandingHome from "./components/home/LandingHome";
@@ -10,7 +10,9 @@ import { CssBaseline, Divider, ThemeProvider } from "@mui/material";
 import theme, { injectCssVariables } from "./theme/theme";
 
 function App() {
-  // injectCssVariables(theme);
+  useEffect(() => {
+    injectCssVariables(theme); // Inject only after mount
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -29,6 +31,9 @@ function App() {
         />
 
         <LandingHome />
+        {/* <ClientOnlyRender>
+          <LandingHome />
+        </ClientOnlyRender> */}
       </div>
     </ThemeProvider>
   );

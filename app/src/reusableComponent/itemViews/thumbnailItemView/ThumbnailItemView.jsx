@@ -29,6 +29,7 @@ const SizeSelector = (props) => {
               opacity: isAvailable ? 1 : 0.4,
             }}
             onClick={() => {
+              console.log("Clicked");
               if (isAvailable) handleChange(item);
             }}
           >
