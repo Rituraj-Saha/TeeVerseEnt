@@ -3,6 +3,8 @@ import styles from "./nav.module.css";
 import { cartIcon, searchIcon, ShirtLOGO } from "../../assets/svgAssets";
 import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
 import { Chip, useTheme } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { open } from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 const NAVITEMS = [
   {
     label: "Home",
@@ -37,6 +39,7 @@ const NAVITEMS = [
 ];
 function Nav() {
   const theme = useTheme();
+  const dispatch = useDispatch();
   return (
     <nav className={styles.parent}>
       <div className={styles.navBranding}>
@@ -67,7 +70,12 @@ function Nav() {
         </ul>
       </div>
       <div className={styles.searchCartContainer}>
-        <div className={styles.scItem}>
+        <div
+          className={styles.scItem}
+          onClick={() => {
+            dispatch(open());
+          }}
+        >
           <SvgStringRenderer svgString={cartIcon} width={"20%"} />
           <span className={styles.menuItemAnxText}>Cart</span>
         </div>
