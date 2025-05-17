@@ -7,11 +7,14 @@ const MotionBox = motion(Box);
 
 const BottomSheet = ({ children, onClose }) => {
   const open = useSelector((state) => state.bottomSheetControllerReducer.show);
-
+  const handleClose = (event, reason) => {
+    if (reason === "backdropClick") return;
+    if (onClose) onClose();
+  };
   return (
     <AnimatePresence>
       {open && (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={handleClose}>
           <MotionBox
             initial={{ y: "100%" }}
             animate={{ y: 0 }}

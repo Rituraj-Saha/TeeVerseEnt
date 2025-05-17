@@ -85,17 +85,30 @@ const MainAppContent = () => {
         </ClientOnlyRender> */}
       </div>
       <BottomSheet onClose={handleClose}>
-        <div>
-          <div onClick={handleClose}>
+        <div
+          style={{
+            display: "flex",
+            height: "80vh",
+          }}
+        >
+          <div
+            onClick={handleClose}
+            style={{
+              position: "absolute",
+              display: "flex",
+              border: "1px solid black",
+              height: "8%",
+              width: "2%",
+              right: "4%",
+              top: "3%",
+            }}
+          >
             <SvgStringRenderer
               svgString={closeSvg}
               height={"30px"}
               width={"30px"}
             />
           </div>
-
-          <h2>Bottom Sheet Content</h2>
-          <p>This is where you render your custom children content.</p>
         </div>
       </BottomSheet>
     </>

@@ -6,10 +6,66 @@ import samplebgremove from "../../../assets/samplebgremove.png";
 import SvgStringRenderer from "../../SvgReusableRenderer";
 import { cartIconItem } from "../../../assets/svgAssets";
 import { Chip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+} from "../../../../storeCofig/feature/cartStore/CartSlice";
+
+const CartButtonOrCounter = (product) => {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state) =>
+    state.cart.cartItems.find((item) => item?.id === product?.id)
+  );
+
+  const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ ...product, quantity: 1 }));
+  };
+
+  const handleIncrement = () => {
+    console.log("plus clicked." + quantity + "max order: " + product?.maxStock);
+    if (quantity < product?.maxStock) {
+      dispatch(incrementQuantity(product?.id));
+    }
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      dispatch(decrementQuantity(product?.id));
+    } else if (quantity === 1) {
+      dispatch(removeFromCart(product?.id));
+    }
+  };
+
+  return (
+    <div>
+      {quantity === 0 ? (
+        <div onClick={handleAddToCart} className={styles.cartWrapper}>
+          <SvgStringRenderer svgString={cartIconItem} />
+        </div>
+      ) : (
+        <div className={styles.counterContainer}>
+          <button onClick={handleDecrement} className={styles.counterBtn}>
+            -
+          </button>
+          <span className={styles.counterValue}>{quantity}</span>
+          <button onClick={handleIncrement} className={styles.counterBtn}>
+            +
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const SizeSelector = (props) => {
-  const { availableSize } = props;
+  const { availableSize, selectedSize, setSelectedSize } = props;
   const options = ["S", "M", "L", "XL", "XXL"];
-  const [selectedSize, setSelectedSize] = React.useState("M");
+
   const theme = useTheme();
   const handleChange = (size) => {
     setSelectedSize(size);
@@ -62,6 +118,7 @@ const ThumbnailItemView = (props) => {
     sizeAvailabilibity,
   } = props;
   const theme = useTheme();
+  const [selectedSize, setSelectedSize] = React.useState("M");
   return (
     <div className={styles.parentTumbnail}>
       <div className={styles.imageContainer}>
@@ -96,7 +153,11 @@ const ThumbnailItemView = (props) => {
             <span className={styles.nameValue}>{ageGroup}</span>
           </div>
         </div>
-        <SizeSelector availableSize={sizeAvailabilibity} />
+        <SizeSelector
+          availableSize={sizeAvailabilibity}
+          selectedSize={selectedSize}
+          setSelectedSize={setSelectedSize}
+        />
         <div className={styles.priceContainer}>
           <span className={styles.productName}>INR: </span>
           <span
@@ -121,9 +182,20 @@ const ThumbnailItemView = (props) => {
           >
             {`₹${price - (price * discount) / 100}`}
           </span>
-          <div className={styles.cartWrapper}>
+          {/* <div className={styles.cartWrapper}>
             <SvgStringRenderer svgString={cartIconItem} />
-          </div>
+          </div> */}
+
+          <CartButtonOrCounter
+            id={id}
+            name={name}
+            gender={gender}
+            ageGroup={ageGroup}
+            price={price}
+            discount={discount}
+            maxStock={maxStock}
+            selectedSize={selectedSize}
+          />
         </div>
       </div>
     </div>

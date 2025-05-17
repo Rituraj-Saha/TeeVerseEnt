@@ -46,8 +46,8 @@ const BannerMid = () => {
       >
         <img
           src={sample}
-          height={"80%"}
-          width={"80%"}
+          height={"70%"}
+          width={"70%"}
           style={{ borderRadius: "25px" }}
         ></img>
       </div>

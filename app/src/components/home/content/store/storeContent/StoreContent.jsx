@@ -25,7 +25,7 @@ function StoreContent() {
             ageGroup={item.ageGroup}
             price={item.price}
             discount={item.discount}
-            maxStock={item.maxStock}
+            maxStock={item.maxorderCount}
             sizeAvailabilibity={item.availableSize}
           />
         );
