@@ -6,6 +6,18 @@ const initialState = {
   totalAmount: 0,
 };
 
+// Helper function to recalculate totals
+const recalculateTotals = (state) => {
+  state.totalAmount = state.cartItems.reduce(
+    (sum, item) => sum + item.sellingPrice * item.quantity,
+    0
+  );
+  state.totalItems = state.cartItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -19,11 +31,15 @@ const cartSlice = createSlice({
       } else {
         state.cartItems.push({ ...item, quantity: item.quantity || 1 });
       }
+
+      recalculateTotals(state);
     },
 
     removeFromCart: (state, action) => {
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
+
+      recalculateTotals(state);
     },
 
     updateQuantity: (state, action) => {
@@ -33,21 +49,31 @@ const cartSlice = createSlice({
       if (item && quantity > 0) {
         item.quantity = quantity;
       }
+
+      recalculateTotals(state);
     },
 
     incrementQuantity: (state, action) => {
       const item = state.cartItems.find((i) => i.id === action.payload);
-      console.log("Item id to be incr: " + item.id);
       if (item) {
         item.quantity += 1;
       }
+
+      recalculateTotals(state);
     },
 
     decrementQuantity: (state, action) => {
       const item = state.cartItems.find((i) => i.id === action.payload);
       if (item && item.quantity > 1) {
         item.quantity -= 1;
+      } else {
+        // Optionally remove item if quantity drops to 0
+        state.cartItems = state.cartItems.filter(
+          (i) => i.id !== action.payload
+        );
       }
+
+      recalculateTotals(state);
     },
 
     clearCart: (state) => {
@@ -57,16 +83,7 @@ const cartSlice = createSlice({
     },
 
     calculateTotals: (state) => {
-      let totalAmount = 0;
-      let totalItems = 0;
-
-      state.cartItems.forEach((item) => {
-        totalAmount += item.price * item.quantity;
-        totalItems += item.quantity;
-      });
-
-      state.totalAmount = totalAmount;
-      state.totalItems = totalItems;
+      recalculateTotals(state);
     },
   },
 });

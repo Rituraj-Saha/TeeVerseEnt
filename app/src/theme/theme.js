@@ -25,6 +25,10 @@ const theme = createTheme({
     disable: {
       main: "#b1afae",
     },
+    customGreen: {
+      main: "#00C853",
+      contrastText: "#fff",
+    },
     custom: {
       light: "#f0f0f0",
       main: "#9c27b0",

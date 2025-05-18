@@ -9,11 +9,16 @@ import "@fontsource/roboto/700.css";
 import { CssBaseline, Divider, ThemeProvider } from "@mui/material";
 import theme, { injectCssVariables } from "./theme/theme";
 import { store } from "app/storeCofig/store";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import BottomSheet from "./reusableComponent/bottomSheet/BottomSheet";
 import { closeSvg } from "./assets/svgAssets";
 import SvgStringRenderer from "./reusableComponent/SvgReusableRenderer";
-import { close } from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
+import {
+  CART_VIEW,
+  close,
+} from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
+
+import CartItemView from "./reusableComponent/itemViews/CartItemView/CartItemView";
 function App() {
   useEffect(() => {
     injectCssVariables(theme); // Inject only after mount
@@ -60,6 +65,12 @@ function App() {
 }
 const MainAppContent = () => {
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => {
+    state.cart.carItems;
+  });
+  const showView = useSelector(
+    (state) => state.bottomSheetControllerReducer.showView
+  );
 
   const handleClose = () => {
     dispatch(close());
@@ -109,6 +120,17 @@ const MainAppContent = () => {
               width={"30px"}
             />
           </div>
+          {showView === CART_VIEW ? (
+            <CartItemView />
+          ) : (
+            // <>
+            //   {cartItems &&
+            //     cartItems.map((item, idx) => {
+            //       return <CartItemView product={item} key={idx} />;
+            //     })}
+            // </>
+            <></>
+          )}
         </div>
       </BottomSheet>
     </>

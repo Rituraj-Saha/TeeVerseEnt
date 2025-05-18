@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./nav.module.css";
 import { cartIcon, searchIcon, ShirtLOGO } from "../../assets/svgAssets";
 import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
-import { Chip, useTheme } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { Badge, Chip, useTheme } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { open } from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 const NAVITEMS = [
   {
@@ -40,12 +40,14 @@ const NAVITEMS = [
 function Nav() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const cartCount = useSelector((state) => state.cart.totalItems);
   return (
     <nav className={styles.parent}>
       <div className={styles.navBranding}>
         <div className={styles.logoWrapper}>
           <SvgStringRenderer svgString={ShirtLOGO} />
         </div>
+
         <span className={styles.brandingText}>TEE-VERSE</span>
       </div>
 
@@ -76,7 +78,18 @@ function Nav() {
             dispatch(open());
           }}
         >
-          <SvgStringRenderer svgString={cartIcon} width={"20%"} />
+          <Badge
+            badgeContent={cartCount}
+            sx={{
+              "& .MuiBadge-badge": {
+                backgroundColor: theme.palette.customGreen.main,
+                color: theme.palette.customGreen.contrastText,
+              },
+            }}
+          >
+            <SvgStringRenderer svgString={cartIcon} width={"20%"} />
+          </Badge>
+
           <span className={styles.menuItemAnxText}>Cart</span>
         </div>
         <div className={styles.scItem}>

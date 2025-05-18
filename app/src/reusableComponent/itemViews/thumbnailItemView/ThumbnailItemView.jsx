@@ -195,6 +195,7 @@ const ThumbnailItemView = (props) => {
             discount={discount}
             maxStock={maxStock}
             selectedSize={selectedSize}
+            sellingPrice={price - (price * discount) / 100}
           />
         </div>
       </div>
