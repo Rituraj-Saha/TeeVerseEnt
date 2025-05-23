@@ -1,7 +1,12 @@
 import React from "react";
 import ThumbnailItemView from "../../../../../reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 import { FEATUREDPRODUCT } from "../../../../../assets/payload/FEATURED-PRODUCT";
-
+import { PRODUCT_AVAILABILITY_MATRIX } from "app/src/assets/payload/ProductAvailabilityChecker";
+const availableSize = (id) => {
+  const product = PRODUCT_AVAILABILITY_MATRIX.find((p) => p.id === id);
+  if (!product) return [];
+  return product.availability.filter((item) => Number(item.available) > 0);
+};
 function StoreContent() {
   return (
     <div
@@ -26,7 +31,7 @@ function StoreContent() {
             price={item.price}
             discount={item.discount}
             maxStock={item.maxorderCount}
-            sizeAvailabilibity={item.availableSize}
+            sizeAvailabilibity={availableSize(item.id)}
           />
         );
       })}

@@ -10,7 +10,6 @@ const CartItemView = (props) => {
         width: "65vw",
       }}
     >
-      {console.log("i am called from cartitemview")}
       <div
         style={{
           display: "flex",

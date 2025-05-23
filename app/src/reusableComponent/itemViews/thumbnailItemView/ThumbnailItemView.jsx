@@ -73,7 +73,9 @@ const SizeSelector = (props) => {
   return (
     <div className={styles.sizeSelectorParent}>
       {options.map((item, index) => {
-        const isAvailable = _.includes(availableSize, item);
+        const isAvailable = availableSize.some(
+          (sizeObj) => sizeObj.size === item
+        );
         const isSelected = selectedSize === item;
 
         return (
@@ -118,7 +120,9 @@ const ThumbnailItemView = (props) => {
     sizeAvailabilibity,
   } = props;
   const theme = useTheme();
-  const [selectedSize, setSelectedSize] = React.useState("M");
+  const [selectedSize, setSelectedSize] = React.useState(
+    sizeAvailabilibity[0].size
+  );
   return (
     <div className={styles.parentTumbnail}>
       <div className={styles.imageContainer}>
