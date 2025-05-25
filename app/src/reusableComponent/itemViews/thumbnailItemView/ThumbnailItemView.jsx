@@ -6,6 +6,7 @@ import samplebgremove from "../../../assets/samplebgremove.png";
 import SvgStringRenderer from "../../SvgReusableRenderer";
 import { cartIconItem } from "../../../assets/svgAssets";
 import { Chip } from "@mui/material";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
@@ -19,17 +20,20 @@ const CartButtonOrCounter = (product) => {
   const cartItem = useSelector((state) =>
     state.cart.cartItems.find((item) => item?.id === product?.id)
   );
-
   const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
-
+  console.log("Selected: " + product.selectedSize + " with id: " + product.id);
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity: 1 }));
   };
 
   const handleIncrement = () => {
-    console.log("plus clicked." + quantity + "max order: " + product?.maxStock);
     if (quantity < product?.maxStock) {
       dispatch(incrementQuantity(product?.id));
+    } else {
+      toast.warning(`Maximum limit (${product?.maxStock}) reached`, {
+        position: "top-right",
+        autoClose: 2000,
+      });
     }
   };
 
@@ -123,6 +127,11 @@ const ThumbnailItemView = (props) => {
   const [selectedSize, setSelectedSize] = React.useState(
     sizeAvailabilibity[0].size
   );
+
+  const getMaxStock = (size) => {
+    const item = sizeAvailabilibity.find((a) => a.size === size);
+    return item ? Number(item.available) : 0;
+  };
   return (
     <div className={styles.parentTumbnail}>
       <div className={styles.imageContainer}>
@@ -197,7 +206,7 @@ const ThumbnailItemView = (props) => {
             ageGroup={ageGroup}
             price={price}
             discount={discount}
-            maxStock={maxStock}
+            maxStock={getMaxStock(selectedSize)}
             selectedSize={selectedSize}
             sellingPrice={price - (price * discount) / 100}
           />

@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
 import App from "../src/App";
+import ClientOnlyRender from "utils/ClientOnlyRender";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -11,6 +12,6 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <App />
+  return <ClientOnlyRender> <App /></ClientOnlyRender>
   // <App />
 }
