@@ -17,7 +17,19 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
-
+.cartContainer {
+  display: flex;
+  height: 80vh;
+}
+.cartCloseButton {
+  display: flex;
+  border: 1px solid black;
+  position: sticky;
+  height: 5%;
+  width: 2%;
+  left: 99%;
+  top: 0;
+}
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

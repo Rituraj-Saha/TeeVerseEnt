@@ -2,7 +2,6 @@ import React from "react";
 import _ from "lodash";
 import { useTheme } from "@mui/material";
 import styles from "./thumbnailItemView.module.css";
-import samplebgremove from "../../../assets/samplebgremove.png";
 import SvgStringRenderer from "../../SvgReusableRenderer";
 import { cartIconItem } from "../../../assets/svgAssets";
 import { Chip } from "@mui/material";
@@ -14,6 +13,7 @@ import {
   decrementQuantity,
   removeFromCart,
 } from "../../../../storeCofig/feature/cartStore/CartSlice";
+import { useSizeAvailability } from "../../../../../utils/useSizeAvailabilty";
 
 const CartButtonOrCounter = (product) => {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ const CartButtonOrCounter = (product) => {
   );
 };
 
-const SizeSelector = (props) => {
+export const SizeSelector = (props) => {
   const { availableSize, selectedSize, setSelectedSize } = props;
   const options = ["S", "M", "L", "XL", "XXL"];
 
@@ -119,6 +119,51 @@ const SizeSelector = (props) => {
     </div>
   );
 };
+export const PriceContainer = (props) => {
+  return (
+    <div className={styles.priceContainer}>
+      <span className={styles.productName}>INR: </span>
+      <span
+        className={styles.nameValue}
+        style={{
+          textDecoration: "line-through",
+        }}
+      >
+        {`₹${props.price}`}
+      </span>
+      <span
+        className={styles.nameValue}
+        style={{
+          color: "green",
+        }}
+      >{`${props.discount}%off`}</span>
+      <span
+        className={styles.nameValue}
+        style={{
+          color: "green",
+        }}
+      >
+        {`₹${props.price - (props.price * props.discount) / 100}`}
+      </span>
+      {/* <div className={styles.cartWrapper}>
+            <SvgStringRenderer svgString={cartIconItem} />
+          </div> */}
+
+      <CartButtonOrCounter
+        id={props.id}
+        name={props.name}
+        gender={props.gender}
+        ageGroup={props.ageGroup}
+        price={props.price}
+        discount={props.discount}
+        maxStock={props.maxStock}
+        selectedSize={props.selectedSize}
+        sellingPrice={props.price - (props.price * props.discount) / 100}
+        thubnailImage={props.thubnailImage}
+      />
+    </div>
+  );
+};
 const ThumbnailItemView = (props) => {
   const {
     id,
@@ -128,21 +173,24 @@ const ThumbnailItemView = (props) => {
     price,
     discount,
     maxStock,
-    sizeAvailabilibity,
+    // sizeAvailabilibity,
+    thubnailImage,
   } = props;
   const theme = useTheme();
-  const [selectedSize, setSelectedSize] = React.useState(
-    sizeAvailabilibity[0].size
-  );
+  // const [selectedSize, setSelectedSize] = React.useState(
+  //   sizeAvailabilibity[0].size
+  // );
 
-  const getMaxStock = (size) => {
-    const item = sizeAvailabilibity.find((a) => a.size === size);
-    return item ? Number(item.available) : 0;
-  };
+  // const getMaxStock = (size) => {
+  //   const item = sizeAvailabilibity.find((a) => a.size === size);
+  //   return item ? Number(item.available) : 0;
+  // };
+  const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
+    useSizeAvailability(id);
   return (
     <div className={styles.parentTumbnail}>
       <div className={styles.imageContainer}>
-        <img src={samplebgremove} height={"100%"} width={"100%"} />
+        <img src={thubnailImage} height={"100%"} width={"100%"} />
       </div>
       <div className={styles.infoContainerS}>
         <div className={styles.nameContainer}>
@@ -174,11 +222,12 @@ const ThumbnailItemView = (props) => {
           </div>
         </div>
         <SizeSelector
-          availableSize={sizeAvailabilibity}
+          availableSize={sizeAvailability}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
-        <div className={styles.priceContainer}>
+
+        {/* <div className={styles.priceContainer}>
           <span className={styles.productName}>INR: </span>
           <span
             className={styles.nameValue}
@@ -202,9 +251,6 @@ const ThumbnailItemView = (props) => {
           >
             {`₹${price - (price * discount) / 100}`}
           </span>
-          {/* <div className={styles.cartWrapper}>
-            <SvgStringRenderer svgString={cartIconItem} />
-          </div> */}
 
           <CartButtonOrCounter
             id={id}
@@ -216,8 +262,21 @@ const ThumbnailItemView = (props) => {
             maxStock={getMaxStock(selectedSize)}
             selectedSize={selectedSize}
             sellingPrice={price - (price * discount) / 100}
+            thubnailImage={thubnailImage}
           />
-        </div>
+        </div> */}
+        <PriceContainer
+          id={id}
+          name={name}
+          gender={gender}
+          ageGroup={ageGroup}
+          price={price}
+          discount={discount}
+          maxStock={getMaxStock(selectedSize)}
+          selectedSize={selectedSize}
+          sellingPrice={price - (price * discount) / 100}
+          thubnailImage={thubnailImage}
+        />
       </div>
     </div>
   );

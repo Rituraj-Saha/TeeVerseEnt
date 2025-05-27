@@ -99,24 +99,8 @@ const MainAppContent = () => {
         </ClientOnlyRender> */}
       </div>
       <BottomSheet onClose={handleClose}>
-        <div
-          style={{
-            display: "flex",
-            height: "80vh",
-          }}
-        >
-          <div
-            onClick={handleClose}
-            style={{
-              position: "absolute",
-              display: "flex",
-              border: "1px solid black",
-              height: "8%",
-              width: "2%",
-              right: "4%",
-              top: "3%",
-            }}
-          >
+        <div className="cartContainer">
+          <div onClick={handleClose} className="cartCloseButton">
             <SvgStringRenderer
               svgString={closeSvg}
               height={"30px"}
@@ -124,7 +108,24 @@ const MainAppContent = () => {
             />
           </div>
           {showView === CART_VIEW ? (
-            <CartItemView />
+            <div
+              style={{
+                display: "flex",
+                border: "1px solid red",
+                width: "100%",
+                gap: "15px",
+                flexWrap: "wrap",
+                alignContent: "baseline",
+              }}
+            >
+              {useSelector((state) => state.cart.cartItems).map((item, idx) => {
+                return <CartItemView key={idx} productDetails={item} />;
+              })}
+              {/* <CartItemView />
+              <CartItemView />
+              <CartItemView />
+              <CartItemView /> */}
+            </div>
           ) : (
             // <>
             //   {cartItems &&

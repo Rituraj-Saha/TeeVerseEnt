@@ -2,6 +2,7 @@ import React from "react";
 import ThumbnailItemView from "../../../../../reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 import { FEATUREDPRODUCT } from "../../../../../assets/payload/FEATURED-PRODUCT";
 import { PRODUCT_AVAILABILITY_MATRIX } from "app/src/assets/payload/ProductAvailabilityChecker";
+import sampleImageView from "../../../../../assets/samplebgremove.png";
 const availableSize = (id) => {
   const product = PRODUCT_AVAILABILITY_MATRIX.find((p) => p.id === id);
   if (!product) return [];
@@ -30,8 +31,9 @@ function StoreContent() {
             ageGroup={item.ageGroup}
             price={item.price}
             discount={item.discount}
-            maxStock={item.maxorderCount}
-            sizeAvailabilibity={availableSize(item.id)}
+            // maxStock={item.maxorderCount}
+            // sizeAvailabilibity={availableSize(item.id)}
+            thubnailImage={sampleImageView}
           />
         );
       })}
