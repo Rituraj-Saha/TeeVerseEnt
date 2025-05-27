@@ -13,15 +13,14 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import BottomSheet from "./reusableComponent/bottomSheet/BottomSheet";
 import { closeSvg } from "./assets/svgAssets";
 import SvgStringRenderer from "./reusableComponent/SvgReusableRenderer";
-import { ToastContainer } from "react-toastify/unstyled";
-import "react-toastify/dist/ReactToastify.css";
+
 import {
   CART_VIEW,
   close,
 } from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 
 import CartItemView from "./reusableComponent/itemViews/CartItemView/CartItemView";
-import { ToastProvider } from "utils/ToastProvider";
+// import { ToastProvider } from "utils/ToastProvider";
 
 function App() {
   useEffect(() => {
@@ -137,7 +136,7 @@ const MainAppContent = () => {
           )}
         </div>
       </BottomSheet>
-      <ToastProvider />
+      {/* <ToastProvider /> */}
     </>
   );
 };

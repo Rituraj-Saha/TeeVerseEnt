@@ -24,7 +24,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-      const existing = state.cartItems.find((i) => i.id === item.id);
+      const existing = state.cartItems.find((i) => i.cid === item.cid);
 
       if (existing) {
         existing.quantity += item.quantity || 1;
@@ -37,14 +37,14 @@ const cartSlice = createSlice({
 
     removeFromCart: (state, action) => {
       const itemId = action.payload;
-      state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
+      state.cartItems = state.cartItems.filter((item) => item.cid !== itemId); // need to specify with cID
 
       recalculateTotals(state);
     },
 
     updateQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const item = state.cartItems.find((i) => i.id === id);
+      const { cid, quantity } = action.payload;
+      const item = state.cartItems.find((i) => i.cid === cid); // need to specify with cID
 
       if (item && quantity > 0) {
         item.quantity = quantity;
@@ -54,7 +54,8 @@ const cartSlice = createSlice({
     },
 
     incrementQuantity: (state, action) => {
-      const item = state.cartItems.find((i) => i.id === action.payload);
+      const item = state.cartItems.find((i) => i.cid === action.payload);
+      console.log("Cid in incr: " + item);
       if (item) {
         item.quantity += 1;
       }
@@ -63,13 +64,13 @@ const cartSlice = createSlice({
     },
 
     decrementQuantity: (state, action) => {
-      const item = state.cartItems.find((i) => i.id === action.payload);
+      const item = state.cartItems.find((i) => i.cid === action.payload);
       if (item && item.quantity > 1) {
         item.quantity -= 1;
       } else {
         // Optionally remove item if quantity drops to 0
         state.cartItems = state.cartItems.filter(
-          (i) => i.id !== action.payload
+          (i) => i.cid !== action.payload
         );
       }
 

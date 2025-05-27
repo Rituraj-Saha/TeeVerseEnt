@@ -17,18 +17,25 @@ import {
 
 const CartButtonOrCounter = (product) => {
   const dispatch = useDispatch();
+  const cartId = `${product.id}-${product.selectedSize}`;
   const cartItem = useSelector((state) =>
-    state.cart.cartItems.find((item) => item?.id === product?.id)
+    state.cart.cartItems.find((item) => item?.cid === cartId)
   );
   const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
-  console.log("Selected: " + product.selectedSize + " with id: " + product.id);
   const handleAddToCart = () => {
-    dispatch(addToCart({ ...product, quantity: 1 }));
+    dispatch(
+      addToCart({
+        ...product,
+        quantity: 1,
+        // cid: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+        cid: cartId,
+      })
+    );
   };
 
   const handleIncrement = () => {
     if (quantity < product?.maxStock) {
-      dispatch(incrementQuantity(product?.id));
+      dispatch(incrementQuantity(cartId));
     } else {
       toast.warning(`Maximum limit (${product?.maxStock}) reached`, {
         position: "top-right",
@@ -39,9 +46,9 @@ const CartButtonOrCounter = (product) => {
 
   const handleDecrement = () => {
     if (quantity > 1) {
-      dispatch(decrementQuantity(product?.id));
+      dispatch(decrementQuantity(cartId));
     } else if (quantity === 1) {
-      dispatch(removeFromCart(product?.id));
+      dispatch(removeFromCart(cartId));
     }
   };
 
