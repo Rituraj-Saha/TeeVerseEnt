@@ -20,6 +20,7 @@ import {
 } from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 
 import CartItemView from "./reusableComponent/itemViews/CartItemView/CartItemView";
+import CartView from "./components/CartView/CartView";
 // import { ToastProvider } from "utils/ToastProvider";
 
 function App() {
@@ -68,9 +69,6 @@ function App() {
 }
 const MainAppContent = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => {
-    state.cart.carItems;
-  });
   const showView = useSelector(
     (state) => state.bottomSheetControllerReducer.showView
   );
@@ -108,24 +106,25 @@ const MainAppContent = () => {
             />
           </div>
           {showView === CART_VIEW ? (
-            <div
-              style={{
-                display: "flex",
-                border: "1px solid red",
-                width: "100%",
-                gap: "15px",
-                flexWrap: "wrap",
-                alignContent: "baseline",
-              }}
-            >
-              {useSelector((state) => state.cart.cartItems).map((item, idx) => {
-                return <CartItemView key={idx} productDetails={item} />;
-              })}
-              {/* <CartItemView />
-              <CartItemView />
-              <CartItemView />
-              <CartItemView /> */}
-            </div>
+            // <div
+            //   style={{
+            //     display: "flex",
+            //     border: "1px solid red",
+            //     width: "100%",
+            //     gap: "15px",
+            //     flexWrap: "wrap",
+            //     alignContent: "baseline",
+            //   }}
+            // >
+            //   <div>
+            //     {useSelector((state) => state.cart.cartItems).map(
+            //       (item, idx) => {
+            //         return <CartItemView key={idx} productDetails={item} />;
+            //       }
+            //     )}
+            //   </div>
+            // </div>
+            <CartView />
           ) : (
             // <>
             //   {cartItems &&

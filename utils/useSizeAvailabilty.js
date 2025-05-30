@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 
-// Simulate or import your matrix (if it's global or context-based, use accordingly)
-import { PRODUCT_AVAILABILITY_MATRIX } from "app/src/assets/payload/ProductAvailabilityChecker"; // adjust the path
+import { PRODUCT_AVAILABILITY_MATRIX } from "app/src/assets/payload/ProductAvailabilityChecker";
 
 export const useSizeAvailability = (productId) => {
   const product = PRODUCT_AVAILABILITY_MATRIX.find((p) => p.id === productId);
