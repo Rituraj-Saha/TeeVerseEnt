@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
     plugins: [tailwindcss(), react(), reactRouter(), tsconfigPaths()],
     server: {
       host: "0.0.0.0",
-      hmr: true, // 🔧 disable HMR temporarily
+      hmr: false, // 🔧 disable HMR temporarily
     },
     ssr: {
       noExternal: ["@mui/material", "@emotion/react", "@emotion/styled"], // if you're using MUI
