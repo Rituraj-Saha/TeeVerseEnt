@@ -213,7 +213,7 @@ const CartItemView = ({ productDetails }) => {
             ))}
             <MenuItem
               value="add_new"
-              sx={{ fontWeight: "bold", color: "blue" }}
+              sx={{ fontWeight: "bold", color: "green" }}
             >
               + Add New Address
             </MenuItem>
