@@ -1,8 +1,9 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
-import Appx from "../src/Appx";
+
 import ClientOnlyRender from "utils/ClientOnlyRender";
 import { ToastProvider } from "utils/ToastProvider";
+import LandingHome from "app/src/components/home/LandingHome";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -13,6 +14,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <ClientOnlyRender> <Appx /> <ToastProvider /></ClientOnlyRender>
+  // return <ClientOnlyRender> <Appx /> </ClientOnlyRender>
+  return <ClientOnlyRender><LandingHome /><ToastProvider /></ClientOnlyRender>;
   // <App />
 }

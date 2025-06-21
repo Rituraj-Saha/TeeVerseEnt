@@ -5,38 +5,36 @@ import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
 import { Badge, Chip, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { open } from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
+import { Link } from "react-router";
+
 const NAVITEMS = [
   {
     label: "Home",
-    onClick: () => {
-      console.log("Home Clicked");
-    },
+    path: "",
   },
   {
     label: "Product",
-    onClick: () => {
-      console.log("Product Clicked");
-    },
+    path: "products",
   },
   {
     label: "orders",
-    onClick: () => {
-      console.log("Custom Clicked");
-    },
+    path: "",
   },
   {
     label: "Custom Tees",
-    onClick: () => {
-      console.log("Custom Clicked");
-    },
+    path: "",
   },
   {
     label: "Contact",
-    onClick: () => {
-      console.log("Contact Clicked");
-    },
+    path: "",
   },
 ];
+// const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
+// const base = env.VITE_BASE_PATH || "";
+function withBase(path) {
+  const base = import.meta.env.VITE_BASE_PATH || "";
+  return `${base.replace(/\/$/, "")}/${path.replace(/^\/+/, "")}`;
+}
 function Nav() {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -53,20 +51,24 @@ function Nav() {
 
       <div className={styles.optionContainer}>
         <ul className={styles.ulStyle}>
-          {NAVITEMS.map((itemm, index) => {
+          {NAVITEMS.map((item, index) => {
             return (
-              <Chip
-                label={itemm.label}
-                key={index}
-                onClick={itemm.onClick}
-                variant="outlined"
-                sx={{
-                  background: theme.palette.custom.dark,
-                  color: "#FFF",
-                  paddingLeft: "5px",
-                  paddingRight: "5px",
-                }}
-              ></Chip>
+              <li key={index}>
+                <Link
+                  to={withBase(item.path)}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Chip
+                    label={item.label}
+                    variant="outlined"
+                    sx={{
+                      background: theme.palette.custom.dark,
+                      color: "#FFF",
+                      px: "5px",
+                    }}
+                  />
+                </Link>
+              </li>
             );
           })}
         </ul>
