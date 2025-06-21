@@ -29,42 +29,13 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {/* <Nav />
-        <div
-          style={{
-            marginTop: "8vh",
-          }}
-        >
-          <Divider
-            component="div"
-            variant="middle"
-            sx={{ border: "0.2 solid", borderColor: "#FFF" }}
-            orientation="horizontal"
-          />
+    // <Provider store={store}>
+    //   <ThemeProvider theme={theme}>
+    //     <CssBaseline />
 
-          <LandingHome />
-          
-        </div>
-        <BottomSheet onClose={onclose}>
-          <div>
-            <div onClick={onclose}>
-              <SvgStringRenderer
-                svgString={closeSvg}
-                height={"30px"}
-                width={"30px"}
-              />
-            </div>
-
-            <h2>Bottom Sheet Content</h2>
-            <p>This is where you render your custom children content.</p>
-          </div>
-        </BottomSheet> */}
-        <MainAppContent />
-      </ThemeProvider>
-    </Provider>
+    <MainAppContent />
+    // </ThemeProvider>
+    //</Provider>
   );
 }
 const MainAppContent = () => {

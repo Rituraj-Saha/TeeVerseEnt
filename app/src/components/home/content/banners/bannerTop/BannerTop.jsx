@@ -31,7 +31,7 @@ const BannerTop = () => {
         <span className={styles.whitecolorText}>
           Wear your style and follow the trend with{" "}
         </span>
-        <span className={styles.outColorText}>30k+ </span>
+        <span className={styles.outColorText}>40k+ </span>
         <span className={styles.whitecolorText}>others</span>
       </div>
       <div className={styles.bannerPointerContainer}>
