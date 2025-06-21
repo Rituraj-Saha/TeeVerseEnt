@@ -19,24 +19,14 @@ import {
   close,
 } from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 
-import CartItemView from "./reusableComponent/itemViews/CartItemView/CartItemView";
 import CartView from "./components/CartView/CartView";
-// import { ToastProvider } from "utils/ToastProvider";
 
-function App() {
+function Appx() {
   useEffect(() => {
     injectCssVariables(theme); // Inject only after mount
   }, []);
 
-  return (
-    // <Provider store={store}>
-    //   <ThemeProvider theme={theme}>
-    //     <CssBaseline />
-
-    <MainAppContent />
-    // </ThemeProvider>
-    //</Provider>
-  );
+  return <MainAppContent />;
 }
 const MainAppContent = () => {
   const dispatch = useDispatch();
@@ -76,42 +66,13 @@ const MainAppContent = () => {
               width={"30px"}
             />
           </div>
-          {showView === CART_VIEW ? (
-            // <div
-            //   style={{
-            //     display: "flex",
-            //     border: "1px solid red",
-            //     width: "100%",
-            //     gap: "15px",
-            //     flexWrap: "wrap",
-            //     alignContent: "baseline",
-            //   }}
-            // >
-            //   <div>
-            //     {useSelector((state) => state.cart.cartItems).map(
-            //       (item, idx) => {
-            //         return <CartItemView key={idx} productDetails={item} />;
-            //       }
-            //     )}
-            //   </div>
-            // </div>
-            <CartView />
-          ) : (
-            // <>
-            //   {cartItems &&
-            //     cartItems.map((item, idx) => {
-            //       return <CartItemView product={item} key={idx} />;
-            //     })}
-            // </>
-            <></>
-          )}
+          {showView === CART_VIEW ? <CartView /> : <></>}
         </div>
       </BottomSheet>
-      {/* <ToastProvider /> */}
     </>
   );
 };
-export default App;
+export default Appx;
 {
   /* <ClientOnlyRender>
           <LandingHome />
