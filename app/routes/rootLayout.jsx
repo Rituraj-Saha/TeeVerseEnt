@@ -34,14 +34,25 @@ export default function RootLayout() {
       </div>
       <ClientOnlyRender>
         <BottomSheet onClose={handleClose}>
-          <div className="cartContainer">
-            <div onClick={handleClose} className="cartCloseButton">
+          <div
+            style={{
+              height: "60vh",
+            }}
+          >
+            {/* <div
+              onClick={handleClose}
+              style={{
+                position: "absolute",
+                right: "30px",
+                top: "1px",
+              }}
+            >
               <SvgStringRenderer
                 svgString={closeSvg}
                 height={"30px"}
                 width={"30px"}
               />
-            </div>
+            </div> */}
             {showView === CART_VIEW && <CartView />}
           </div>
         </BottomSheet>

@@ -24,5 +24,6 @@ export default [
     route(withBase(""), "routes/home.tsx"), // /dev/
     route(withBase("products"), "routes/products.tsx"), // /dev/products
     // route(withBase("/orders"), "routes/orders.tsx"), // /dev/orders
+    route(withBase("products/:productId"), "routes/productDetails.tsx"),
   ]),
 ] satisfies RouteConfig;

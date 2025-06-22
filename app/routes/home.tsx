@@ -8,7 +8,7 @@ import LandingHome from "app/src/components/home/LandingHome";
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "TeesVesrse" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }

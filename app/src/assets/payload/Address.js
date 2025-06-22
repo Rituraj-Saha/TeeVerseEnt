@@ -12,7 +12,7 @@ export const Address = [
     line: "sulekha prakriti",
     pin: "700115",
     landmaerk: "near pond",
-    receiverPhone: "+91 8910901854",
+    receiverPhone: "+91 9674345373",
     default: false,
   },
   {

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { PriceContainer } from "../thumbnailItemView/ThumbnailItemView";
+import {
+  PriceContainer,
+  SizeSelector,
+} from "../thumbnailItemView/ThumbnailItemView";
 import { useSizeAvailability } from "../../../../../utils/useSizeAvailabilty";
 import {
   Button,
@@ -16,6 +19,7 @@ import {
   TextField,
 } from "@mui/material";
 import { Address as StaticAddress } from "app/src/assets/payload/Address";
+import styles from "./cartItemView.module.css";
 
 // ✅ Extracted Dialog Component Outside
 const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
@@ -141,18 +145,16 @@ const CartItemView = ({ productDetails }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        border: "1px solid black",
-        paddingBottom: "10px",
-      }}
-    >
-      <div style={{ flex: "0.2", border: "1px solid black" }}>
+    <div className={styles.cartItemParent}>
+      <div style={{ flex: "0.2" }}>
         <img
           src={productDetails.thubnailImage}
-          height={"100%"}
-          width={"100%"}
+          style={{
+            height: "100%",
+            width: "100%",
+            borderRadius: "5px",
+            boxShadow: "0px 2px 2px 2px rgba(161, 246, 112 , 0.632)",
+          }}
         />
       </div>
       <div
@@ -164,34 +166,57 @@ const CartItemView = ({ productDetails }) => {
           display: "flex",
         }}
       >
-        <span>{productDetails.name}</span>
+        <span className={styles.productName}>{productDetails.name}</span>
 
-        <div style={{ display: "flex" }}>
-          <div>
-            <span>Size: </span>
-            <span>{productDetails.selectedSize}</span>
-          </div>
-          <div>
-            <span>Quantity: </span>
-            <span>{productDetails.quantity}</span>
-          </div>
+        <div style={{ display: "flex", alignItems: "baseline" }}>
+          {/* <div style={{ display: "flex", flex: ".7" }}> */}
+          <span className={styles.label}>Size: </span>
+          <span className={styles.label_val}>
+            {productDetails.selectedSize}
+          </span>
+          {/* <SizeSelector
+              availableSize={sizeAvailability}
+              selectedSize={productDetails.selectedSize}
+              setSelectedSize={setSelectedSize}
+            /> */}
+          {/* </div>
+          <div> */}
+          <span className={styles.label}>Quantity: </span>
+          <span className={styles.label_val}>{productDetails.quantity}</span>
+          {/* </div> */}
         </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <div style={{ flex: "1" }}>
+            <PriceContainer
+              id={productDetails.id}
+              name={productDetails.name}
+              gender={productDetails.gender}
+              ageGroup={productDetails.ageGroup}
+              price={productDetails?.price}
+              discount={productDetails.discount}
+              maxStock={getMaxStock(selectedSize)}
+              selectedSize={productDetails.selectedSize}
+              sellingPrice={
+                productDetails.price -
+                (productDetails.price * productDetails.discount) / 100
+              }
+              thubnailImage={productDetails.thubnailImage}
+            />
+          </div>
 
-        <PriceContainer
-          id={productDetails.id}
-          name={productDetails.name}
-          gender={productDetails.gender}
-          ageGroup={productDetails.ageGroup}
-          price={productDetails?.price}
-          discount={productDetails.discount}
-          maxStock={getMaxStock(selectedSize)}
-          selectedSize={productDetails.selectedSize}
-          sellingPrice={
-            productDetails.price -
-            (productDetails.price * productDetails.discount) / 100
-          }
-          thubnailImage={productDetails.thubnailImage}
-        />
+          <TextField
+            margin="dense"
+            name="recieverPhone"
+            label="Receiver's Phone Number"
+            value={selectedAddress.receiverPhone}
+            // onChange={handleFormChange}
+          ></TextField>
+        </div>
 
         <FormControl fullWidth sx={{ minWidth: 200 }}>
           <InputLabel id="address-label" sx={{ color: "black" }}>

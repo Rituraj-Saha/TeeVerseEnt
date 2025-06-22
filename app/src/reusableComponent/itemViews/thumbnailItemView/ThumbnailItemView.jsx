@@ -14,6 +14,7 @@ import {
   removeFromCart,
 } from "../../../../storeCofig/feature/cartStore/CartSlice";
 import { useSizeAvailability } from "../../../../../utils/useSizeAvailabilty";
+import { Link } from "react-router";
 
 const CartButtonOrCounter = (product) => {
   const dispatch = useDispatch();
@@ -173,18 +174,10 @@ const ThumbnailItemView = (props) => {
     price,
     discount,
     maxStock,
-    // sizeAvailabilibity,
     thubnailImage,
   } = props;
   const theme = useTheme();
-  // const [selectedSize, setSelectedSize] = React.useState(
-  //   sizeAvailabilibity[0].size
-  // );
 
-  // const getMaxStock = (size) => {
-  //   const item = sizeAvailabilibity.find((a) => a.size === size);
-  //   return item ? Number(item.available) : 0;
-  // };
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
     useSizeAvailability(id);
   return (
@@ -195,21 +188,23 @@ const ThumbnailItemView = (props) => {
       <div className={styles.infoContainerS}>
         <div className={styles.nameContainer}>
           <span className={styles.productName}>{name}</span>
-          <Chip
-            label={"View Product"}
-            onClick={() => {}}
-            variant="outlined"
-            sx={{
-              background: theme.palette.custom.lightSecondary,
-              color: "#FFF",
-              paddingLeft: "5px",
-              paddingRight: "5px",
-              "&:hover": {
-                color: "#000", // Hover font color
-                backgroundColor: "#f0f0f0", // optional
-              },
-            }}
-          ></Chip>
+          <Link to={`/products/${id}`}>
+            <Chip
+              label={"View Product"}
+              onClick={() => {}}
+              variant="outlined"
+              sx={{
+                background: theme.palette.custom.lightSecondary,
+                color: "#FFF",
+                paddingLeft: "5px",
+                paddingRight: "5px",
+                "&:hover": {
+                  color: "#000", // Hover font color
+                  backgroundColor: "#f0f0f0", // optional
+                },
+              }}
+            ></Chip>
+          </Link>
         </div>
         <div className={styles.gaContainer}>
           <div>
@@ -227,44 +222,6 @@ const ThumbnailItemView = (props) => {
           setSelectedSize={setSelectedSize}
         />
 
-        {/* <div className={styles.priceContainer}>
-          <span className={styles.productName}>INR: </span>
-          <span
-            className={styles.nameValue}
-            style={{
-              textDecoration: "line-through",
-            }}
-          >
-            {`₹${price}`}
-          </span>
-          <span
-            className={styles.nameValue}
-            style={{
-              color: "green",
-            }}
-          >{`${discount}%off`}</span>
-          <span
-            className={styles.nameValue}
-            style={{
-              color: "green",
-            }}
-          >
-            {`₹${price - (price * discount) / 100}`}
-          </span>
-
-          <CartButtonOrCounter
-            id={id}
-            name={name}
-            gender={gender}
-            ageGroup={ageGroup}
-            price={price}
-            discount={discount}
-            maxStock={getMaxStock(selectedSize)}
-            selectedSize={selectedSize}
-            sellingPrice={price - (price * discount) / 100}
-            thubnailImage={thubnailImage}
-          />
-        </div> */}
         <PriceContainer
           id={id}
           name={name}
