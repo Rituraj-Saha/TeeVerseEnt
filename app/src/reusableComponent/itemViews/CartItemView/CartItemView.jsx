@@ -20,6 +20,9 @@ import {
 } from "@mui/material";
 import { Address as StaticAddress } from "app/src/assets/payload/Address";
 import styles from "./cartItemView.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getDefaultAddress } from "app/storeCofig/feature/user/UserSlice";
+import { modifyAdrress } from "app/storeCofig/feature/cartStore/CartSlice";
 
 // ✅ Extracted Dialog Component Outside
 const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
@@ -122,10 +125,12 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
 const CartItemView = ({ productDetails }) => {
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
     useSizeAvailability(productDetails.id);
+  const mAddressList = useSelector((state) => state.user.address);
+  const [addressList, setAddressList] = useState([...mAddressList]);
+  const dispatch = useDispatch();
 
-  const [addressList, setAddressList] = useState([...StaticAddress]);
   const [selectedAddress, setSelectedAddress] = useState(
-    StaticAddress[0] || {}
+    productDetails.address || {}
   );
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -137,6 +142,11 @@ const CartItemView = ({ productDetails }) => {
       setSelectedAddress(value);
     }
   };
+  React.useEffect(() => {
+    dispatch(
+      modifyAdrress({ id: productDetails.cid, address: selectedAddress })
+    );
+  }, [selectedAddress]);
 
   const handleAddAddress = (newAddress) => {
     const updated = [...addressList, newAddress];

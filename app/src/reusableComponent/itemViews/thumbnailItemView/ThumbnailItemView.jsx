@@ -15,6 +15,7 @@ import {
 } from "../../../../storeCofig/feature/cartStore/CartSlice";
 import { useSizeAvailability } from "../../../../../utils/useSizeAvailabilty";
 import { Link } from "react-router";
+// import { Address } from "app/src/assets/payload/Address";
 
 const CartButtonOrCounter = (product) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const CartButtonOrCounter = (product) => {
   const cartItem = useSelector((state) =>
     state.cart.cartItems.find((item) => item?.cid === cartId)
   );
+  const address = useSelector((state) => state.user.address);
   const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
   const handleAddToCart = () => {
     dispatch(
@@ -30,6 +32,7 @@ const CartButtonOrCounter = (product) => {
         quantity: 1,
         // cid: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
         cid: cartId,
+        address: address.find((value) => value.default),
       })
     );
   };

@@ -86,6 +86,13 @@ const cartSlice = createSlice({
     calculateTotals: (state) => {
       recalculateTotals(state);
     },
+
+    modifyAdrress: (state, action) => {
+      const item = state.cartItems.find((i) => i.cid == action.payload.id);
+      if (item) {
+        item.address = action.payload.address;
+      }
+    },
   },
 });
 
@@ -97,6 +104,7 @@ export const {
   decrementQuantity,
   clearCart,
   calculateTotals,
+  modifyAdrress,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
