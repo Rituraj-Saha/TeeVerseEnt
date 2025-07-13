@@ -19,7 +19,8 @@ import { Link } from "react-router";
 
 const CartButtonOrCounter = (product) => {
   const dispatch = useDispatch();
-  const cartId = `${product.id}-${product.selectedSize}`;
+  const userId = useSelector((state) => state.user.user.id);
+  const cartId = `${userId}-${product.id}-${product.selectedSize}`;
   const cartItem = useSelector((state) =>
     state.cart.cartItems.find((item) => item?.cid === cartId)
   );

@@ -36,7 +36,7 @@ export default function RootLayout() {
         <BottomSheet onClose={handleClose}>
           <div
             style={{
-              height: "60vh",
+              height: "100%",
             }}
           >
             {/* <div

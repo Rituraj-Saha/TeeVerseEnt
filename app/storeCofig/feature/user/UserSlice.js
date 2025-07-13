@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {
+    id: "1",
     name: "Rituraj Saha",
     _bearer: "abc",
     phone: "+919674345373",
@@ -77,7 +78,6 @@ export const {
   updateDefaultAddress,
   updateAddress,
   removeAddress,
-  getDefaultAddress,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -21,12 +21,16 @@ import {
 import { Address as StaticAddress } from "app/src/assets/payload/Address";
 import styles from "./cartItemView.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getDefaultAddress } from "app/storeCofig/feature/user/UserSlice";
+import {
+  addAddress,
+  updateAddress,
+} from "app/storeCofig/feature/user/UserSlice";
 import { modifyAdrress } from "app/storeCofig/feature/cartStore/CartSlice";
 
 // ✅ Extracted Dialog Component Outside
 const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
   const [form, setForm] = useState({
+    id: Date.now(),
     line: "",
     pin: "",
     landmark: "",
@@ -125,8 +129,8 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
 const CartItemView = ({ productDetails }) => {
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
     useSizeAvailability(productDetails.id);
-  const mAddressList = useSelector((state) => state.user.address);
-  const [addressList, setAddressList] = useState([...mAddressList]);
+
+  const addressList = useSelector((state) => state.user.address);
   const dispatch = useDispatch();
 
   const [selectedAddress, setSelectedAddress] = useState(
@@ -149,11 +153,13 @@ const CartItemView = ({ productDetails }) => {
   }, [selectedAddress]);
 
   const handleAddAddress = (newAddress) => {
-    const updated = [...addressList, newAddress];
-    setAddressList(updated);
+    dispatch(addAddress(newAddress));
     setSelectedAddress(newAddress);
   };
-
+  const handlePhoneChange = (address) => {
+    setSelectedAddress(address);
+    dispatch(updateAddress(address));
+  };
   return (
     <div className={styles.cartItemParent}>
       <div style={{ flex: "0.2" }}>
@@ -224,7 +230,12 @@ const CartItemView = ({ productDetails }) => {
             name="recieverPhone"
             label="Receiver's Phone Number"
             value={selectedAddress.receiverPhone}
-            // onChange={handleFormChange}
+            onChange={(event) => {
+              handlePhoneChange({
+                ...selectedAddress,
+                receiverPhone: event.target.value,
+              });
+            }}
           ></TextField>
         </div>
 

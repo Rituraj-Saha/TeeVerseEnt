@@ -30,7 +30,8 @@ const BottomSheet = ({ children, onClose }) => {
               borderTopRightRadius: 16,
               boxShadow: 24,
               p: 2,
-              maxHeight: "80vh",
+              height: "90vh",
+              maxHeight: "90vh",
               overflow: "auto",
             }}
           >
