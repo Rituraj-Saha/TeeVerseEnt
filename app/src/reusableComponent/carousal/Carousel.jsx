@@ -159,6 +159,7 @@ const Carousel = ({
           let xOffset = 0;
           let zIndex = 0;
           let width = "0%";
+          let filter = "blur(0px)";
 
           if (index === centerIndex) {
             scale = 1;
@@ -167,20 +168,23 @@ const Carousel = ({
             xOffset = 0;
             zIndex = 30;
             width = "70%";
+            filter = "blur(0px)";
           } else if (index === prevIndex) {
             scale = 0.9;
-            opacity = 0.3;
+            opacity = 0.7;
             y = 10;
             xOffset = "-20%";
             zIndex = 20;
             width = "100%";
+            filter = "blur(5px)";
           } else if (index === nextIndex) {
             scale = 0.9;
-            opacity = 0.3;
+            opacity = 0.7;
             y = 10;
             xOffset = "20%";
             zIndex = 20;
             width = "100%";
+            filter = "blur(5px)";
           }
 
           return (
@@ -189,7 +193,7 @@ const Carousel = ({
               className="carousel-slide"
               animate={{ scale, opacity, y, x: xOffset }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              style={{ zIndex, width }}
+              style={{ zIndex, width, filter }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={(event, info) => {
@@ -214,6 +218,15 @@ const Carousel = ({
           </button>
         </>
       )}
+      <div className="carousel-dots">
+        {items.map((_, index) => (
+          <button
+            key={index}
+            className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
+            onClick={() => setActiveIndex(index)}
+          />
+        ))}
+      </div>
 
       {/* Auto-scroll toggle */}
       {/* <div className="carousel-autoscroll-container">
@@ -229,6 +242,6 @@ const Carousel = ({
 };
 const CaroualImpl = (props) => {
   const { items } = props;
-  return <Carousel items={items} autoScrollInterval={3000} />;
+  return <Carousel items={items} autoScrollInterval={800000} />;
 };
 export default CaroualImpl;

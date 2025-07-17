@@ -28,13 +28,13 @@ const Hero = () => {
     "Tee-verse is a platform that helps to make fashion accessible to all. It brings fashion to your doorstep!";
 
   const items = [
-    <div className="h-64 w-full bg-red-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+    <div className="h-74 w-full bg-red-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
       Slide 1
     </div>,
-    <div className="h-64 w-full bg-blue-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+    <div className="h-74 w-full bg-blue-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
       Slide 2
     </div>,
-    <div className="h-64 w-full bg-green-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+    <div className="h-74 w-full bg-green-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
       Slide 3
     </div>,
   ];
@@ -135,6 +135,7 @@ const Hero = () => {
           flex: 0.5,
           // border: "1px solid black",
           minHeight: "100%",
+          paddingBottom: "5%",
         }}
       >
         <CaroualImpl items={items} />
