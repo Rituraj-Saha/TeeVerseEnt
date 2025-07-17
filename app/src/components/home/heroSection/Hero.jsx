@@ -3,6 +3,7 @@ import styles from "./Hero.module.css";
 import SvgStringRenderer from "../../../reusableComponent/SvgReusableRenderer";
 import { playBtn, svgOK } from "../../../assets/svgAssets";
 import { Chip, useTheme } from "@mui/material";
+import CaroualImpl from "app/src/reusableComponent/carousal/Carousel";
 const Hero = () => {
   const theme = useTheme();
   const valueAdder = [
@@ -25,6 +26,18 @@ const Hero = () => {
   };
   const statMsg =
     "Tee-verse is a platform that helps to make fashion accessible to all. It brings fashion to your doorstep!";
+
+  const items = [
+    <div className="h-64 w-full bg-red-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+      Slide 1
+    </div>,
+    <div className="h-64 w-full bg-blue-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+      Slide 2
+    </div>,
+    <div className="h-64 w-full bg-green-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+      Slide 3
+    </div>,
+  ];
   return (
     <div className={styles.parent}>
       <div
@@ -123,7 +136,9 @@ const Hero = () => {
           // border: "1px solid black",
           minHeight: "100%",
         }}
-      ></div>
+      >
+        <CaroualImpl items={items} />
+      </div>
     </div>
   );
 };

@@ -1,10 +1,11 @@
 import samplebgremove from "../../assets/samplebgremove.png";
+import sampleTee from "../sampleImgtee.jpg";
 export const FEATUREDPRODUCT = [
   {
     id: 1,
     productName: "Test Product 1",
     thumbnail: { samplebgremove },
-    images: ["", ""],
+    images: [samplebgremove, sampleTee],
     availableSize: ["S", "M", "L", "XL", "XXL"],
     price: 1000,
     discount: 25,
@@ -17,7 +18,7 @@ export const FEATUREDPRODUCT = [
     id: 2,
     productName: "Test Product 2",
     thumbnail: { samplebgremove },
-    images: ["", ""],
+    images: [samplebgremove, sampleTee],
     availableSize: ["S", "M", "L"],
     price: 1000,
     discount: 25,
@@ -29,7 +30,7 @@ export const FEATUREDPRODUCT = [
   {
     id: 3,
     productName: "Test Product 3",
-    thumbnail: { samplebgremove },
+    images: [samplebgremove, sampleTee],
     images: ["", ""],
     availableSize: ["S", "M", "L", "XL", "XXL"],
     price: 1000,
@@ -42,7 +43,7 @@ export const FEATUREDPRODUCT = [
   {
     id: 4,
     productName: "Test Product 4",
-    thumbnail: { samplebgremove },
+    images: [samplebgremove, sampleTee],
     images: ["", ""],
     availableSize: ["S", "M", "L"],
     price: 1000,
@@ -55,7 +56,7 @@ export const FEATUREDPRODUCT = [
   {
     id: 5,
     productName: "Test Product 5",
-    thumbnail: { samplebgremove },
+    images: [samplebgremove, sampleTee],
     images: ["", ""],
     availableSize: ["S", "M", "L", "XL", "XXL"],
     price: 1000,
@@ -68,7 +69,7 @@ export const FEATUREDPRODUCT = [
   {
     id: 6,
     productName: "Test Product 6",
-    thumbnail: { samplebgremove },
+    images: [samplebgremove, sampleTee],
     images: ["", ""],
     availableSize: ["L", "XL", "XXL"],
     price: 1000,
