@@ -25,15 +25,16 @@ function StoreContent() {
         return (
           <ThumbnailItemView
             key={idx}
-            id={item.id}
-            name={item.productName}
-            gender={item.gender}
-            ageGroup={item.ageGroup}
-            price={item.price}
-            discount={item.discount}
-            // maxStock={item.maxorderCount}
-            // sizeAvailabilibity={availableSize(item.id)}
-            thubnailImage={sampleImageView}
+            // id={item.id}
+            // name={item.productName}
+            // gender={item.gender}
+            // ageGroup={item.ageGroup}
+            // price={item.price}
+            // discount={item.discount}
+            // // maxStock={item.maxorderCount}
+            // // sizeAvailabilibity={availableSize(item.id)}
+            // thubnailImage={sampleImageView}
+            {...item}
           />
         );
       })}

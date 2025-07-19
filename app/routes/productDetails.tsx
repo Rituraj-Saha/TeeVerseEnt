@@ -5,6 +5,7 @@ import { ToastProvider } from "utils/ToastProvider";
 import { useParams } from "react-router";
 import { useState } from "react";
 import { FEATUREDPRODUCT } from "app/src/assets/payload/FEATURED-PRODUCT";
+import { InfoContainer } from "app/src/reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -32,7 +33,12 @@ const ProductGallery = ({ images }) => {
     const [selectedImage, setSelectedImage] = useState(images[0]);
 
     return (
-        <div className="flex flex-col md:flex-row gap-4">
+        <div style={{
+            display: "flex",
+            flexDirection: "row",
+            flex: .6,
+            border: "1px solid red"
+        }}>
             <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[400px]">
                 {images.map((img, idx) => (
                     <img
@@ -49,7 +55,7 @@ const ProductGallery = ({ images }) => {
                 <img
                     src={selectedImage}
                     alt="Selected"
-                    className="max-w-full max-h-[500px] object-contain rounded shadow"
+                    className="max-w-full h-[100%] object-contain rounded shadow"
                 />
             </div>
         </div>
@@ -64,9 +70,19 @@ export default function productDetails() {
     };
     return <ClientOnlyRender>
 
-        <div className="max-w-6xl mx-auto p-4 grid md:grid-cols-2 gap-6">
-            <ProductGallery images={product.images} />
-            <ProductDetails product={product} onAddToCart={handleAddToCart} />
+        <div style={{ display: "flex", border: "1px solid black", height: "92vh", width: "100vw", flexDirection: "column", paddingInline: "50px" }}>
+            <div style={{ display: "flex", height: "70%", width: "100%" }}>
+                <ProductGallery images={product.images} />
+                {/* <ProductDetails product={product} onAddToCart={handleAddToCart} /> */}
+                <div style={{ display: "flex", flexDirection: "column", flex: ".5" }}>
+                    <div style={{ display: "flex", flexDirection: "column", flex: ".6" }}>
+
+                        <InfoContainer {...product} showDescription={true} showViewproduct={false} usedForProductDetails={true} />
+                    </div>
+                </div>
+
+
+            </div>
 
         </div>
         <ToastProvider />

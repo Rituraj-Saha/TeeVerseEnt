@@ -7,6 +7,7 @@ import { cartIconItem } from "../../../assets/svgAssets";
 import { Chip } from "@mui/material";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 import {
   addToCart,
   incrementQuantity,
@@ -18,6 +19,7 @@ import { Link } from "react-router";
 // import { Address } from "app/src/assets/payload/Address";
 
 const CartButtonOrCounter = (product) => {
+  const { showPrice } = product;
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.user.id);
   const cartId = `${userId}-${product.id}-${product.selectedSize}`;
@@ -27,6 +29,7 @@ const CartButtonOrCounter = (product) => {
   const address = useSelector((state) => state.user.address);
   const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
   const handleAddToCart = () => {
+    setIsClicked(true);
     dispatch(
       addToCart({
         ...product,
@@ -36,6 +39,7 @@ const CartButtonOrCounter = (product) => {
         address: address.find((value) => value.default),
       })
     );
+    setTimeout(() => setIsClicked(false), 400);
   };
 
   const handleIncrement = () => {
@@ -56,19 +60,99 @@ const CartButtonOrCounter = (product) => {
       dispatch(removeFromCart(cartId));
     }
   };
+  const [isClicked, setIsClicked] = React.useState(false);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flex: 1,
+        border: "1px solid black",
+        borderRadius: "5px",
+        boxShadow: "2 20px 40px rgba(225, 94, 114, 0.632)",
+      }}
+    >
       {quantity === 0 ? (
-        <div onClick={handleAddToCart} className={styles.cartWrapper}>
-          <SvgStringRenderer svgString={cartIconItem} />
-        </div>
+        // <motion.div
+        //   style={{
+        //     display: "flex",
+        //     alignItems: "center",
+        //     flex: 1,
+        //     justifyContent: "space-around",
+        //     padding: "2px",
+        //     cursor: "pointer",
+        //   }}
+        //   whileHover={{
+        //     scale: 1.05,
+        //     boxShadow: "0px 0px 8px rgba(0, 180, 0, 0.3)",
+        //     backgroundColor: "#16a34a",
+        //   }}
+        //   whileTap={{
+        //     scale: 0.95,
+        //   }}
+        //   onClick={handleAddToCart}
+        // >
+        //   <span>Add To Cart</span>
+
+        //   <div className={styles.cartWrapper}>
+        //     <SvgStringRenderer svgString={cartIconItem} />
+        //   </div>
+        // </motion.div>
+        <motion.div
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "space-around",
+            padding: "2px",
+            cursor: "pointer",
+            overflow: "hidden", // for pulse
+            borderRadius: "5px", // match parent
+            boxShadow: "2 2px 40px rgba(225, 94, 114, 0.632)",
+          }}
+          whileHover={{
+            scale: 1.05,
+            // boxShadow: "0px 0px 8px rgba(0, 180, 0, 0.3)",
+            backgroundColor: "#16a34a",
+            color: "#fff",
+          }}
+          whileTap={{
+            scale: 0.95,
+          }}
+          onClick={handleAddToCart}
+        >
+          {isClicked && (
+            <motion.div
+              initial={{ opacity: 0.4, scale: 1 }}
+              animate={{ opacity: 0, scale: 2 }}
+              transition={{ duration: 0.4 }}
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "rgba(255, 255, 255, 0.4)",
+                borderRadius: "50%",
+                transform: "translate(-50%, -50%)",
+                pointerEvents: "none",
+              }}
+            />
+          )}
+          <span>Add To Cart</span>
+          <div className={styles.cartWrapper}>
+            <SvgStringRenderer svgString={cartIconItem} />
+          </div>
+        </motion.div>
       ) : (
         <div className={styles.counterContainer}>
           <button onClick={handleDecrement} className={styles.counterBtn}>
             -
           </button>
-          <span className={styles.counterValue}>{quantity}</span>
+          <span
+            className={styles.counterValue}
+          >{`Selected Qty: ${quantity}`}</span>
           <button onClick={handleIncrement} className={styles.counterBtn}>
             +
           </button>
@@ -125,73 +209,90 @@ export const SizeSelector = (props) => {
   );
 };
 export const PriceContainer = (props) => {
+  const {
+    showCart = true,
+    usedForProductDetails = false,
+    showPrice = true,
+  } = props;
+  console.log(`Sc: ${showCart} Sp:${showPrice}`);
   return (
     <div className={styles.priceContainer}>
-      <span className={styles.productName}>INR: </span>
-      <span
-        className={styles.nameValue}
-        style={{
-          textDecoration: "line-through",
-        }}
-      >
-        {`₹${props.price}`}
-      </span>
-      <span
-        className={styles.nameValue}
-        style={{
-          color: "green",
-        }}
-      >{`${props.discount}%off`}</span>
-      <span
-        className={styles.nameValue}
-        style={{
-          color: "green",
-        }}
-      >
-        {`₹${props.price - (props.price * props.discount) / 100}`}
-      </span>
+      {showPrice && (
+        <div style={{ display: "flex", flex: 0.5, width: "50%" }}>
+          <span className={styles.productName}>INR: </span>
+          <span
+            className={styles.nameValue}
+            style={{
+              textDecoration: "line-through",
+            }}
+          >
+            {`₹${props.price}`}
+          </span>
+          <span
+            className={styles.nameValue}
+            style={{
+              color: "green",
+            }}
+          >{`${props.discount}%off`}</span>
+          <span
+            className={styles.nameValue}
+            style={{
+              color: "green",
+            }}
+          >
+            {`₹${props.price - (props.price * props.discount) / 100}`}
+          </span>
+        </div>
+      )}
+
       {/* <div className={styles.cartWrapper}>
             <SvgStringRenderer svgString={cartIconItem} />
           </div> */}
 
-      <CartButtonOrCounter
-        id={props.id}
-        name={props.name}
-        gender={props.gender}
-        ageGroup={props.ageGroup}
-        price={props.price}
-        discount={props.discount}
-        maxStock={props.maxStock}
-        selectedSize={props.selectedSize}
-        sellingPrice={props.price - (props.price * props.discount) / 100}
-        thubnailImage={props.thubnailImage}
-      />
+      {showCart && (
+        <div style={{ width: usedForProductDetails ? "50%" : "100%" }}>
+          <CartButtonOrCounter
+            // id={props.id}
+            // productName={props.productName}
+            // gender={props.gender}
+            // ageGroup={props.ageGroup}
+            // price={props.price}
+            // discount={props.discount}
+            // maxStock={props.maxStock}
+            // selectedSize={props.selectedSize}
+            // sellingPrice={props.price - (props.price * props.discount) / 100}
+            // thubnailImage={props.thubnailImage}
+            {...props}
+            showPrice={showPrice}
+          />
+        </div>
+      )}
     </div>
   );
 };
-const ThumbnailItemView = (props) => {
+export const InfoContainer = (props) => {
   const {
     id,
-    name,
+    productName,
     gender,
     ageGroup,
     price,
     discount,
     maxStock,
     thubnailImage,
+    description,
+    showDescription = false,
+    showViewproduct = true,
+    usedForProductDetails = false,
   } = props;
   const theme = useTheme();
-
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
     useSizeAvailability(id);
   return (
-    <div className={styles.parentTumbnail}>
-      <div className={styles.imageContainer}>
-        <img src={thubnailImage} height={"100%"} width={"100%"} />
-      </div>
-      <div className={styles.infoContainerS}>
-        <div className={styles.nameContainer}>
-          <span className={styles.productName}>{name}</span>
+    <div className={styles.infoContainerS}>
+      <div className={styles.nameContainer}>
+        <span className={styles.productName}>{productName}</span>
+        {showViewproduct && (
           <Link to={`/products/${id}`}>
             <Chip
               label={"View Product"}
@@ -209,36 +310,70 @@ const ThumbnailItemView = (props) => {
               }}
             ></Chip>
           </Link>
-        </div>
-        <div className={styles.gaContainer}>
-          <div>
-            <span className={styles.productName}>Gender:</span>
-            <span className={styles.nameValue}>{gender}</span>
-          </div>
-          <div>
-            <span className={styles.productName}>Age:</span>
-            <span className={styles.nameValue}>{ageGroup}</span>
-          </div>
-        </div>
-        <SizeSelector
-          availableSize={sizeAvailability}
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-        />
-
-        <PriceContainer
-          id={id}
-          name={name}
-          gender={gender}
-          ageGroup={ageGroup}
-          price={price}
-          discount={discount}
-          maxStock={getMaxStock(selectedSize)}
-          selectedSize={selectedSize}
-          sellingPrice={price - (price * discount) / 100}
-          thubnailImage={thubnailImage}
-        />
+        )}
       </div>
+      <div className={styles.gaContainer}>
+        <div>
+          <span className={styles.productName}>Gender:</span>
+          <span className={styles.nameValue}>{gender}</span>
+        </div>
+        <div>
+          <span className={styles.productName}>Age:</span>
+          <span className={styles.nameValue}>{ageGroup}</span>
+        </div>
+      </div>
+      {showDescription && <p> {description}</p>}
+      {
+        <PriceContainer
+          {...props}
+          usedForProductDetails={usedForProductDetails}
+          showCart={false}
+        />
+      }
+      <SizeSelector
+        availableSize={sizeAvailability}
+        selectedSize={selectedSize}
+        setSelectedSize={setSelectedSize}
+      />
+
+      <PriceContainer
+        id={id}
+        productName={productName}
+        gender={gender}
+        ageGroup={ageGroup}
+        price={price}
+        discount={discount}
+        maxStock={getMaxStock(selectedSize)}
+        selectedSize={selectedSize}
+        sellingPrice={price - (price * discount) / 100}
+        thubnailImage={thubnailImage}
+        description={description}
+        usedForProductDetails={usedForProductDetails}
+        showPrice={false}
+      />
+    </div>
+  );
+};
+const ThumbnailItemView = (props) => {
+  const {
+    id,
+    productName,
+    gender,
+    ageGroup,
+    price,
+    discount,
+    maxStock,
+    thubnailImage,
+    description,
+  } = props;
+  const theme = useTheme();
+
+  return (
+    <div className={styles.parentTumbnail}>
+      <div className={styles.imageContainer}>
+        <img src={thubnailImage} height={"100%"} width={"100%"} />
+      </div>
+      <InfoContainer {...props} />
     </div>
   );
 };

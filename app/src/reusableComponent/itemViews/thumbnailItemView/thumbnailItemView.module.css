@@ -11,11 +11,11 @@
 }
 .imageContainer {
   display: flex;
-  flex: 0.65;
+  height: 70%;
 }
 .infoContainerS {
   display: flex;
-  flex: 0.35;
+  flex: 1;
   flex-direction: column;
   padding-top: 2.5px;
 }
@@ -43,6 +43,8 @@
   align-items: center;
   flex: 1;
   margin-top: 1px;
+  min-height: 35px;
+  justify-content: center;
 }
 .sizeSelectorParent {
   display: flex;
@@ -68,6 +70,8 @@
   width: 40%;
   padding: 2px;
   height: 100%;
+  max-height: 30px;
+  max-width: 30px;
 }
 .sizeSelectorseletedBox {
   background: green;
@@ -80,8 +84,8 @@
   padding: 5px 6px 3px 5px;
   border-radius: 35%;
   margin-left: 75px;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   cursor: pointer;
 }
 .nameContainer {
@@ -101,10 +105,10 @@
   align-items: center;
   gap: 8px;
   border: 1px solid black;
-  margin-left: 20px;
 }
 
 .counterBtn {
+  flex: 0.1;
   background-color: #000;
   color: #fff;
   border: none;
@@ -114,5 +118,9 @@
 }
 
 .counterValue {
+  display: flex;
+  flex: 1;
   font-weight: bold;
+  align-items: center;
+  justify-content: center;
 }

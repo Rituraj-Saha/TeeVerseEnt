@@ -166,7 +166,7 @@ const Carousel = ({
             opacity = 1;
             y = 0;
             xOffset = 0;
-            zIndex = 30;
+            zIndex = 3;
             width = "70%";
             filter = "blur(0px)";
           } else if (index === prevIndex) {
@@ -174,7 +174,7 @@ const Carousel = ({
             opacity = 0.7;
             y = 10;
             xOffset = "-20%";
-            zIndex = 20;
+            zIndex = 2;
             width = "100%";
             filter = "blur(5px)";
           } else if (index === nextIndex) {
@@ -182,7 +182,7 @@ const Carousel = ({
             opacity = 0.7;
             y = 10;
             xOffset = "20%";
-            zIndex = 20;
+            zIndex = 2;
             width = "100%";
             filter = "blur(5px)";
           }
@@ -242,6 +242,6 @@ const Carousel = ({
 };
 const CaroualImpl = (props) => {
   const { items } = props;
-  return <Carousel items={items} autoScrollInterval={800000} />;
+  return <Carousel items={items} autoScrollInterval={10000} />;
 };
 export default CaroualImpl;

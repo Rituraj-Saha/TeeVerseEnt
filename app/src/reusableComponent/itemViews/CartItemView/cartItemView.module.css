@@ -5,7 +5,9 @@
   padding: 10px;
   margin: 10px;
   border-top: 1px solid #a1f670;
-  gap: 5px;
+  gap: 1px;
+  height: 35vh;
+  /* flex-wrap: wrap; */
 }
 .productName {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;

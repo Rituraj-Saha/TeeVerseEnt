@@ -39,10 +39,10 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
   });
 
   const handleFormChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { productName, value, type, checked } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [productName]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -71,7 +71,7 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
           <TextField
             fullWidth
             margin="dense"
-            name="line"
+            productName="line"
             label="Address Line"
             value={form.line}
             onChange={handleFormChange}
@@ -80,7 +80,7 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
           <TextField
             fullWidth
             margin="dense"
-            name="pin"
+            productName="pin"
             label="PIN Code"
             value={form.pin}
             onChange={handleFormChange}
@@ -89,7 +89,7 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
           <TextField
             fullWidth
             margin="dense"
-            name="landmark"
+            productName="landmark"
             label="Landmark"
             value={form.landmark}
             onChange={handleFormChange}
@@ -97,7 +97,7 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
           <TextField
             fullWidth
             margin="dense"
-            name="receiverPhone"
+            productName="receiverPhone"
             label="Receiver Phone"
             value={form.receiverPhone}
             onChange={handleFormChange}
@@ -108,7 +108,7 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
               <Checkbox
                 checked={form.default}
                 onChange={handleFormChange}
-                name="default"
+                productName="default"
               />
             }
             label="Set as default"
@@ -160,6 +160,16 @@ const CartItemView = ({ productDetails }) => {
     setSelectedAddress(address);
     dispatch(updateAddress(address));
   };
+  const preparedProductDetails = React.useMemo(
+    () => ({
+      ...productDetails,
+      maxStock: getMaxStock(selectedSize),
+      sellingPrice:
+        productDetails.price -
+        (productDetails.price * productDetails.discount) / 100,
+    }),
+    [productDetails, selectedSize]
+  );
   return (
     <div className={styles.cartItemParent}>
       <div style={{ flex: "0.2" }}>
@@ -178,12 +188,11 @@ const CartItemView = ({ productDetails }) => {
           flex: "0.8",
           flexDirection: "column",
           paddingLeft: "5px",
-          gap: "10px",
           display: "flex",
         }}
       >
-        <span className={styles.productName}>{productDetails.name}</span>
-
+        <span className={styles.productName}>{productDetails.productName}</span>
+        <span>{productDetails.description}</span>
         <div style={{ display: "flex", alignItems: "baseline" }}>
           {/* <div style={{ display: "flex", flex: ".7" }}> */}
           <span className={styles.label}>Size: </span>
@@ -205,29 +214,39 @@ const CartItemView = ({ productDetails }) => {
           style={{
             display: "flex",
             flexDirection: "row",
+            alignItems: "center",
           }}
         >
-          <div style={{ flex: "1" }}>
+          <div
+            style={{
+              flex: "1",
+              paddingRight: "20px",
+              justifyContent: "space-around",
+            }}
+          >
             <PriceContainer
-              id={productDetails.id}
-              name={productDetails.name}
-              gender={productDetails.gender}
-              ageGroup={productDetails.ageGroup}
-              price={productDetails?.price}
-              discount={productDetails.discount}
-              maxStock={getMaxStock(selectedSize)}
-              selectedSize={productDetails.selectedSize}
-              sellingPrice={
-                productDetails.price -
-                (productDetails.price * productDetails.discount) / 100
-              }
-              thubnailImage={productDetails.thubnailImage}
+              // id={productDetails.id}
+              // productName={productDetails.productName}
+              // gender={productDetails.gender}
+              // ageGroup={productDetails.ageGroup}
+              // price={productDetails?.price}
+              // discount={productDetails.discount}
+              // maxStock={getMaxStock(selectedSize)}
+              // selectedSize={productDetails.selectedSize}
+              // sellingPrice={
+              //   productDetails.price -
+              //   (productDetails.price * productDetails.discount) / 100
+              // }
+              // thubnailImage={productDetails.thubnailImage}
+              {...preparedProductDetails}
+              showCart={true}
+              showPrice={true}
             />
           </div>
 
           <TextField
             margin="dense"
-            name="recieverPhone"
+            productName="recieverPhone"
             label="Receiver's Phone Number"
             value={selectedAddress.receiverPhone}
             onChange={(event) => {
