@@ -2,9 +2,12 @@
   display: flex;
   flex-direction: row;
   /* border: 1px solid black; */
-  width: 100%;
+  /* width: 100%; */
   margin-top: 5vh;
-  width: 95%;
-  box-shadow: 0 4px 40px rgba(184, 175, 246, 0.632);
+  /* width: 90vw; */
+  /* box-shadow: 0 4px 40px rgba(184, 175, 246, 0.632); */
   border-radius: 5px;
+  height: 100%;
+  padding: 5px;
+  padding-right: 15px;
 }

@@ -24,7 +24,7 @@ function StoreContent(props) {
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${numColumns}, 1fr)`,
-        gap: "5px",
+        gap: "15px",
         width: "100%",
       }}
     >
