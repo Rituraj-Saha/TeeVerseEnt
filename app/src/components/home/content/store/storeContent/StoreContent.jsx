@@ -8,16 +8,23 @@ const availableSize = (id) => {
   if (!product) return [];
   return product.availability.filter((item) => Number(item.available) > 0);
 };
-function StoreContent() {
+function StoreContent(props) {
+  const { numColumns = 3 } = props;
   return (
     <div
+      // style={{
+      //   display: "flex",
+      //   flexWrap: "wrap",
+      //   alignItems: "center",
+      //   justifyContent: "center",
+      //   // gridTemplateColumns: "repeat",
+      //   gap: "16px", // spacing between grid items
+      //   width: "100%",
+      // }}
       style={{
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "center",
-        // gridTemplateColumns: "repeat",
-        gap: "16px", // spacing between grid items
+        display: "grid",
+        gridTemplateColumns: `repeat(${numColumns}, 1fr)`,
+        gap: "5px",
         width: "100%",
       }}
     >
