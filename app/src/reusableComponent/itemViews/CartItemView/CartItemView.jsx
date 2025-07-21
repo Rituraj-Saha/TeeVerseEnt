@@ -26,6 +26,8 @@ import {
   updateAddress,
 } from "app/storeCofig/feature/user/UserSlice";
 import { modifyAdrress } from "app/storeCofig/feature/cartStore/CartSlice";
+import SvgStringRenderer from "../../SvgReusableRenderer";
+import { pencil } from "app/src/assets/svgAssets";
 
 // ✅ Extracted Dialog Component Outside
 const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
@@ -192,7 +194,7 @@ const CartItemView = ({ productDetails }) => {
         }}
       >
         <span className={styles.productName}>{productDetails.productName}</span>
-        <span>{productDetails.description}</span>
+        <span className={styles.productName}>{productDetails.description}</span>
         <div style={{ display: "flex", alignItems: "baseline" }}>
           {/* <div style={{ display: "flex", flex: ".7" }}> */}
           <span className={styles.label}>Size: </span>
@@ -255,6 +257,7 @@ const CartItemView = ({ productDetails }) => {
                 receiverPhone: event.target.value,
               });
             }}
+            disabled={true}
           ></TextField>
         </div>
 
@@ -273,7 +276,25 @@ const CartItemView = ({ productDetails }) => {
           >
             {addressList.map((item, index) => (
               <MenuItem value={item} key={index}>
-                {item.line}
+                <div style={{ display: "flex", flex: 1, width: "100%" }}>
+                  <div style={{ display: "flex", flex: 1, width: "99%" }}>
+                    {item.line}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+
+                      border: "1px solid black",
+                      justifyContent: "end",
+                    }}
+                  >
+                    <SvgStringRenderer
+                      svgString={pencil}
+                      height={"20px"}
+                      width={"20px"}
+                    />
+                  </div>
+                </div>
               </MenuItem>
             ))}
             <MenuItem

@@ -214,9 +214,12 @@ export const PriceContainer = (props) => {
     usedForProductDetails = false,
     showPrice = true,
   } = props;
-  console.log(`Sc: ${showCart} Sp:${showPrice}`);
+  // console.log(`Sc: ${showCart} Sp:${showPrice}`);
   return (
-    <div className={styles.priceContainer}>
+    <div
+      className={styles.priceContainer}
+      style={{ justifyContent: showPrice ? "start" : "center" }}
+    >
       {showPrice && (
         <div style={{ display: "flex", flex: 0.5, width: "50%" }}>
           <span className={styles.productName}>INR: </span>
@@ -250,22 +253,22 @@ export const PriceContainer = (props) => {
           </div> */}
 
       {showCart && (
-        <div style={{ width: usedForProductDetails ? "50%" : "100%" }}>
-          <CartButtonOrCounter
-            // id={props.id}
-            // productName={props.productName}
-            // gender={props.gender}
-            // ageGroup={props.ageGroup}
-            // price={props.price}
-            // discount={props.discount}
-            // maxStock={props.maxStock}
-            // selectedSize={props.selectedSize}
-            // sellingPrice={props.price - (props.price * props.discount) / 100}
-            // thubnailImage={props.thubnailImage}
-            {...props}
-            showPrice={showPrice}
-          />
-        </div>
+        // <div style={{ width: usedForProductDetails ? "50%" : "100%" }}>
+        <CartButtonOrCounter
+          // id={props.id}
+          // productName={props.productName}
+          // gender={props.gender}
+          // ageGroup={props.ageGroup}
+          // price={props.price}
+          // discount={props.discount}
+          // maxStock={props.maxStock}
+          // selectedSize={props.selectedSize}
+          // sellingPrice={props.price - (props.price * props.discount) / 100}
+          // thubnailImage={props.thubnailImage}
+          {...props}
+          showPrice={showPrice}
+        />
+        // </div>
       )}
     </div>
   );
@@ -322,7 +325,12 @@ export const InfoContainer = (props) => {
           <span className={styles.nameValue}>{ageGroup}</span>
         </div>
       </div>
-      {showDescription && <p> {description}</p>}
+      {showDescription && (
+        <span className={styles.nameValue} style={{ paddingLeft: "15px" }}>
+          {" "}
+          {description}
+        </span>
+      )}
       {
         <PriceContainer
           {...props}
@@ -330,27 +338,69 @@ export const InfoContainer = (props) => {
           showCart={false}
         />
       }
+      <span style={{ display: "flex" }}>
+        <span
+          className={styles.productName}
+          style={{ paddingLeft: "15px", flex: ".5" }}
+        >
+          Select size
+        </span>
+        {
+          <span
+            className={styles.productName}
+            style={{
+              display: "flex",
+              paddingLeft: "15px",
+
+              flex: ".5",
+              alignItems: "end",
+              justifyContent: "end",
+            }}
+          >
+            size chart
+          </span>
+        }
+      </span>
+
       <SizeSelector
         availableSize={sizeAvailability}
         selectedSize={selectedSize}
         setSelectedSize={setSelectedSize}
       />
+      <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flex: 1 }}>
+          <PriceContainer
+            id={id}
+            productName={productName}
+            gender={gender}
+            ageGroup={ageGroup}
+            price={price}
+            discount={discount}
+            maxStock={getMaxStock(selectedSize)}
+            selectedSize={selectedSize}
+            sellingPrice={price - (price * discount) / 100}
+            thubnailImage={thubnailImage}
+            description={description}
+            usedForProductDetails={usedForProductDetails}
+            showPrice={false}
+          />
+        </div>
 
-      <PriceContainer
-        id={id}
-        productName={productName}
-        gender={gender}
-        ageGroup={ageGroup}
-        price={price}
-        discount={discount}
-        maxStock={getMaxStock(selectedSize)}
-        selectedSize={selectedSize}
-        sellingPrice={price - (price * discount) / 100}
-        thubnailImage={thubnailImage}
-        description={description}
-        usedForProductDetails={usedForProductDetails}
-        showPrice={false}
-      />
+        {/* {showSizeChart && (
+          <span
+            className={styles.productName}
+            style={{
+              display: "flex",
+              alignItems: "end",
+              justifyContent: "end",
+              flex: 0.5,
+              fontSize: "18px",
+            }}
+          >
+            Size chart
+          </span>
+        )} */}
+      </div>
     </div>
   );
 };

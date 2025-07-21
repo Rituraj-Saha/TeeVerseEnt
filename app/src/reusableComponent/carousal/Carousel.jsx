@@ -160,7 +160,6 @@ const Carousel = ({
           let zIndex = 0;
           let width = "0%";
           let filter = "blur(0px)";
-
           if (index === centerIndex) {
             scale = 1;
             opacity = 1;
@@ -241,7 +240,7 @@ const Carousel = ({
   );
 };
 const CaroualImpl = (props) => {
-  const { items } = props;
-  return <Carousel items={items} autoScrollInterval={10000} />;
+  const { items, timer = 3000 } = props;
+  return <Carousel items={items} autoScrollInterval={timer} />;
 };
 export default CaroualImpl;

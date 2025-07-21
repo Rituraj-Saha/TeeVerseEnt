@@ -15,6 +15,7 @@ import theme, { injectCssVariables } from "./src/theme/theme";
 import { Provider } from "react-redux";
 import { store } from "./storeCofig/store";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import "leaflet/dist/leaflet.css";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
