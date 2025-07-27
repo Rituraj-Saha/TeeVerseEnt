@@ -14,7 +14,7 @@ import SvgStringRenderer from "app/src/reusableComponent/SvgReusableRenderer";
 import CartView from "app/src/components/CartView/CartView";
 import { closeSvg } from "app/src/assets/svgAssets";
 import ClientOnlyRender from "utils/ClientOnlyRender";
-
+import styles from "./rootLayout.module.css";
 export default function RootLayout() {
   const dispatch = useDispatch();
   const showView = useSelector(
@@ -29,7 +29,7 @@ export default function RootLayout() {
     // <ToastProvider>
     <>
       <Nav />
-      <div style={{ marginTop: "8vh" }}>
+      <div className={styles.parent}>
         <Outlet />
       </div>
       <ClientOnlyRender>

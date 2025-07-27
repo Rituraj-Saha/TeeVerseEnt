@@ -73,38 +73,13 @@ const CartButtonOrCounter = (product) => {
       }}
     >
       {quantity === 0 ? (
-        // <motion.div
-        //   style={{
-        //     display: "flex",
-        //     alignItems: "center",
-        //     flex: 1,
-        //     justifyContent: "space-around",
-        //     padding: "2px",
-        //     cursor: "pointer",
-        //   }}
-        //   whileHover={{
-        //     scale: 1.05,
-        //     boxShadow: "0px 0px 8px rgba(0, 180, 0, 0.3)",
-        //     backgroundColor: "#16a34a",
-        //   }}
-        //   whileTap={{
-        //     scale: 0.95,
-        //   }}
-        //   onClick={handleAddToCart}
-        // >
-        //   <span>Add To Cart</span>
-
-        //   <div className={styles.cartWrapper}>
-        //     <SvgStringRenderer svgString={cartIconItem} />
-        //   </div>
-        // </motion.div>
         <motion.div
           style={{
             position: "relative",
             display: "flex",
             alignItems: "center",
             flex: 1,
-            justifyContent: "space-around",
+            // justifyContent: "space-around",
             padding: "2px",
             cursor: "pointer",
             overflow: "hidden", // for pulse
@@ -140,7 +115,18 @@ const CartButtonOrCounter = (product) => {
               }}
             />
           )}
-          <span>Add To Cart</span>
+          <span
+            style={{
+              display: "flex",
+              flex: 0.9,
+              fontSize: "14px",
+              fontWeight: "600",
+              fontFamily: '"Poppins", "Helvetica", "Arial", "sans-serif"',
+              paddingLeft: "10px",
+            }}
+          >
+            Add To Cart
+          </span>
           <div className={styles.cartWrapper}>
             <SvgStringRenderer svgString={cartIconItem} />
           </div>

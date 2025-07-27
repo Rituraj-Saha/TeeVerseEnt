@@ -6,6 +6,7 @@ import { Badge, Chip, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { open } from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 import { Link } from "react-router";
+import useIsMobile from "app/src/customhook/useIsMobile";
 
 const NAVITEMS = [
   {
@@ -39,7 +40,9 @@ function Nav() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const cartCount = useSelector((state) => state.cart.totalItems);
-  return (
+  const isMobile = useIsMobile();
+  console.log("isMobile", isMobile);
+  return !isMobile ? (
     <nav className={styles.parent}>
       <div className={styles.navBranding}>
         <div className={styles.logoWrapper}>
@@ -113,6 +116,45 @@ function Nav() {
             color: "#FFF",
           }}
         />
+      </div>
+    </nav>
+  ) : (
+    <nav className={styles.parent}>
+      <div className={styles.optionContainer}>
+        <ul className={styles.ulStyle}>
+          {NAVITEMS.map((item, index) => {
+            return (
+              <li key={index}>
+                <Link
+                  to={withBase(item.path)}
+                  style={{ textDecoration: "none" }}
+                >
+                  <span>{item.label}</span>
+                </Link>
+              </li>
+            );
+          })}
+          <div
+            className={styles.scItem}
+            onClick={() => {
+              dispatch(open());
+            }}
+          >
+            <Badge
+              badgeContent={cartCount}
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: theme.palette.customGreen.main,
+                  color: theme.palette.customGreen.contrastText,
+                },
+              }}
+            >
+              <SvgStringRenderer svgString={cartIcon} width={"20%"} />
+            </Badge>
+
+            <span className={styles.menuItemAnxText}>Cart</span>
+          </div>
+        </ul>
       </div>
     </nav>
   );
