@@ -88,3 +88,4 @@ export const FEATUREDPRODUCT = [
     ageGroup: "Children",
   },
 ];
+export const toltalCount = 10;
