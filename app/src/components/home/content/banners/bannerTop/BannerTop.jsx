@@ -37,7 +37,7 @@ const BannerTop = () => {
       <div className={styles.bannerPointerContainer}>
         {bannerPointer.map((item, idx) => {
           return (
-            <div key={idx}>
+            <div key={idx} className={styles.bannerPinterItem}>
               <span className={styles.emojiStyle}>{item.svg}</span>
               <span className={styles.emojiText}>{item.msg}</span>
             </div>

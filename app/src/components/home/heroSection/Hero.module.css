@@ -5,6 +5,20 @@
   flex-direction: row;
 }
 /* From https://css.glass */
+.left {
+  display: flex;
+  flex: 0.5;
+  /* min-height: 100% !important; */
+  align-items: center;
+  flex-direction: column;
+}
+.right {
+  display: flex;
+  flex: 0.5;
+  min-height: 100%;
+  padding-bottom: 5%;
+  padding-top: 20px;
+}
 .glassEffectOne {
   display: flex;
   margin-top: 2%;
@@ -60,4 +74,86 @@
   padding-left: 50px;
   font-weight: 700;
   margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .parent {
+    display: flex;
+    min-height: 70vh !important;
+    flex: 1;
+    flex-direction: column;
+  }
+  .left {
+    display: flex;
+    flex: 0.1;
+    /* min-height: 100% !important; */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .glassEffectOne {
+    display: flex;
+    margin-top: 2%;
+    margin-right: 0%;
+    margin-left: 0%;
+    width: 95%;
+    background: rgba(193, 183, 232, 0.612);
+    border-radius: 6px;
+    box-shadow: 0 4px 30px rgba(225, 94, 114, 0.632);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    height: 10%;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 5px;
+  }
+  .valueAdderTextStyle {
+    font-family: "poppins";
+    font-size: 12px;
+    font-weight: 700;
+    color: rgb(37, 35, 35);
+  }
+  .boldMsgTxt {
+    width: 100%;
+    text-align: left;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 20px;
+    color: rgba(37, 35, 35, 0.855);
+    line-height: 20px;
+    margin-top: 25px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .boldMsgTxtBolder {
+    width: 100%;
+    text-align: left;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 35px;
+    color: rgba(2, 4, 52, 0.855);
+    line-height: 50px;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-weight: 700;
+  }
+  .statMsg {
+    width: 100%;
+    text-align: left;
+    font-family: "poppins";
+    font-size: 15px;
+    color: rgba(27, 27, 28, 0.855);
+    line-height: 18px;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-weight: 700;
+    margin-top: 0px;
+  }
+  .right {
+    display: flex;
+    flex: 1;
+    min-height: 100%;
+    padding-bottom: 70px;
+    flex-direction: column;
+  }
 }

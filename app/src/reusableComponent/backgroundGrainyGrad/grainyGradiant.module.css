@@ -3,8 +3,6 @@
   flex-direction: column;
   margin: 0;
   background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-  position: relative;
-  overflow: hidden;
-  /* border-bottom-left-radius: 35%;
-  border-bottom-right-radius: 5%; */
+  /* position: relative;
+  overflow: hidden; */
 }

@@ -28,27 +28,19 @@ const Hero = () => {
     "Tee-verse is a platform that helps to make fashion accessible to all. It brings fashion to your doorstep!";
 
   const items = [
-    <div className="h-74 w-full bg-red-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+    <div className="h-full w-full bg-red-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
       Slide 1
     </div>,
-    <div className="h-74 w-full bg-blue-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+    <div className="h-full w-full bg-blue-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
       Slide 2
     </div>,
-    <div className="h-74 w-full bg-green-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
+    <div className="h-full w-full bg-green-400 flex items-center justify-center text-white text-3xl font-bold rounded-xl shadow-xl">
       Slide 3
     </div>,
   ];
   return (
     <div className={styles.parent}>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.5,
-          minHeight: "100% !important",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
+      <div className={styles.left}>
         <div className={styles.glassEffectOne}>
           {valueAdder.map((item, idx) => {
             return (
@@ -129,15 +121,7 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.5,
-          // border: "1px solid black",
-          minHeight: "100%",
-          paddingBottom: "5%",
-        }}
-      >
+      <div className={styles.right}>
         <CaroualImpl items={items} />
       </div>
     </div>
