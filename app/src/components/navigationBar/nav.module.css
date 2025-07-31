@@ -89,6 +89,9 @@
     top: 92%;
     padding: 10px 15px 15px 5px;
     background: white;
+    border-top: 1px solid black;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
   }
   .optionContainer {
     display: flex;

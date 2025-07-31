@@ -45,7 +45,17 @@ const FilterContainer = () => {
               <div>
                 {FilterList[xitem].map((mItem, mIdx) => {
                   return (
-                    <div key={mIdx}>
+                    <div
+                      key={mIdx}
+                      style={{
+                        display: "flex",
+                        // flexDirection: "column",
+                        fontSize: "15px",
+                        border: "1px solid black",
+                        alignItems: "center",
+                        justifyContent: "start",
+                      }}
+                    >
                       <Checkbox
                         checked={!!checkedItems[xitem]?.[mItem]}
                         onChange={() => handleCheckboxChange(xitem, mItem)}
@@ -53,6 +63,7 @@ const FilterContainer = () => {
                           "&.Mui-checked": {
                             color: "green",
                           },
+                          padding: "1px",
                         }}
                       />
                       <span>{mItem}</span>

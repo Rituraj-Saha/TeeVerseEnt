@@ -3,6 +3,7 @@ import styles from "./faq.module.css";
 import HeaderText from "../../../../reusableComponent/headerText/HeaderText";
 import SvgStringRenderer from "../../../../reusableComponent/SvgReusableRenderer";
 import { chevronDown, chevronUP } from "../../../../assets/svgAssets";
+import useIsMobile from "app/src/customhook/useIsMobile";
 const faqData = [
   {
     question: "What is the return policy",
@@ -51,6 +52,7 @@ const FaqItemContainer = (props) => {
   );
 };
 const Faq = () => {
+  const ismobile = useIsMobile();
   return (
     <div className={styles.parent}>
       <div
@@ -70,6 +72,7 @@ const Faq = () => {
           display: "flex",
           flex: 0.9,
           width: "100%",
+          flexDirection: ismobile ? "column" : "row",
         }}
       >
         <div

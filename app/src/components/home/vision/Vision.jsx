@@ -37,36 +37,10 @@ const Vision = () => {
   return (
     <div className={styles.parent}>
       <HeaderText textMsg={"We Deliver"} />
-      <div
-        style={{
-          display: "flex",
-          // border: "1px solid black",
-          width: "80%",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          background: theme.palette.lightBackdropForDeliver.main,
-          boxShadow: "0 4px 30px rgba(166, 128, 243, 0.63)",
-          backdropFilter: "blur(5px)",
-          borderRadius: "5px",
-        }}
-      >
+      <div className={styles.visonparentcontainer}>
         {offering.map((item, idx) => {
           return (
-            <div
-              key={idx}
-              style={{
-                display: "flex",
-                width: "34vw",
-                margin: "10px",
-                padding: "10px",
-                border: "1px solid black",
-                height: "15vh",
-                alignItems: "center",
-                background: "rgba(34, 25, 72, 0.997)",
-                borderRadius: "6px",
-              }}
-            >
+            <div className={styles.visionContextContainer} key={idx}>
               <div
                 style={{
                   display: "flex",

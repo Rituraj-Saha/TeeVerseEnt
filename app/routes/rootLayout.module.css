@@ -1,5 +1,6 @@
 .parent {
   margin-top: 8vh;
+  padding-bottom: 25vh;
 }
 @media (max-width: 768px) {
   .parent {

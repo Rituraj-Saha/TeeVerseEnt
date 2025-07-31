@@ -8,8 +8,6 @@ import { FEATUREDPRODUCT } from "app/src/assets/payload/FEATURED-PRODUCT";
 import { InfoContainer } from "app/src/reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 import UserLocationMap from "app/src/reusableComponent/mapComponent/LocationComponent";
 import CaroualImpl from "app/src/reusableComponent/carousal/Carousel";
-import BannerMid from "app/src/components/home/content/banners/bannerMid/BannerMid";
-import BannerTop from "app/src/components/home/content/banners/bannerTop/BannerTop";
 
 
 

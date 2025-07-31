@@ -8,7 +8,8 @@
 
 .testimonialDiv {
   display: flex;
-  width: 30vw;
+  width: 100%;
+  /* flex: 1; */
   height: 20vh;
   margin: 50px;
   flex-direction: column;
@@ -31,4 +32,22 @@
     rgba(245, 118, 7, 1) 50%,
     rgba(237, 83, 157, 1) 100%
   );
+}
+@media (max-width: 768px) {
+  .testimonialDiv {
+    display: flex;
+    flex: 1;
+    width: 65%;
+    height: 20vh;
+    margin: 50px;
+    flex-direction: column;
+    /* border: 1px solid black; */
+    padding: 25px;
+    background: #e4def8c2;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(195, 195, 195, 0.632);
+    backdrop-filter: blur(5px);
+  }
 }

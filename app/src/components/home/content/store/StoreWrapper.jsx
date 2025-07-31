@@ -24,7 +24,7 @@ function StoreWrapper() {
   const containerRef = React.useRef(null);
   return (
     <div className={styles.parent} ref={containerRef}>
-      {!isMobile && showFilter && <FilterContainer />}
+      {showFilter && <FilterContainer />}
       <div
         style={{
           display: "flex",
