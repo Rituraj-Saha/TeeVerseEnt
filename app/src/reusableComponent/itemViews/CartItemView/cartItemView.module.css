@@ -33,3 +33,41 @@
   padding-left: 15px;
   padding-top: 5px;
 }
+.priceContainer {
+  flex: 1;
+  padding-right: 20px;
+  justify-content: space-around;
+}
+
+.priceandnumberContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .cartItemParent {
+    display: flex;
+    border-radius: 25px;
+    box-shadow: 0px 2px 2px 2px rgba(161, 246, 112, 0.632);
+    padding: 0px;
+    margin: 10px;
+    border-top: 1px solid #a1f670;
+    gap: 1px;
+    height: 300vh;
+    width: 90%;
+    flex-direction: column;
+
+    /* flex-wrap: wrap; */
+  }
+  .priceContainer {
+    flex: 1;
+    padding-right: 20px;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  .priceandnumberContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

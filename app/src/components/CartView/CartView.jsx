@@ -18,16 +18,7 @@ function CartView() {
   }, [cartItems]);
   const orders = useSelector((state) => state.orders.orders);
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        gap: "15px",
-        flexWrap: "wrap",
-        alignContent: "baseline",
-        height: "100%",
-      }}
-    >
+    <div className={styles.cartParent}>
       <div
         style={{
           display: "flex",
@@ -45,27 +36,8 @@ function CartView() {
           return <CartItemView key={idx} productDetails={item} />;
         })}
       </div>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.3,
-          width: "100%",
-          height: "100%",
-          flexDirection: "column",
-          border: "1px solid black",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flex: 0.9,
-            width: "100%",
-            height: "100%",
-            flexDirection: "column",
-            border: "1px solid black",
-            padding: "5px",
-          }}
-        >
+      <div className={styles.checkoutSummeryContainer}>
+        <div className={styles.checkoutSummeryContent}>
           {/* <span>
             Total Amount:{" "}
             <span>{useSelector((state) => state.cart.totalAmount)}</span>

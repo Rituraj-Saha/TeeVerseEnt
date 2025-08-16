@@ -212,20 +212,8 @@ const CartItemView = ({ productDetails }) => {
           <span className={styles.label_val}>{productDetails.quantity}</span>
           {/* </div> */}
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              flex: "1",
-              paddingRight: "20px",
-              justifyContent: "space-around",
-            }}
-          >
+        <div className={styles.priceandnumberContainer}>
+          <div className={styles.priceContainer}>
             <PriceContainer
               // id={productDetails.id}
               // productName={productDetails.productName}

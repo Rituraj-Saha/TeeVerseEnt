@@ -19,7 +19,7 @@ const NAVITEMS = [
   },
   {
     label: "orders",
-    path: "",
+    path: "orders",
   },
   {
     label: "Custom Tees",

@@ -64,7 +64,7 @@ const Faq = () => {
           flex: 0.9,
         }}
       >
-        <HeaderText textMsg={"Frequently Asked Question"} />
+        <HeaderText textMsg={"FAQ"} />
       </div>
 
       <div

@@ -1,5 +1,5 @@
 import StoreWrapper from "app/src/components/home/content/store/StoreWrapper";
-// import type { Route } from "./+types/home";
+import type { Route } from "./+types/home";
 import ClientOnlyRender from "utils/ClientOnlyRender";
 import { ToastProvider } from "utils/ToastProvider";
 import { useParams } from "react-router";
@@ -8,6 +8,7 @@ import { FEATUREDPRODUCT } from "app/src/assets/payload/FEATURED-PRODUCT";
 import { InfoContainer } from "app/src/reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 import UserLocationMap from "app/src/reusableComponent/mapComponent/LocationComponent";
 import CaroualImpl from "app/src/reusableComponent/carousal/Carousel";
+import { number } from "framer-motion";
 
 
 
@@ -17,22 +18,22 @@ export function meta({ }: Route.MetaArgs) {
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
-const ProductDetails = ({ product, onAddToCart }) => {
-  return (
-    <div className="p-4 space-y-4">
-      <h1 className="text-2xl font-semibold">{product.title}</h1>
-      <p className="text-lg text-green-700 font-bold">₹{product.price}</p>
-      <p className="text-gray-700">{product.description}</p>
-      <button
-        onClick={onAddToCart}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-      >
-        Add to Cart
-      </button>
-    </div>
-  );
-};
-const ProductGallery = ({ images }) => {
+// const ProductDetails = ({ product, onAddToCart }) => {
+//   return (
+//     <div className="p-4 space-y-4">
+//       <h1 className="text-2xl font-semibold">{product.title}</h1>
+//       <p className="text-lg text-green-700 font-bold">₹{product.price}</p>
+//       <p className="text-gray-700">{product.description}</p>
+//       <button
+//         onClick={onAddToCart}
+//         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+//       >
+//         Add to Cart
+//       </button>
+//     </div>
+//   );
+// };
+const ProductGallery = ({ images }: any) => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
   return (
@@ -45,7 +46,7 @@ const ProductGallery = ({ images }) => {
       }}
     >
       <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-[400px]">
-        {images.map((img, idx) => (
+        {images.map((img: string, idx: number) => (
           <img
             key={idx}
             src={img}
@@ -79,7 +80,7 @@ const items = [
 ];
 export default function productDetails() {
   const { productId } = useParams();
-  const product = FEATUREDPRODUCT.find((item) => item.id == productId);
+  const product = FEATUREDPRODUCT.find((item) => item.id == Number(productId));
   const handleAddToCart = () => {
     console.log("Add to cart clicked");
     // Dispatch Redux action or call API here
