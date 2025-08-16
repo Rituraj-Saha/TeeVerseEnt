@@ -201,13 +201,6 @@ const CartItemView = ({ productDetails }) => {
           <span className={styles.label_val}>
             {productDetails.selectedSize}
           </span>
-          {/* <SizeSelector
-              availableSize={sizeAvailability}
-              selectedSize={productDetails.selectedSize}
-              setSelectedSize={setSelectedSize}
-            /> */}
-          {/* </div>
-          <div> */}
           <span className={styles.label}>Quantity: </span>
           <span className={styles.label_val}>{productDetails.quantity}</span>
           {/* </div> */}
@@ -215,19 +208,6 @@ const CartItemView = ({ productDetails }) => {
         <div className={styles.priceandnumberContainer}>
           <div className={styles.priceContainer}>
             <PriceContainer
-              // id={productDetails.id}
-              // productName={productDetails.productName}
-              // gender={productDetails.gender}
-              // ageGroup={productDetails.ageGroup}
-              // price={productDetails?.price}
-              // discount={productDetails.discount}
-              // maxStock={getMaxStock(selectedSize)}
-              // selectedSize={productDetails.selectedSize}
-              // sellingPrice={
-              //   productDetails.price -
-              //   (productDetails.price * productDetails.discount) / 100
-              // }
-              // thubnailImage={productDetails.thubnailImage}
               {...preparedProductDetails}
               showCart={true}
               showPrice={true}

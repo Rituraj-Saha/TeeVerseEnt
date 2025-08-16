@@ -150,6 +150,7 @@ const CartButtonOrCounter = (product) => {
 
 export const SizeSelector = (props) => {
   const { availableSize, selectedSize, setSelectedSize } = props;
+  console.log("Available Size received: " + availableSize);
   const options = ["S", "M", "L", "XL", "XXL"];
 
   const theme = useTheme();
@@ -234,26 +235,8 @@ export const PriceContainer = (props) => {
         </div>
       )}
 
-      {/* <div className={styles.cartWrapper}>
-            <SvgStringRenderer svgString={cartIconItem} />
-          </div> */}
-
       {showCart && (
-        // <div style={{ width: usedForProductDetails ? "50%" : "100%" }}>
-        <CartButtonOrCounter
-          // id={props.id}
-          // productName={props.productName}
-          // gender={props.gender}
-          // ageGroup={props.ageGroup}
-          // price={props.price}
-          // discount={props.discount}
-          // maxStock={props.maxStock}
-          // selectedSize={props.selectedSize}
-          // sellingPrice={props.price - (props.price * props.discount) / 100}
-          // thubnailImage={props.thubnailImage}
-          {...props}
-          showPrice={showPrice}
-        />
+        <CartButtonOrCounter {...props} showPrice={showPrice} />
         // </div>
       )}
     </div>
