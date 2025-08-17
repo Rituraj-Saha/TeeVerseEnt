@@ -130,7 +130,7 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
 // ✅ Main CartItemView component
 const CartItemView = ({ productDetails }) => {
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
-    useSizeAvailability(productDetails.id);
+    useSizeAvailability(productDetails.availableSize);
 
   const addressList = useSelector((state) => state.user.address);
   const dispatch = useDispatch();

@@ -14,9 +14,9 @@ function StoreContent(props) {
       "http://localhost:8000/"
     ),
     images: apiProduct.images || [],
-    availableSize: apiProduct.sizes
-      ? apiProduct.sizes.filter((s) => s.stock > 0).map((s) => s.size)
-      : [],
+    availableSize: apiProduct.sizes,
+    // ? apiProduct.sizes.filter((s) => s.stock > 0).map((s) => s.size)
+    // : [],
     price: Number(apiProduct.price),
     discount: apiProduct.discount,
     maxDiscount: apiProduct.max_discount,
@@ -56,7 +56,6 @@ function StoreContent(props) {
         <>
           {data.map((item, idx) => {
             const product = mapProduct(item);
-            console.log("av size: ", product.availableSize);
             return <ThumbnailItemView key={product.id} {...product} />;
           })}
         </>

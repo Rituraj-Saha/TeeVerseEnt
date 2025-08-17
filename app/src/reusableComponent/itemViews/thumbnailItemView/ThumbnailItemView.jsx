@@ -256,10 +256,12 @@ export const InfoContainer = (props) => {
     showDescription = false,
     showViewproduct = true,
     usedForProductDetails = false,
+    availableSize,
   } = props;
   const theme = useTheme();
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
-    useSizeAvailability(id);
+    useSizeAvailability(availableSize);
+  console.log("av size: ", availableSize);
   return (
     <div className={styles.infoContainerS}>
       <div className={styles.nameContainer}>
@@ -374,17 +376,7 @@ export const InfoContainer = (props) => {
   );
 };
 const ThumbnailItemView = (props) => {
-  const {
-    id,
-    productName,
-    gender,
-    ageGroup,
-    price,
-    discount,
-    maxStock,
-    thubnailImage,
-    description,
-  } = props;
+  const { thubnailImage } = props;
   const theme = useTheme();
 
   return (

@@ -1,22 +1,34 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
-import { PRODUCT_AVAILABILITY_MATRIX } from "app/src/assets/payload/ProductAvailabilityChecker";
-
-export const useSizeAvailability = (productId) => {
-  const product = PRODUCT_AVAILABILITY_MATRIX.find((p) => p.id === productId);
+export const useSizeAvailability = (sizes = []) => {
+  // Only keep sizes with stock > 0
   const sizeAvailability = useMemo(() => {
-    if (!product) return [];
-    return product.availability.filter((item) => Number(item.available) > 0);
-  }, [product]);
+    return sizes.filter((s) => Number(s.stock) > 0);
+  }, [sizes]);
 
-  const [selectedSize, setSelectedSize] = useState(
-    sizeAvailability?.[0]?.size || null
-  );
+  // Selected size state
+  const [selectedSize, setSelectedSize] = useState(null);
 
+  // Auto select first available size if none selected
+  useEffect(() => {
+    if (sizeAvailability.length > 0 && !selectedSize) {
+      setSelectedSize(sizeAvailability[0].size);
+    }
+  }, [sizeAvailability, selectedSize]);
+
+  // Get stock for a given size
   const getMaxStock = useMemo(() => {
     return (size) => {
-      const item = sizeAvailability.find((a) => a.size === size);
-      return item ? Number(item.available) : 0;
+      const item = sizeAvailability.find((s) => s.size === size);
+      return item ? Number(item.stock) : 0;
+    };
+  }, [sizeAvailability]);
+
+  // Get additional price for a given size
+  const getAdditionalPrice = useMemo(() => {
+    return (size) => {
+      const item = sizeAvailability.find((s) => s.size === size);
+      return item ? Number(item.additional_price) : 0;
     };
   }, [sizeAvailability]);
 
@@ -25,5 +37,6 @@ export const useSizeAvailability = (productId) => {
     selectedSize,
     setSelectedSize,
     getMaxStock,
+    getAdditionalPrice,
   };
 };
