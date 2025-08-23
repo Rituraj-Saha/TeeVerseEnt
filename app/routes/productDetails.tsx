@@ -10,6 +10,7 @@ import UserLocationMap from "app/src/reusableComponent/mapComponent/LocationComp
 import CaroualImpl from "app/src/reusableComponent/carousal/Carousel";
 import { number } from "framer-motion";
 import { useGetProductByIdQuery } from "app/storeCofig/apiServices/productsApi";
+import { mapProduct } from "app/src/components/home/content/store/storeContent/StoreContent";
 
 
 
@@ -68,11 +69,12 @@ const items = [
 export default function productDetails() {
   const { productId } = useParams();
   const { data, error, isLoading } = useGetProductByIdQuery(productId);
-  const product = data
+  const product = mapProduct(data)
   const handleAddToCart = () => {
     console.log("Add to cart clicked");
     // Dispatch Redux action or call API here
   };
+
   return (
     <ClientOnlyRender>
       {!isLoading && <div

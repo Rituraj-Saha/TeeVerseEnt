@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./nav.module.css";
 import { cartIcon, searchIcon, ShirtLOGO } from "../../assets/svgAssets";
 import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { open } from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 import { Link } from "react-router";
 import useIsMobile from "app/src/customhook/useIsMobile";
+import AuthDialog from "app/src/reusableComponent/userRegistration/AuthDialog";
 
 const NAVITEMS = [
   {
@@ -42,6 +43,23 @@ function Nav() {
   const cartCount = useSelector((state) => state.cart.totalItems);
   const isMobile = useIsMobile();
   console.log("isMobile", isMobile);
+  const [mopen, setMopen] = useState(false);
+  const [mode, setMode] = useState("signin"); // "signup" or "signin"
+
+  const handleOpen = (selectedMode) => {
+    setMode(selectedMode);
+    setMopen(true);
+  };
+
+  const handleClose = () => {
+    setMopen(false);
+  };
+
+  const handleSubmit = (data) => {
+    console.log("Final Auth Data:", data);
+    // Here you would call your FastAPI API for signup/signin
+    // fetch("/api/v1/auth/signup", { method: "POST", body: JSON.stringify(data) })
+  };
   return !isMobile ? (
     <nav className={styles.parent}>
       <div className={styles.navBranding}>
@@ -107,9 +125,7 @@ function Nav() {
         </div>
         <Chip
           label={"Get Started"}
-          onClick={() => {
-            console.log("get started clicked");
-          }}
+          onClick={() => handleOpen("signin")}
           variant="outlined"
           sx={{
             background: theme.palette.secondary.main,
@@ -117,6 +133,12 @@ function Nav() {
           }}
         />
       </div>
+      <AuthDialog
+        open={mopen}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        mode={mode}
+      />
     </nav>
   ) : (
     <nav className={styles.parent}>
