@@ -4,7 +4,7 @@ import { FEATUREDPRODUCT } from "../../../../../assets/payload/FEATURED-PRODUCT"
 import { useGetProductsQuery } from "app/storeCofig/apiServices/productsApi";
 
 function StoreContent(props) {
-  const { numColumns = 3 } = props;
+  const { numColumns = 3, currentPage = 1 } = props;
   const mapProduct = (apiProduct) => ({
     id: apiProduct.id,
     productName: apiProduct.name,
@@ -26,23 +26,14 @@ function StoreContent(props) {
     gender: apiProduct.gender,
   });
   const { data, error, isLoading } = useGetProductsQuery({
-    skip: 0,
-    limit: 10,
+    skip: currentPage == 1 ? 0 : (currentPage - 1) * 12,
+    limit: 12,
   });
   useEffect(() => {
     !isLoading && console.log("product data: ", data);
   }, [isLoading]);
   return (
     <div
-      // style={{
-      //   display: "flex",
-      //   flexWrap: "wrap",
-      //   alignItems: "center",
-      //   justifyContent: "center",
-      //   // gridTemplateColumns: "repeat",
-      //   gap: "16px", // spacing between grid items
-      //   width: "100%",
-      // }}
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${numColumns}, 1fr)`,

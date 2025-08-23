@@ -382,7 +382,7 @@ const ThumbnailItemView = (props) => {
   return (
     <div className={styles.parentTumbnail}>
       <div className={styles.imageContainer}>
-        <img src={thubnailImage} height={"100%"} width={"100%"} />
+        <img src={thubnailImage} />
       </div>
       <InfoContainer {...props} />
     </div>

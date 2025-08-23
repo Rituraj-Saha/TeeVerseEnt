@@ -35,7 +35,7 @@ function StoreWrapper() {
           justifyContent: "center",
         }}
       >
-        <StoreContent numColumns={isMobile ? 1 : 3} />
+        <StoreContent numColumns={isMobile ? 1 : 3} currentPage={currentPage} />
         <SmartPagination
           currentPage={currentPage}
           totalPages={totalPages}

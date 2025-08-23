@@ -9,6 +9,7 @@ import { InfoContainer } from "app/src/reusableComponent/itemViews/thumbnailItem
 import UserLocationMap from "app/src/reusableComponent/mapComponent/LocationComponent";
 import CaroualImpl from "app/src/reusableComponent/carousal/Carousel";
 import { number } from "framer-motion";
+import { useGetProductByIdQuery } from "app/storeCofig/apiServices/productsApi";
 
 
 
@@ -18,21 +19,7 @@ export function meta({ }: Route.MetaArgs) {
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
-// const ProductDetails = ({ product, onAddToCart }) => {
-//   return (
-//     <div className="p-4 space-y-4">
-//       <h1 className="text-2xl font-semibold">{product.title}</h1>
-//       <p className="text-lg text-green-700 font-bold">₹{product.price}</p>
-//       <p className="text-gray-700">{product.description}</p>
-//       <button
-//         onClick={onAddToCart}
-//         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-//       >
-//         Add to Cart
-//       </button>
-//     </div>
-//   );
-// };
+
 const ProductGallery = ({ images }: any) => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
 
@@ -80,14 +67,15 @@ const items = [
 ];
 export default function productDetails() {
   const { productId } = useParams();
-  const product = FEATUREDPRODUCT.find((item) => item.id == Number(productId));
+  const { data, error, isLoading } = useGetProductByIdQuery(productId);
+  const product = data
   const handleAddToCart = () => {
     console.log("Add to cart clicked");
     // Dispatch Redux action or call API here
   };
   return (
     <ClientOnlyRender>
-      <div
+      {!isLoading && <div
         style={{
           display: "flex",
           border: "1px solid black",
@@ -99,9 +87,8 @@ export default function productDetails() {
       >
         <div style={{ display: "flex", height: "100%", width: "100%", gap: "25px" }}>
 
-          <ProductGallery images={product.images} />
+          <ProductGallery images={product.images.map((item: any) => item.replace("app/", "http://localhost:8000/"))} />
 
-          {/* <ProductDetails product={product} onAddToCart={handleAddToCart} /> */}
           <div style={{ display: "flex", flexDirection: "column", flex: .5, gap: "15px" }}>
             <div
               style={{ display: "flex", flexDirection: "column", flex: .4, paddingRight: "15vw" }}
@@ -127,6 +114,7 @@ export default function productDetails() {
         </div>
         {/* <UserLocationMap /> */}
       </div>
+      }
       <ToastProvider />
     </ClientOnlyRender >
   );
