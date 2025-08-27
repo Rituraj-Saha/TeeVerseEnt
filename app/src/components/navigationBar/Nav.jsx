@@ -44,10 +44,10 @@ function Nav() {
   const isMobile = useIsMobile();
   console.log("isMobile", isMobile);
   const [mopen, setMopen] = useState(false);
-  const [mode, setMode] = useState("signin"); // "signup" or "signin"
+  // const [mode, setMode] = useState("signin"); // "signup" or "signin"
 
   const handleOpen = (selectedMode) => {
-    setMode(selectedMode);
+    // setMode(selectedMode);
     setMopen(true);
   };
 
@@ -137,7 +137,7 @@ function Nav() {
         open={mopen}
         onClose={handleClose}
         onSubmit={handleSubmit}
-        mode={mode}
+        // mode={mode}
       />
     </nav>
   ) : (
@@ -178,6 +178,12 @@ function Nav() {
           </div>
         </ul>
       </div>
+      <AuthDialog
+        open={mopen}
+        onClose={handleClose}
+        onSubmit={handleSubmit}
+        // mode={mode}
+      />
     </nav>
   );
 }

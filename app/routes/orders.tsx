@@ -49,20 +49,7 @@ const OrderItems = (props: OrderItemsProps) => { // Correctly destructure 'order
     return (
         <div> {/* It's a good practice to wrap the mapped items in a parent element like a div */}
             {orderDetails.map((orderDetail, idx) => ( // Use 'orderDetail' to represent each item in the array
-                // <div key={orderDetail.address.id}> {/* Assuming 'id' in address is unique for each order */}
-                //     <h3>Order #{orderDetail.address.id}</h3>
-                //     <p>Address: {orderDetail.address.line}, {orderDetail.address.pin}</p>
-                //     <h4>Items:</h4>
-                //     <ul>
-                //         {orderDetail.items.map((item) => (
-                //             <li key={item.id}> {/* Each item within an order also needs a unique key */}
-                //                 <p>Product: {item.productName}</p>
-                //                 <p>Price: ${item.sellingPrice} (Discount: {item.discount}%)</p>
-                //                 {/* Add more item details as needed */}
-                //             </li>
-                //         ))}
-                //     </ul>
-                // </div>
+
                 <div key={idx} style={{ display: "flex", flexDirection: "column", border: "1px solid black" }}>
                     <h3>Order #{orderDetail.address.id}</h3>
                     <p>Address: {orderDetail.address.line}, {orderDetail.address.pin}</p>

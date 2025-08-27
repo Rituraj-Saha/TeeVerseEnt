@@ -22,26 +22,62 @@ function CartView() {
       <div
         style={{
           display: "flex",
-          flex: 0.7,
+          flex: 1,
           // border: "1px solid black",
           flexDirection: "column",
           gap: "5px",
-
+          alignItems: "center",
+          justifyContent: "center",
           overflowY: "auto", // enables scrolling
           maxHeight: "100%", // restricts height to parent
           // flexGrow: 0, // prevents vertical growing
+          paddingInline: "50px",
         }}
       >
         {cartItems.map((item, idx) => {
-          return <CartItemView key={idx} productDetails={item} />;
+          return (
+            <div style={{ display: "flex", flex: 1, width: "100%" }}>
+              <CartItemView key={idx} productDetails={item} />
+            </div>
+          );
         })}
+        <div
+          style={{
+            position: "fixed",
+            display: "flex",
+            width: "100%",
+            flexDirection: "row",
+            border: "1px solid black",
+            gap: "5px",
+            bottom: "20px",
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              flex: 0.5,
+              background: theme.palette.secondary.main,
+              margin: "20px",
+            }}
+            onClick={handleClose}
+          >
+            close cart
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              flex: 0.5,
+              margin: "20px",
+              background: theme.palette.success.main,
+            }}
+          >
+            Place Order
+          </Button>
+        </div>
       </div>
-      <div className={styles.checkoutSummeryContainer}>
+      {/* <div className={styles.checkoutSummeryContainer}>
         <div className={styles.checkoutSummeryContent}>
-          {/* <span>
-            Total Amount:{" "}
-            <span>{useSelector((state) => state.cart.totalAmount)}</span>
-          </span> */}
+          
           {orders.map((order, idx) => (
             <div
               key={idx}
@@ -56,7 +92,6 @@ function CartView() {
                 fontSize: "14px",
               }}
             >
-              {/* <h3>Order ID: {order.orderId}</h3> */}
               <div>
                 <span className={styles.field_name_text}>Address: </span>
                 <span>
@@ -81,7 +116,6 @@ function CartView() {
               <div>
                 {order.items.map((item) => (
                   <div key={item.cid} style={{ display: "flex", flex: 1 }}>
-                    {/* {item.productName} (Qty: {item.quantity}) - ₹{item.sellingPrice} */}
                     <div style={{ display: "flex", flex: 1 }}>
                       <div
                         style={{
@@ -175,7 +209,7 @@ function CartView() {
             Place Order
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

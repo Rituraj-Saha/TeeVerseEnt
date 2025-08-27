@@ -214,7 +214,7 @@ const CartItemView = ({ productDetails }) => {
             />
           </div>
 
-          <TextField
+          {/* <TextField
             margin="dense"
             productName="recieverPhone"
             label="Receiver's Phone Number"
@@ -226,9 +226,9 @@ const CartItemView = ({ productDetails }) => {
               });
             }}
             disabled={true}
-          ></TextField>
+          ></TextField> */}
         </div>
-
+        {/* 
         <FormControl fullWidth sx={{ minWidth: 200 }}>
           <InputLabel id="address-label" sx={{ color: "black" }}>
             Address
@@ -272,13 +272,13 @@ const CartItemView = ({ productDetails }) => {
               + Add New Address
             </MenuItem>
           </Select>
-        </FormControl>
-
+        </FormControl> */}
+        {/* 
         <AddressAdderDialog
           open={dialogOpen}
           onClose={() => setDialogOpen(false)}
           onSave={handleAddAddress}
-        />
+        /> */}
       </div>
     </div>
   );

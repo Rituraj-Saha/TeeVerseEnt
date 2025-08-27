@@ -69,15 +69,19 @@ const items = [
 export default function productDetails() {
   const { productId } = useParams();
   const { data, error, isLoading } = useGetProductByIdQuery(productId);
-  const product = mapProduct(data)
+  const [product, setProduct] = useState({})
   const handleAddToCart = () => {
     console.log("Add to cart clicked");
     // Dispatch Redux action or call API here
   };
-
+  React.useEffect(() => {
+    if (!isLoading) {
+      setProduct(mapProduct(data))
+    }
+  }, [isLoading])
   return (
     <ClientOnlyRender>
-      {!isLoading && <div
+      {isLoading ? <>loading...</> : <div
         style={{
           display: "flex",
           border: "1px solid black",
@@ -89,7 +93,11 @@ export default function productDetails() {
       >
         <div style={{ display: "flex", height: "100%", width: "100%", gap: "25px" }}>
 
-          <ProductGallery images={product.images.map((item: any) => item.replace("app/", "http://localhost:8000/"))} />
+          <ProductGallery
+            images={product?.images?.map((item: any) =>
+              item.replace("app/", "http://localhost:8000/")
+            ) || []}
+          />
 
           <div style={{ display: "flex", flexDirection: "column", flex: .5, gap: "15px" }}>
             <div

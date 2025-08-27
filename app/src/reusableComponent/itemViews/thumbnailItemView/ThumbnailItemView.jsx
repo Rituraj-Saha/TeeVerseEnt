@@ -21,14 +21,21 @@ import { Link } from "react-router";
 const CartButtonOrCounter = (product) => {
   const { showPrice } = product;
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.user.id);
-  const cartId = `${userId}-${product.id}-${product.selectedSize}`;
+  // const userId = useSelector((state) => state.user.user.id);
+  // const cartId = `${userId}-${product.id}-${product.selectedSize}`;
+  const cartId = `${product.id}-${product.selectedSize}`;
   const cartItem = useSelector((state) =>
     state.cart.cartItems.find((item) => item?.cid === cartId)
   );
   const address = useSelector((state) => state.user.address);
   const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
+
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      toast.warning("Please Sign in");
+      return;
+    }
     setIsClicked(true);
     dispatch(
       addToCart({
@@ -36,7 +43,7 @@ const CartButtonOrCounter = (product) => {
         quantity: 1,
         // cid: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
         cid: cartId,
-        address: address.find((value) => value.default),
+        // address: address.find((value) => value.default),
       })
     );
     setTimeout(() => setIsClicked(false), 400);

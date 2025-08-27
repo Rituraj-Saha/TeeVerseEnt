@@ -1,38 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+const hasRefreshToken = () => {
+  if (typeof document === "undefined") return false; // SSR guard
+  return document.cookie
+    .split(";")
+    .some((c) => c.trim().startsWith("refresh_token="));
+};
 const initialState = {
-  user: {
-    id: "1",
-    name: "Rituraj Saha",
-    _bearer: "abc",
-    phone: "+919674345373",
-  },
-  address: [
-    {
-      id: 1,
-      line: "68, Railway park, sodepur",
-      pin: "700110",
-      landmaerk: "near pond",
-      receiverPhone: "+91 8910901854",
-      default: true,
-    },
-    {
-      id: 2,
-      line: "sulekha prakriti",
-      pin: "700115",
-      landmaerk: "near pond",
-      receiverPhone: "+91 9674345373",
-      default: false,
-    },
-    {
-      id: 3,
-      line: "Purti veda",
-      pin: "700108",
-      landmaerk: "near pond",
-      receiverPhone: "+91 8910901854",
-      default: false,
-    },
-  ],
+  // user: {
+  //   id: "1",
+  //   name: "Rituraj Saha",
+  //   _bearer: "abc",
+  //   phone: "+919674345373",
+  // },
+  // address: [
+  //   {
+  //     id: 1,
+  //     line: "68, Railway park, sodepur",
+  //     pin: "700110",
+  //     landmaerk: "near pond",
+  //     receiverPhone: "+91 8910901854",
+  //     default: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     line: "sulekha prakriti",
+  //     pin: "700115",
+  //     landmaerk: "near pond",
+  //     receiverPhone: "+91 9674345373",
+  //     default: false,
+  //   },
+  //   {
+  //     id: 3,
+  //     line: "Purti veda",
+  //     pin: "700108",
+  //     landmaerk: "near pond",
+  //     receiverPhone: "+91 8910901854",
+  //     default: false,
+  //   },
+  // ],
+  isLoggedIn: hasRefreshToken(),
+  user: null,
 };
 
 const userSlice = createSlice({
