@@ -8,6 +8,10 @@ import { open } from "../../../storeCofig/feature/bottomSheetController/Bottomsh
 import { Link } from "react-router";
 import useIsMobile from "app/src/customhook/useIsMobile";
 import AuthDialog from "app/src/reusableComponent/userRegistration/AuthDialog";
+import {
+  authDialogClose,
+  authDialogOpen,
+} from "app/storeCofig/feature/authDialogController/AuthDialogController";
 
 const NAVITEMS = [
   {
@@ -43,16 +47,19 @@ function Nav() {
   const cartCount = useSelector((state) => state.cart.totalItems);
   const isMobile = useIsMobile();
   console.log("isMobile", isMobile);
-  const [mopen, setMopen] = useState(false);
+
+  const mopen = useSelector(
+    (state) => state.authDialogControllerReducer.showAuthDialog
+  );
   // const [mode, setMode] = useState("signin"); // "signup" or "signin"
 
   const handleOpen = (selectedMode) => {
     // setMode(selectedMode);
-    setMopen(true);
+    dispatch(authDialogOpen());
   };
 
   const handleClose = () => {
-    setMopen(false);
+    dispatch(authDialogClose());
   };
 
   const handleSubmit = (data) => {

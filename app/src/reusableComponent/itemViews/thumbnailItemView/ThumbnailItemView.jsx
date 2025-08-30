@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { useTheme } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import styles from "./thumbnailItemView.module.css";
 import SvgStringRenderer from "../../SvgReusableRenderer";
 import { cartIconItem } from "../../../assets/svgAssets";
@@ -16,6 +16,7 @@ import {
 } from "../../../../storeCofig/feature/cartStore/CartSlice";
 import { useSizeAvailability } from "../../../../../utils/useSizeAvailabilty";
 import { Link } from "react-router";
+import { authDialogOpen } from "app/storeCofig/feature/authDialogController/AuthDialogController";
 // import { Address } from "app/src/assets/payload/Address";
 
 const CartButtonOrCounter = (product) => {
@@ -33,7 +34,21 @@ const CartButtonOrCounter = (product) => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const handleAddToCart = () => {
     if (!isLoggedIn) {
-      toast.warning("Please Sign in");
+      toast(
+        <div>
+          Please Sign in to add to cart{" "}
+          <Button
+            onClick={() => {
+              dispatch(authDialogOpen());
+            }}
+          >
+            Sign in
+          </Button>
+        </div>,
+        {
+          autoClose: false,
+        }
+      );
       return;
     }
     setIsClicked(true);

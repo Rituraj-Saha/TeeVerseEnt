@@ -11,13 +11,19 @@ import {
   Tab,
   Box,
   Divider,
+  Alert,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LoginIcon from "@mui/icons-material/Login";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
-import { useRegisterUserMutation } from "app/storeCofig/apiServices/authApi";
+import {
+  useRegisterUserMutation,
+  useVerifyOtpMutation,
+} from "app/storeCofig/apiServices/authApi";
 import _ from "lodash";
+import { useDispatch } from "react-redux";
+import { updateBearer } from "app/storeCofig/feature/user/UserSlice";
 export default function AuthDialog({ open, onClose, onSubmit }) {
   const [tab, setTab] = useState(0); // 0 -> Signup, 1 -> Signin
   const [step, setStep] = useState("form"); // form | otp
@@ -37,9 +43,12 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
     },
   });
   const [errors, setErrors] = useState({});
-
+  const [showAlert, setShowAlert] = useState({
+    show: false,
+    msg: "",
+  });
   const mode = tab === 0 ? "signup" : "signin";
-
+  const dispatch = useDispatch();
   const handleTabChange = (_, newValue) => {
     setTab(newValue);
     setStep("form");
@@ -97,26 +106,45 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
     try {
       // Call backend register API
       await registerUser(payload).unwrap();
-
       console.log("OTP sent successfully for:", identifier);
       // Move to OTP step
       setStep("otp");
     } catch (err) {
-      console.error("Failed to register user:", err);
+      // console.error("Failed to register user:", err);
+      setShowAlert({
+        show: true,
+        msg: err?.data?.detail || "Something went wrong",
+      });
     }
   };
 
-  const handleOtpVerify = () => {
-    console.log("Verify OTP:", otp);
-    onSubmit({ ...formData, otp });
-    setOtp("");
-    setStep("form");
-    onClose();
+  const handleOtpVerify = async () => {
+    try {
+      const response = await verifyOtp({
+        identifier: `+91${formData.phone_number.replace(/^(\+91)?/, "")}`,
+        otp: otp,
+      }).unwrap();
+
+      console.log("OTP Verified Successfully:", response.data);
+      dispatch(updateBearer(response.access_token));
+      // const userRes = await getMe().unwrap();
+      // dispatch(updateUser(userRes));
+      // Reset & go back to form step
+      setOtp("");
+      setStep("form");
+      onClose();
+
+      // If you get tokens, you can save them here
+      // localStorage.setItem("access_token", response.access_token);
+    } catch (err) {
+      console.error("OTP Verification Failed:", err);
+    }
   };
 
   const [registerUser, { isLoading, isSuccess, isError, error }] =
     useRegisterUserMutation();
-
+  const [verifyOtp, { isLoadingOtp, errorOtp, data }] = useVerifyOtpMutation();
+  // const [getMe, { isLoadingGetMe, errorGetMe, meData }] = useGetMeQuery();
   const renderForm = () => (
     <Box display="flex" flexDirection="column" gap={2}>
       {mode === "signup" && (
@@ -196,6 +224,7 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
             value={formData.address.nation}
             onChange={handleChange}
           />
+          {showAlert.show && <Alert severity="error">{showAlert.msg}</Alert>}
         </>
       )}
 

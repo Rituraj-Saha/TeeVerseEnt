@@ -76,6 +76,11 @@ const userSlice = createSlice({
       const idToRemove = action.payload;
       state.address = state.address.filter((addr) => addr.id !== idToRemove);
     },
+    updateBearer(state, action) {
+      const mBearer = action.payload;
+      state._bearer = mBearer;
+      state.isLoggedIn = hasRefreshToken();
+    },
   },
 });
 
@@ -85,6 +90,7 @@ export const {
   updateDefaultAddress,
   updateAddress,
   removeAddress,
+  updateBearer,
 } = userSlice.actions;
 
 export default userSlice.reducer;

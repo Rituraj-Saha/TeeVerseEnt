@@ -16,11 +16,21 @@ export const authApi = createApi({
         },
       }),
     }),
+    verifyOtp: builder.mutation<any, VerifyOtpRequest>({
+      query: (otpData) => ({
+        url: "/verify-otp",
+        method: "POST",
+        body: otpData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });
 
 // Auto-generated hook
-export const { useRegisterUserMutation } = authApi;
+export const { useRegisterUserMutation, useVerifyOtpMutation } = authApi;
 
 // Define request type (optional but good for TS)
 export interface Address {
@@ -37,4 +47,8 @@ export interface RegisterUserRequest {
   name: string;
   address?: Address;
   role?: "user" | "admin";
+}
+export interface VerifyOtpRequest {
+  identifier: string;
+  otp: string;
 }
