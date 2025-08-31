@@ -18,16 +18,25 @@ import LoginIcon from "@mui/icons-material/Login";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import {
+  useGetMeMutation,
   useRegisterUserMutation,
   useVerifyOtpMutation,
 } from "app/storeCofig/apiServices/authApi";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
-import { updateBearer } from "app/storeCofig/feature/user/UserSlice";
+import {
+  updateBearer,
+  updateUser,
+} from "app/storeCofig/feature/user/UserSlice";
 export default function AuthDialog({ open, onClose, onSubmit }) {
   const [tab, setTab] = useState(0); // 0 -> Signup, 1 -> Signin
   const [step, setStep] = useState("form"); // form | otp
   const [otp, setOtp] = useState("");
+  const [registerUser, { isLoading, isSuccess, isError, error }] =
+    useRegisterUserMutation();
+  const [verifyOtp, { isLoadingOtp, errorOtp, data }] = useVerifyOtpMutation();
+  const [getMe] = useGetMeMutation();
+
   const [formData, setFormData] = useState({
     phone_number: "",
     email: "",
@@ -127,8 +136,8 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
 
       console.log("OTP Verified Successfully:", response.data);
       dispatch(updateBearer(response.access_token));
-      // const userRes = await getMe().unwrap();
-      // dispatch(updateUser(userRes));
+      const userRes = await getMe().unwrap();
+      dispatch(updateUser(userRes));
       // Reset & go back to form step
       setOtp("");
       setStep("form");
@@ -141,10 +150,6 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
     }
   };
 
-  const [registerUser, { isLoading, isSuccess, isError, error }] =
-    useRegisterUserMutation();
-  const [verifyOtp, { isLoadingOtp, errorOtp, data }] = useVerifyOtpMutation();
-  // const [getMe, { isLoadingGetMe, errorGetMe, meData }] = useGetMeQuery();
   const renderForm = () => (
     <Box display="flex" flexDirection="column" gap={2}>
       {mode === "signup" && (

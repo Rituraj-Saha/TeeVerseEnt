@@ -1,45 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
-const hasRefreshToken = () => {
-  if (typeof document === "undefined") return false; // SSR guard
-  return document.cookie
-    .split(";")
-    .some((c) => c.trim().startsWith("refresh_token="));
-};
+// const hasRefreshToken = () => {
+//   if (typeof document === "undefined") return false; // SSR guard
+//   return document.cookie
+//     .split(";")
+//     .some((c) => c.trim().startsWith("refresh_token="));
+// };
+// user: {
+//   id: "1",
+//   name: "Rituraj Saha",
+//   phone: "+919674345373",
+// },
+// address: [
+//   {
+//     id: 1,
+//     line: "68, Railway park, sodepur",
+//     pin: "700110",
+//     landmaerk: "near pond",
+//     receiverPhone: "+91 8910901854",
+//     default: true,
+//   },
+//   {
+//     id: 2,
+//     line: "sulekha prakriti",
+//     pin: "700115",
+//     landmaerk: "near pond",
+//     receiverPhone: "+91 9674345373",
+//     default: false,
+//   },
+//   {
+//     id: 3,
+//     line: "Purti veda",
+//     pin: "700108",
+//     landmaerk: "near pond",
+//     receiverPhone: "+91 8910901854",
+//     default: false,
+//   },
+// ],
 const initialState = {
-  // user: {
-  //   id: "1",
-  //   name: "Rituraj Saha",
-  //   _bearer: "abc",
-  //   phone: "+919674345373",
-  // },
-  // address: [
-  //   {
-  //     id: 1,
-  //     line: "68, Railway park, sodepur",
-  //     pin: "700110",
-  //     landmaerk: "near pond",
-  //     receiverPhone: "+91 8910901854",
-  //     default: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     line: "sulekha prakriti",
-  //     pin: "700115",
-  //     landmaerk: "near pond",
-  //     receiverPhone: "+91 9674345373",
-  //     default: false,
-  //   },
-  //   {
-  //     id: 3,
-  //     line: "Purti veda",
-  //     pin: "700108",
-  //     landmaerk: "near pond",
-  //     receiverPhone: "+91 8910901854",
-  //     default: false,
-  //   },
-  // ],
-  isLoggedIn: hasRefreshToken(),
+  _bearer: "",
+  isLoggedIn: false,
   user: null,
+  address: [],
 };
 
 const userSlice = createSlice({
@@ -79,7 +80,13 @@ const userSlice = createSlice({
     updateBearer(state, action) {
       const mBearer = action.payload;
       state._bearer = mBearer;
-      state.isLoggedIn = hasRefreshToken();
+      state.isLoggedIn = true;
+    },
+    logout(state) {
+      state._bearer = "";
+      state.user = null;
+      state.isLoggedIn = false;
+      state.address = [];
     },
   },
 });
@@ -91,6 +98,7 @@ export const {
   updateAddress,
   removeAddress,
   updateBearer,
+  logout,
 } = userSlice.actions;
 
 export default userSlice.reducer;

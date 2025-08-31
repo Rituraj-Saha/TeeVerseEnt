@@ -15,6 +15,15 @@ import CartView from "app/src/components/CartView/CartView";
 import { closeSvg } from "app/src/assets/svgAssets";
 import ClientOnlyRender from "utils/ClientOnlyRender";
 import styles from "./rootLayout.module.css";
+import {
+  useGetMeMutation,
+  useRefreshTokenMutation,
+} from "app/storeCofig/apiServices/authApi";
+import {
+  updateBearer,
+  updateUser,
+} from "app/storeCofig/feature/user/UserSlice";
+import { useEffect } from "react";
 export default function RootLayout() {
   const dispatch = useDispatch();
   const showView = useSelector(
@@ -24,7 +33,24 @@ export default function RootLayout() {
   const handleClose = () => {
     dispatch(close());
   };
+  const [refreshToken] = useRefreshTokenMutation();
+  const [getMe] = useGetMeMutation();
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        const response = await refreshToken().unwrap();
+        dispatch(updateBearer(response.access_token));
 
+        // Now fetch user
+        const userRes = await getMe().unwrap();
+        dispatch(updateUser(userRes));
+      } catch (err) {
+        console.warn("User not logged in", err);
+      }
+    };
+
+    initAuth();
+  }, []);
   return (
     // <ToastProvider>
     <>

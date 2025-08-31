@@ -172,7 +172,7 @@ const CartButtonOrCounter = (product) => {
 
 export const SizeSelector = (props) => {
   const { availableSize, selectedSize, setSelectedSize } = props;
-  console.log("Available Size received: " + availableSize);
+  // console.log("Available Size received: " + availableSize);
   const options = ["S", "M", "L", "XL", "XXL"];
 
   const theme = useTheme();
@@ -283,7 +283,7 @@ export const InfoContainer = (props) => {
   const theme = useTheme();
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
     useSizeAvailability(availableSize);
-  console.log("av size: ", availableSize);
+  // console.log("av size: ", availableSize);
   return (
     <div className={styles.infoContainerS}>
       <div className={styles.nameContainer}>
