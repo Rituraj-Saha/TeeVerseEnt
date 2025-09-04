@@ -82,6 +82,16 @@ export const authApi = createApi({
         method: "POST",
       }),
     }),
+    login: builder.mutation<void, Identifier>({
+      query: (identifier) => ({
+        url: `/login/?identifier=%2B91${identifier}`,
+        method: "POST",
+        // body: identifier,
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+      }),
+    }),
   }),
 });
 
@@ -93,6 +103,7 @@ export const {
   useVerifyOtpMutation,
   useGetMeMutation,
   useRefreshTokenMutation,
+  useLoginMutation,
 } = authApi;
 
 // --------------------
@@ -124,4 +135,7 @@ interface User {
   name: string;
   phone: string;
   email: string;
+}
+interface Identifier {
+  identifier: string;
 }

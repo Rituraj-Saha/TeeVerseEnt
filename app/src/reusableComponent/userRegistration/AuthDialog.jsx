@@ -14,11 +14,12 @@ import {
   Alert,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import LoginIcon from "@mui/icons-material/Login";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
+import LoginIcon from "@mui/icons-material/Login";
 import {
   useGetMeMutation,
+  useLoginMutation,
   useRegisterUserMutation,
   useVerifyOtpMutation,
 } from "app/storeCofig/apiServices/authApi";
@@ -28,12 +29,17 @@ import {
   updateBearer,
   updateUser,
 } from "app/storeCofig/feature/user/UserSlice";
+
 export default function AuthDialog({ open, onClose, onSubmit }) {
   const [tab, setTab] = useState(0); // 0 -> Signup, 1 -> Signin
   const [step, setStep] = useState("form"); // form | otp
   const [otp, setOtp] = useState("");
   const [registerUser, { isLoading, isSuccess, isError, error }] =
     useRegisterUserMutation();
+  const [
+    loginUser,
+    { isLoadingLogin, isSuccessLogin, isErrorLogin, errorLogin },
+  ] = useLoginMutation();
   const [verifyOtp, { isLoadingOtp, errorOtp, data }] = useVerifyOtpMutation();
   const [getMe] = useGetMeMutation();
 
@@ -99,38 +105,72 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
     if (!validate()) return;
 
     // Pick identifier (phone/email)
-    const identifier =
-      formData.phone_number || formData.email || formData.identifier;
-    if (!identifier) {
-      console.warn("No valid identifier provided");
-      return;
-    }
-    const { identifier: _omit, ...payload } = {
-      ...formData,
-      phone_number: formData.phone_number
-        ? `+91${formData.phone_number.replace(/^(\+91)?/, "")}` // ensures only one +91
-        : "",
-    };
+    if (mode == "signup") {
+      const identifier =
+        formData.phone_number || formData.email || formData.identifier;
+      if (!identifier) {
+        console.warn("No valid identifier provided");
+        return;
+      }
+      const { identifier: _omit, ...payload } = {
+        ...formData,
+        phone_number: formData.phone_number
+          ? `+91${formData.phone_number.replace(/^(\+91)?/, "")}` // ensures only one +91
+          : "",
+      };
 
-    try {
-      // Call backend register API
-      await registerUser(payload).unwrap();
-      console.log("OTP sent successfully for:", identifier);
-      // Move to OTP step
+      try {
+        // Call backend register API
+        await registerUser(payload).unwrap();
+        console.log("OTP sent successfully for:", identifier);
+        // Move to OTP step
+        setStep("otp");
+      } catch (err) {
+        // console.error("Failed to register user:", err);
+        setShowAlert({
+          show: true,
+          msg: err?.data?.detail || "Something went wrong",
+        });
+      }
+    } else {
+      const identifier =
+        formData.phone_number || formData.email || formData.identifier;
+      if (!identifier) {
+        console.warn("No valid identifier provided");
+        return;
+      }
+      // const { identifier: _omit, ...payload } = {
+      //   ...formData,
+      //   identifier: formData.phone_number
+      //     ? `+91${formData.phone_number.replace(/^(\+91)?/, "")}` // ensures only one +91
+      //     : "",
+      // };
+      try {
+        // Call backend register API
+        await loginUser(formData.identifier).unwrap();
+        console.log("OTP sent successfully for:", identifier);
+        // Move to OTP step
+        setStep("otp");
+      } catch (err) {
+        // console.error("Failed to register user:", err);
+        setShowAlert({
+          show: true,
+          msg: err?.data?.detail || "Something went wrong",
+        });
+      }
       setStep("otp");
-    } catch (err) {
-      // console.error("Failed to register user:", err);
-      setShowAlert({
-        show: true,
-        msg: err?.data?.detail || "Something went wrong",
-      });
     }
   };
 
   const handleOtpVerify = async () => {
     try {
       const response = await verifyOtp({
-        identifier: `+91${formData.phone_number.replace(/^(\+91)?/, "")}`,
+        identifier: _.isEmpty(formData.phone_number)
+          ? `+91${formData.identifier}`
+          : formData.phone_number`+91${formData.phone_number.replace(
+              /^(\+91)?/,
+              ""
+            )}`,
         otp: otp,
       }).unwrap();
 
@@ -235,7 +275,7 @@ export default function AuthDialog({ open, onClose, onSubmit }) {
 
       {mode === "signin" && (
         <TextField
-          label="Email or Phone Number"
+          label="Phone Number"
           name="identifier"
           value={formData.identifier}
           onChange={handleChange}

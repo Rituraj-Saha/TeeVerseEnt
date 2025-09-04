@@ -13,51 +13,79 @@ function CartView() {
   };
   const theme = useTheme();
   const cartItems = useSelector((state) => state.cart.cartItems);
-  React.useEffect(() => {
-    dispatch(createOrderFromCart(cartItems));
-  }, [cartItems]);
+  // React.useEffect(() => {
+  //   dispatch(createOrderFromCart(cartItems));
+  // }, [cartItems]);
   const orders = useSelector((state) => state.orders.orders);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const totalItems = useSelector((state) => state.cart.totalItems);
   return (
     <div className={styles.cartParent}>
       <div
         style={{
           display: "flex",
-          flex: 1,
-          // border: "1px solid black",
+          flex: 0.8,
           flexDirection: "column",
           gap: "5px",
-          alignItems: "center",
-          justifyContent: "center",
-          overflowY: "auto", // enables scrolling
-          maxHeight: "100%", // restricts height to parent
-          // flexGrow: 0, // prevents vertical growing
-          paddingInline: "50px",
         }}
       >
         {cartItems.map((item, idx) => {
           return (
-            <div style={{ display: "flex", flex: 1, width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                width: "100%",
+                paddingInline: "180px",
+              }}
+            >
               <CartItemView key={idx} productDetails={item} />
             </div>
           );
         })}
+        <div style={{ height: "100px" }}></div>
+      </div>
+      <div
+        style={{
+          position: "fixed",
+          display: "flex",
+          width: "100%",
+          flexDirection: "row",
+          border: "1px solid black",
+          gap: "5px",
+          bottom: "0px",
+          flex: 0.1,
+          flexDirection: "column",
+          background: "white",
+        }}
+      >
         <div
           style={{
-            position: "fixed",
             display: "flex",
             width: "100%",
             flexDirection: "row",
             border: "1px solid black",
             gap: "5px",
-            bottom: "20px",
+            flex: 0.1,
           }}
         >
+          <span>
+            <span className={styles.field_name_text}>Total Items: </span>
+            {totalItems}
+          </span>
+          <span>
+            {" "}
+            <span className={styles.field_name_text}>Total Amount: </span>
+            <span>₹{totalAmount.toFixed(2)}</span>
+          </span>
+        </div>
+        <div>
           <Button
             variant="contained"
             sx={{
               flex: 0.5,
               background: theme.palette.secondary.main,
-              margin: "20px",
+              // margin: "20px",
             }}
             onClick={handleClose}
           >
@@ -67,7 +95,7 @@ function CartView() {
             variant="contained"
             sx={{
               flex: 0.5,
-              margin: "20px",
+              // margin: "20px",
               background: theme.palette.success.main,
             }}
           >
@@ -75,7 +103,14 @@ function CartView() {
           </Button>
         </div>
       </div>
-      {/* <div className={styles.checkoutSummeryContainer}>
+    </div>
+  );
+}
+
+export default CartView;
+
+{
+  /* <div className={styles.checkoutSummeryContainer}>
         <div className={styles.checkoutSummeryContent}>
           
           {orders.map((order, idx) => (
@@ -209,9 +244,5 @@ function CartView() {
             Place Order
           </Button>
         </div>
-      </div> */}
-    </div>
-  );
+      </div> */
 }
-
-export default CartView;

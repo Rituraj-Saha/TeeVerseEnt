@@ -5,10 +5,8 @@
 .cartParent {
   display: flex;
   width: 100%;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-content: baseline;
   height: 100%;
+  flex-direction: column;
 }
 .checkoutSummeryContainer {
   display: flex;
