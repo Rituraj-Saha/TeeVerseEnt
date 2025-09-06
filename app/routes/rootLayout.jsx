@@ -24,6 +24,7 @@ import {
   updateUser,
 } from "app/storeCofig/feature/user/UserSlice";
 import { useEffect } from "react";
+import { useGetCartQuery } from "app/storeCofig/apiServices/cartApi";
 export default function RootLayout() {
   const dispatch = useDispatch();
   const showView = useSelector(
@@ -35,6 +36,7 @@ export default function RootLayout() {
   };
   const [refreshToken] = useRefreshTokenMutation();
   const [getMe] = useGetMeMutation();
+  const { getCart } = useGetCartQuery();
   useEffect(() => {
     const initAuth = async () => {
       try {
@@ -44,6 +46,7 @@ export default function RootLayout() {
         // Now fetch user
         const userRes = await getMe().unwrap();
         dispatch(updateUser(userRes));
+        getCart();
       } catch (err) {
         console.warn("User not logged in", err);
       }
@@ -79,7 +82,7 @@ export default function RootLayout() {
                 width={"30px"}
               />
             </div> */}
-            {showView === CART_VIEW && <CartView />}
+            <CartView />
           </div>
         </BottomSheet>
       </ClientOnlyRender>

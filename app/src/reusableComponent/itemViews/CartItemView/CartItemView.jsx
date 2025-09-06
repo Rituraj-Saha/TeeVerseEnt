@@ -148,11 +148,11 @@ const CartItemView = ({ productDetails }) => {
       setSelectedAddress(value);
     }
   };
-  React.useEffect(() => {
-    dispatch(
-      modifyAdrress({ id: productDetails.cid, address: selectedAddress })
-    );
-  }, [selectedAddress]);
+  // React.useEffect(() => {
+  //   dispatch(
+  //     modifyAdrress({ id: productDetails.cid, address: selectedAddress })
+  //   );
+  // }, [selectedAddress]);
 
   const handleAddAddress = (newAddress) => {
     dispatch(addAddress(newAddress));
@@ -166,9 +166,9 @@ const CartItemView = ({ productDetails }) => {
     () => ({
       ...productDetails,
       maxStock: getMaxStock(selectedSize),
-      sellingPrice:
-        productDetails.price -
-        (productDetails.price * productDetails.discount) / 100,
+      // sellingPrice:
+      //   productDetails.price -
+      //   (productDetails.price * productDetails.discount) / 100,
     }),
     [productDetails, selectedSize]
   );
@@ -191,6 +191,8 @@ const CartItemView = ({ productDetails }) => {
           flexDirection: "column",
           paddingLeft: "5px",
           display: "flex",
+          height: "100%",
+          border: "1px solid black",
         }}
       >
         <span className={styles.productName}>{productDetails.productName}</span>
@@ -199,7 +201,7 @@ const CartItemView = ({ productDetails }) => {
           {/* <div style={{ display: "flex", flex: ".7" }}> */}
           <span className={styles.label}>Size: </span>
           <span className={styles.label_val}>
-            {productDetails.selectedSize}
+            {productDetails.requested_size}
           </span>
           <span className={styles.label}>Quantity: </span>
           <span className={styles.label_val}>{productDetails.quantity}</span>
@@ -228,7 +230,14 @@ const CartItemView = ({ productDetails }) => {
             disabled={true}
           ></TextField> */}
         </div>
-        {/* 
+      </div>
+    </div>
+  );
+};
+
+export default CartItemView;
+{
+  /* 
         <FormControl fullWidth sx={{ minWidth: 200 }}>
           <InputLabel id="address-label" sx={{ color: "black" }}>
             Address
@@ -272,16 +281,13 @@ const CartItemView = ({ productDetails }) => {
               + Add New Address
             </MenuItem>
           </Select>
-        </FormControl> */}
-        {/* 
+        </FormControl> */
+}
+{
+  /* 
         <AddressAdderDialog
           open={dialogOpen}
           onClose={() => setDialogOpen(false)}
           onSave={handleAddAddress}
-        /> */}
-      </div>
-    </div>
-  );
-};
-
-export default CartItemView;
+        /> */
+}

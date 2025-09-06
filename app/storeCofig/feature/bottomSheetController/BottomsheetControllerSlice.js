@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 export const CART_VIEW = "cart_view";
+export const ORDER_CHECKOUT_VIEW = "order_checkout_view";
 const initialState = {
   show: false,
   showView: CART_VIEW,

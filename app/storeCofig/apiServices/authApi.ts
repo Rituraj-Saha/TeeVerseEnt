@@ -5,28 +5,28 @@ import { updateBearer } from "../feature/user/UserSlice";
 //  Base Query Wrapper
 // --------------------
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8000/api/v1/auth",
-  credentials: "include", // include refresh token cookie
-  prepareHeaders: (headers, { getState, endpoint }) => {
+  baseUrl: "http://localhost:8000/api/v1", // generic base
+  credentials: "include", // send refresh token cookie
+  prepareHeaders: (headers, { getState }) => {
     const token = getState()?.user?._bearer;
-
-    // only attach bearer for /me
-    if (token && endpoint === "getMe") {
+    if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
-
     return headers;
   },
 });
 
-const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
+export const baseQueryWithReauth: typeof rawBaseQuery = async (
+  args,
+  api,
+  extraOptions
+) => {
   let result = await rawBaseQuery(args, api, extraOptions);
 
-  // If token expired
   if (result?.error?.status === 401) {
-    // try refreshing
+    // attempt refresh
     const refreshResult = await rawBaseQuery(
-      { url: "/refresh-token", method: "POST" },
+      { url: "/auth/refresh-token", method: "POST" },
       api,
       extraOptions
     );
@@ -62,7 +62,7 @@ export const authApi = createApi({
     }),
     verifyOtp: builder.mutation<any, VerifyOtpRequest>({
       query: (otpData) => ({
-        url: "/verify-otp",
+        url: "auth/verify-otp",
         method: "POST",
         body: otpData,
         headers: {
@@ -72,19 +72,19 @@ export const authApi = createApi({
     }),
     getMe: builder.mutation<User, void>({
       query: () => ({
-        url: "/me",
+        url: "auth/me",
         method: "GET",
       }),
     }),
     refreshToken: builder.mutation<{ access_token: string }, void>({
       query: () => ({
-        url: "/refresh-token",
+        url: "auth/refresh-token",
         method: "POST",
       }),
     }),
     login: builder.mutation<void, Identifier>({
       query: (identifier) => ({
-        url: `/login/?identifier=%2B91${identifier}`,
+        url: `auth/login/?identifier=%2B91${identifier}`,
         method: "POST",
         // body: identifier,
         // headers: {

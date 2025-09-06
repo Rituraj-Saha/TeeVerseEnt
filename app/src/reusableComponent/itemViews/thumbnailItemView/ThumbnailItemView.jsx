@@ -17,22 +17,41 @@ import {
 import { useSizeAvailability } from "../../../../../utils/useSizeAvailabilty";
 import { Link } from "react-router";
 import { authDialogOpen } from "app/storeCofig/feature/authDialogController/AuthDialogController";
+import {
+  useAddCartItemMutation,
+  useDeleteCartItemMutation,
+  useUpdateCartItemMutation,
+} from "app/storeCofig/apiServices/cartApi";
 // import { Address } from "app/src/assets/payload/Address";
 
 const CartButtonOrCounter = (product) => {
-  const { showPrice } = product;
   const dispatch = useDispatch();
-  // const userId = useSelector((state) => state.user.user.id);
-  // const cartId = `${userId}-${product.id}-${product.selectedSize}`;
-  const cartId = `${product.id}-${product.selectedSize}`;
-  const cartItem = useSelector((state) =>
-    state.cart.cartItems.find((item) => item?.cid === cartId)
-  );
-  const address = useSelector((state) => state.user.address);
-  const quantity = !_.isEmpty(cartItem) ? cartItem?.quantity : 0;
-
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const handleAddToCart = () => {
+
+  // hooks from RTK Query
+  const [addCartItem, { isLoading: isAdding }] = useAddCartItemMutation();
+  const [updateCartItem, { isLoading: isUpdating }] =
+    useUpdateCartItemMutation();
+  const [deleteCartItem, { isLoading: isDeleting }] =
+    useDeleteCartItemMutation();
+
+  // cart state
+  const cartItem = useSelector((state) =>
+    state.cart.cartItems.find(
+      (item) =>
+        item?.product_id === product.id &&
+        item?.requested_size === product.selectedSize
+    )
+  );
+
+  const quantity = cartItem?.quantity || 0;
+
+  const [isClicked, setIsClicked] = React.useState(false);
+
+  // ----------------
+  // Handlers
+  // ----------------
+  const handleAddToCart = async () => {
     if (!isLoggedIn) {
       toast(
         <div>
@@ -45,45 +64,71 @@ const CartButtonOrCounter = (product) => {
             Sign in
           </Button>
         </div>,
-        {
-          autoClose: false,
-        }
+        { autoClose: false }
       );
       return;
     }
+
     setIsClicked(true);
-    dispatch(
-      addToCart({
-        ...product,
-        quantity: 1,
-        // cid: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
-        cid: cartId,
-        // address: address.find((value) => value.default),
-      })
-    );
+    try {
+      await addCartItem({
+        product_id: product.id,
+        requested_qty: 1,
+        requested_size: product.selectedSize,
+      }).unwrap();
+    } catch (err) {
+      console.error("Add to cart failed:", err);
+      toast.error("Failed to add item to cart");
+    }
     setTimeout(() => setIsClicked(false), 400);
   };
 
-  const handleIncrement = () => {
+  const handleIncrement = async () => {
     if (quantity < product?.maxStock) {
-      dispatch(incrementQuantity(cartId));
+      try {
+        await updateCartItem({
+          cart_id: cartItem.cid,
+          data: {
+            requested_qty: quantity + 1,
+            requested_size: product.selectedSize,
+          },
+        }).unwrap();
+      } catch (err) {
+        console.error("Increment failed:", err);
+        toast.error("Could not update cart");
+      }
     } else {
-      toast.warning(`Maximum limit (${product?.maxStock}) reached`, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      toast.warning(`Maximum limit (${product?.maxStock}) reached`);
     }
   };
 
-  const handleDecrement = () => {
+  const handleDecrement = async () => {
     if (quantity > 1) {
-      dispatch(decrementQuantity(cartId));
+      try {
+        await updateCartItem({
+          cart_id: cartItem.cid,
+          data: {
+            requested_qty: quantity - 1,
+            requested_size: product.selectedSize,
+          },
+        }).unwrap();
+      } catch (err) {
+        console.error("Decrement failed:", err);
+        toast.error("Could not update cart");
+      }
     } else if (quantity === 1) {
-      dispatch(removeFromCart(cartId));
+      try {
+        await deleteCartItem(cartItem.cid).unwrap();
+      } catch (err) {
+        console.error("Delete failed:", err);
+        toast.error("Could not remove item from cart");
+      }
     }
   };
-  const [isClicked, setIsClicked] = React.useState(false);
 
+  // ----------------
+  // Render
+  // ----------------
   return (
     <div
       style={{
@@ -101,22 +146,18 @@ const CartButtonOrCounter = (product) => {
             display: "flex",
             alignItems: "center",
             flex: 1,
-            // justifyContent: "space-around",
             padding: "2px",
             cursor: "pointer",
-            overflow: "hidden", // for pulse
-            borderRadius: "5px", // match parent
+            overflow: "hidden",
+            borderRadius: "5px",
             boxShadow: "2 2px 40px rgba(225, 94, 114, 0.632)",
           }}
           whileHover={{
             scale: 1.05,
-            // boxShadow: "0px 0px 8px rgba(0, 180, 0, 0.3)",
             backgroundColor: "#16a34a",
             color: "#fff",
           }}
-          whileTap={{
-            scale: 0.95,
-          }}
+          whileTap={{ scale: 0.95 }}
           onClick={handleAddToCart}
         >
           {isClicked && (
@@ -147,7 +188,7 @@ const CartButtonOrCounter = (product) => {
               paddingLeft: "10px",
             }}
           >
-            Add To Cart
+            {isAdding ? "Adding..." : "Add To Cart"}
           </span>
           <div className={styles.cartWrapper}>
             <SvgStringRenderer svgString={cartIconItem} />
@@ -155,13 +196,21 @@ const CartButtonOrCounter = (product) => {
         </motion.div>
       ) : (
         <div className={styles.counterContainer}>
-          <button onClick={handleDecrement} className={styles.counterBtn}>
+          <button
+            onClick={handleDecrement}
+            className={styles.counterBtn}
+            disabled={isUpdating || isDeleting}
+          >
             -
           </button>
-          <span
-            className={styles.counterValue}
-          >{`Selected Qty: ${quantity}`}</span>
-          <button onClick={handleIncrement} className={styles.counterBtn}>
+          <span className={styles.counterValue}>
+            {isUpdating ? "Updating..." : `Selected Qty: ${quantity}`}
+          </span>
+          <button
+            onClick={handleIncrement}
+            className={styles.counterBtn}
+            disabled={isUpdating}
+          >
             +
           </button>
         </div>
@@ -169,7 +218,6 @@ const CartButtonOrCounter = (product) => {
     </div>
   );
 };
-
 export const SizeSelector = (props) => {
   const { availableSize, selectedSize, setSelectedSize } = props;
   // console.log("Available Size received: " + availableSize);

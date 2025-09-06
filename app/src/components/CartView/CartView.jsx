@@ -3,7 +3,12 @@ import CartItemView from "app/src/reusableComponent/itemViews/CartItemView/CartI
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./CartView.module.css";
 import { Button, useTheme } from "@mui/material";
-import { close } from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
+import {
+  CART_VIEW,
+  close,
+  ORDER_CHECKOUT_VIEW,
+  setView,
+} from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 import { createOrderFromCart } from "app/storeCofig/feature/orderStore/orderSlice";
 import { PriceContainer } from "app/src/reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 function CartView() {
@@ -19,44 +24,60 @@ function CartView() {
   const orders = useSelector((state) => state.orders.orders);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const totalItems = useSelector((state) => state.cart.totalItems);
+  const showView = useSelector(
+    (state) => state.bottomSheetControllerReducer.showView
+  );
   return (
     <div className={styles.cartParent}>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.8,
-          flexDirection: "column",
-          gap: "5px",
-        }}
-      >
-        {cartItems.map((item, idx) => {
-          return (
-            <div
-              style={{
-                display: "flex",
-                flex: 1,
-                width: "100%",
-                paddingInline: "180px",
-              }}
-            >
-              <CartItemView key={idx} productDetails={item} />
-            </div>
-          );
-        })}
-        <div style={{ height: "100px" }}></div>
-      </div>
+      {showView === CART_VIEW ? (
+        <div
+          style={{
+            display: "flex",
+            flex: 0.8,
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flex: 0.7,
+              flexDirection: "column",
+              gap: "5px",
+            }}
+          >
+            {cartItems.map((item, idx) => {
+              return (
+                <div
+                  style={{
+                    display: "flex",
+                    flex: 1,
+                  }}
+                >
+                  <CartItemView key={idx} productDetails={item} />
+                </div>
+              );
+            })}
+            <div style={{ height: "100px" }}></div>
+          </div>
+          <div></div>
+        </div>
+      ) : showView === ORDER_CHECKOUT_VIEW ? (
+        <></>
+      ) : (
+        <></>
+      )}
       <div
         style={{
           position: "fixed",
           display: "flex",
           width: "100%",
-          flexDirection: "row",
-          border: "1px solid black",
+          // border: "1px solid black",
           gap: "5px",
           bottom: "0px",
           flex: 0.1,
           flexDirection: "column",
           background: "white",
+          paddingRight: "25px",
         }}
       >
         <div
@@ -64,9 +85,8 @@ function CartView() {
             display: "flex",
             width: "100%",
             flexDirection: "row",
-            border: "1px solid black",
+            // border: "1px solid black",
             gap: "5px",
-            flex: 0.1,
           }}
         >
           <span>
@@ -79,7 +99,13 @@ function CartView() {
             <span>₹{totalAmount.toFixed(2)}</span>
           </span>
         </div>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            gap: "50px",
+            padding: "10px",
+          }}
+        >
           <Button
             variant="contained"
             sx={{
@@ -97,6 +123,9 @@ function CartView() {
               flex: 0.5,
               // margin: "20px",
               background: theme.palette.success.main,
+            }}
+            onClick={() => {
+              dispatch(setView(ORDER_CHECKOUT_VIEW));
             }}
           >
             Place Order

@@ -6,7 +6,7 @@
   margin: 10px;
   border-top: 1px solid #a1f670;
   gap: 1px;
-  height: 35vh;
+  height: 25vh;
   width: 100%;
   /* flex-wrap: wrap; */
 }
@@ -41,9 +41,11 @@
 }
 
 .priceandnumberContainer {
+  flex: 1;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center; */
+  border: 1px solid red;
 }
 @media (max-width: 768px) {
   .cartItemParent {

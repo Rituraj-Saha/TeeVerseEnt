@@ -4,7 +4,11 @@ import { cartIcon, searchIcon, ShirtLOGO } from "../../assets/svgAssets";
 import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
 import { Badge, Chip, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { open } from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
+import {
+  CART_VIEW,
+  open,
+  setView,
+} from "../../../storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 import { Link } from "react-router";
 import useIsMobile from "app/src/customhook/useIsMobile";
 import AuthDialog from "app/src/reusableComponent/userRegistration/AuthDialog";
@@ -105,6 +109,7 @@ function Nav() {
         <div
           className={styles.scItem}
           onClick={() => {
+            dispatch(setView(CART_VIEW));
             dispatch(open());
           }}
         >
@@ -166,6 +171,7 @@ function Nav() {
           <div
             className={styles.scItem}
             onClick={() => {
+              dispatch(setView(CART_VIEW));
               dispatch(open());
             }}
           >
