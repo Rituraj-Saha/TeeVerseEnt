@@ -109,8 +109,9 @@ export const cartApi = createApi({
       async onQueryStarted({ cart_id, data }, { dispatch, queryFulfilled }) {
         try {
           const { data: updated } = await queryFulfilled;
+          console.log("Updated: ", updated);
           dispatch(
-            updateQuantity({ cid: cart_id, quantity: updated.quantity })
+            updateQuantity({ cid: cart_id, quantity: updated.requested_qty })
           );
         } catch (err) {
           console.error("updateCartItem sync error:", err);
