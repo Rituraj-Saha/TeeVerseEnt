@@ -62,7 +62,6 @@ const OrderItems = (props: OrderItemsProps) => { // Correctly destructure 'order
 };
 export default function orders() {
     const orderItems = useSelector((state: any) => state.orders.orders)
-    console.log("orderItems: ", orderItems)
     return <ClientOnlyRender> <OrderItems orderDetails={orderItems} /> <ToastProvider /></ClientOnlyRender>
     // <App />
 }

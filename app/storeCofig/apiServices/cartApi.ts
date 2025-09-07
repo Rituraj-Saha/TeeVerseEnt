@@ -38,15 +38,15 @@ export const cartApi = createApi({
           dispatch(
             addToCart({
               cid: data.id,
-              productName: data.name,
+              productName: product.name,
               product_id: data.product_id,
               quantity: data.requested_qty,
-              requested_size: data.requested_size,
+              selectedSize: data.requested_size,
               sellingPrice,
               price: basePrice,
               discount: product.discount,
-              name: product.name,
               thumbnail: product.thumbnail,
+              sizes: product.sizes,
             })
           );
         } catch (err) {
@@ -81,12 +81,13 @@ export const cartApi = createApi({
                 cid: item.id,
                 product_id: item.product_id,
                 quantity: item.requested_qty,
-                requested_size: item.requested_size,
+                selectedSize: item.requested_size,
                 sellingPrice,
                 price: basePrice,
                 discount: product.discount,
                 productName: product.name,
                 thumbnail: product.thumbnail,
+                sizes: product.sizes,
               };
             })
           );
@@ -109,7 +110,6 @@ export const cartApi = createApi({
       async onQueryStarted({ cart_id, data }, { dispatch, queryFulfilled }) {
         try {
           const { data: updated } = await queryFulfilled;
-          console.log("Updated: ", updated);
           dispatch(
             updateQuantity({ cid: cart_id, quantity: updated.requested_qty })
           );

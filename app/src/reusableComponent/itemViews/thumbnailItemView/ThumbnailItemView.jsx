@@ -34,16 +34,15 @@ const CartButtonOrCounter = (product) => {
     useUpdateCartItemMutation();
   const [deleteCartItem, { isLoading: isDeleting }] =
     useDeleteCartItemMutation();
-
   // cart state
   const cartItem = useSelector((state) =>
     state.cart.cartItems.find(
       (item) =>
-        item?.product_id === product.id &&
-        item?.requested_size === product.selectedSize
+        (item?.product_id === product.id ||
+          item?.product_id === product.product_id) && // the product.id is for when data passed from product & product.product_id if it's been used in cart
+        item?.selectedSize === product.selectedSize
     )
   );
-
   const quantity = cartItem?.quantity || 0;
 
   const [isClicked, setIsClicked] = React.useState(false);
@@ -244,7 +243,6 @@ export const SizeSelector = (props) => {
               opacity: isAvailable ? 1 : 0.4,
             }}
             onClick={() => {
-              console.log("Clicked");
               if (isAvailable) handleChange(item);
             }}
           >
@@ -271,7 +269,6 @@ export const PriceContainer = (props) => {
     usedForProductDetails = false,
     showPrice = true,
   } = props;
-  // console.log(`Sc: ${showCart} Sp:${showPrice}`);
   return (
     <div
       className={styles.priceContainer}
@@ -331,7 +328,6 @@ export const InfoContainer = (props) => {
   const theme = useTheme();
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
     useSizeAvailability(availableSize);
-  // console.log("av size: ", availableSize);
   return (
     <div className={styles.infoContainerS}>
       <div className={styles.nameContainer}>

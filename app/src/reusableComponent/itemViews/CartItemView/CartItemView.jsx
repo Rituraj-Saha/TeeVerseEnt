@@ -129,8 +129,9 @@ const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
 
 // ✅ Main CartItemView component
 const CartItemView = ({ productDetails }) => {
+  console.log("Product Details in cart", productDetails);
   const { sizeAvailability, selectedSize, setSelectedSize, getMaxStock } =
-    useSizeAvailability(productDetails.availableSize);
+    useSizeAvailability(productDetails.sizes);
 
   const addressList = useSelector((state) => state.user.address);
   const dispatch = useDispatch();
@@ -176,7 +177,10 @@ const CartItemView = ({ productDetails }) => {
     <div className={styles.cartItemParent}>
       <div style={{ flex: "0.2" }}>
         <img
-          src={productDetails.thubnailImage}
+          src={productDetails.thumbnail.replace(
+            "app/",
+            "http://localhost:8000/"
+          )}
           style={{
             height: "100%",
             width: "100%",
@@ -201,7 +205,7 @@ const CartItemView = ({ productDetails }) => {
           {/* <div style={{ display: "flex", flex: ".7" }}> */}
           <span className={styles.label}>Size: </span>
           <span className={styles.label_val}>
-            {productDetails.requested_size}
+            {productDetails.selectedSize}
           </span>
           <span className={styles.label}>Quantity: </span>
           <span className={styles.label_val}>{productDetails.quantity}</span>
