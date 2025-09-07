@@ -2,7 +2,17 @@ import React from "react";
 import CartItemView from "app/src/reusableComponent/itemViews/CartItemView/CartItemView";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./CartView.module.css";
-import { Button, useTheme } from "@mui/material";
+import {
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useTheme,
+} from "@mui/material";
 import {
   CART_VIEW,
   close,
@@ -11,6 +21,233 @@ import {
 } from "app/storeCofig/feature/bottomSheetController/BottomsheetControllerSlice";
 import { createOrderFromCart } from "app/storeCofig/feature/orderStore/orderSlice";
 import { PriceContainer } from "app/src/reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
+
+const SAMPLE_ORDER_PAYLOAD = {
+  billInfo: {
+    totalmem: "1",
+    totalAmount: 899,
+    address: "sample address",
+  },
+  productsInfo: [
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "test",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+    {
+      productId: "alkjklasjkldj",
+      productName: "testLast",
+      productPrice: 999,
+      productDiscount: 10,
+      price: 890,
+      qty: 1,
+      size: "M",
+    },
+  ],
+};
+
+const OrderView = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        border: "1px solid black",
+        height: "85%",
+        alignItems: "center",
+        // justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <span>Name: Rituraj</span>
+        <span>Address: 68, Railway park sodepur</span>
+        <span>phone: +91967445373</span>
+      </div>
+      <div>
+        <TableContainer
+          component={Paper}
+          sx={{ width: "100%", maxHeight: "55%", overflowY: "auto" }}
+        >
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontStyle: "bold", fontWeight: 800 }}>
+                  Id
+                </TableCell>
+                <TableCell
+                  sx={{ fontStyle: "bold", fontWeight: 800 }}
+                  align="right"
+                >
+                  Product
+                </TableCell>
+                <TableCell
+                  sx={{ fontStyle: "bold", fontWeight: 800 }}
+                  align="right"
+                >
+                  MRP
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ fontStyle: "bold", fontWeight: 800 }}
+                >
+                  Discount
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ fontStyle: "bold", fontWeight: 800 }}
+                >
+                  Price
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ fontStyle: "bold", fontWeight: 800 }}
+                >
+                  Qty
+                </TableCell>
+                <TableCell
+                  sx={{ fontStyle: "bold", fontWeight: 800 }}
+                  align="right"
+                >
+                  Size
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {SAMPLE_ORDER_PAYLOAD.productsInfo.map((item) => (
+                <TableRow
+                  key={item.productId}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    {item.productId}
+                  </TableCell>
+                  <TableCell align="right" component="th" scope="row">
+                    {item.productName}
+                  </TableCell>
+                  <TableCell align="right">{item.productPrice}</TableCell>
+                  <TableCell align="right">{item.productDiscount}</TableCell>
+                  <TableCell align="right">{item.price}</TableCell>
+                  <TableCell align="right">{item.qty}</TableCell>
+                  <TableCell align="right">{item.size}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </div>
+  );
+};
 function CartView() {
   const dispatch = useDispatch();
   const handleClose = () => {
@@ -62,7 +299,7 @@ function CartView() {
           <div></div>
         </div>
       ) : showView === ORDER_CHECKOUT_VIEW ? (
-        <></>
+        <OrderView />
       ) : (
         <></>
       )}
