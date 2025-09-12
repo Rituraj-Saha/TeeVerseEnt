@@ -7,6 +7,7 @@ import orderReducer from "./feature/orderStore/orderSlice";
 import { productsApi } from "./apiServices/productsApi";
 import { authApi } from "./apiServices/authApi";
 import { cartApi } from "./apiServices/cartApi";
+import { addressApi } from "./apiServices/adressApi";
 export const store = configureStore({
   reducer: {
     bottomSheetControllerReducer: bottomSheetControllerReducer,
@@ -17,11 +18,13 @@ export const store = configureStore({
     [productsApi.reducerPath]: productsApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [cartApi.reducerPath]: authApi.reducer,
+    [addressApi.reducerPath]: addressApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       productsApi.middleware,
       authApi.middleware,
       cartApi.middleware,
+      addressApi.middleware,
     ]),
 });

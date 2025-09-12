@@ -69,9 +69,13 @@ const userSlice = createSlice({
     },
     updateAddress(state, action) {
       const updatedAddress = action.payload; // should contain id
-      state.address = state.address.map((addr) =>
+      state.user.address = state.user.address.map((addr) =>
         addr.id === updatedAddress.id ? { ...addr, ...updatedAddress } : addr
       );
+    },
+    syncAddress(state, action) {
+      const allAddress = action.payload;
+      state.user.address = allAddress;
     },
     removeAddress(state, action) {
       const idToRemove = action.payload;
@@ -98,6 +102,7 @@ export const {
   updateAddress,
   removeAddress,
   updateBearer,
+  syncAddress,
   logout,
 } = userSlice.actions;
 

@@ -18,114 +18,152 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { Address as StaticAddress } from "app/src/assets/payload/Address";
 import styles from "./cartItemView.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAddress,
   updateAddress,
 } from "app/storeCofig/feature/user/UserSlice";
-import { modifyAdrress } from "app/storeCofig/feature/cartStore/CartSlice";
-import SvgStringRenderer from "../../SvgReusableRenderer";
-import { pencil } from "app/src/assets/svgAssets";
+import _ from "lodash";
 
 // ✅ Extracted Dialog Component Outside
-const AddressAdderDialog = React.memo(({ open, onClose, onSave }) => {
-  const [form, setForm] = useState({
-    id: Date.now(),
-    line: "",
-    pin: "",
-    landmark: "",
-    receiverPhone: "",
-    default: false,
-  });
-
-  const handleFormChange = (e) => {
-    const { productName, value, type, checked } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [productName]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!form.line || !form.pin || !form.receiverPhone) {
-      alert("Please fill required fields");
-      return;
-    }
-    onSave(form);
-    setForm({
-      line: "",
-      pin: "",
+export const AddressAdderDialog = React.memo(
+  ({ open, onClose, onSave, formPrefill }) => {
+    const defaultForm = {
+      addressline: "",
+      pincode: "",
       landmark: "",
+      city: "",
+      state: "",
+      nation: "",
       receiverPhone: "",
       default: false,
-    });
-    onClose();
-  };
+    };
 
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
-        <DialogTitle>Add New Address</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            margin="dense"
-            productName="line"
-            label="Address Line"
-            value={form.line}
-            onChange={handleFormChange}
-            required
-          />
-          <TextField
-            fullWidth
-            margin="dense"
-            productName="pin"
-            label="PIN Code"
-            value={form.pin}
-            onChange={handleFormChange}
-            required
-          />
-          <TextField
-            fullWidth
-            margin="dense"
-            productName="landmark"
-            label="Landmark"
-            value={form.landmark}
-            onChange={handleFormChange}
-          />
-          <TextField
-            fullWidth
-            margin="dense"
-            productName="receiverPhone"
-            label="Receiver Phone"
-            value={form.receiverPhone}
-            onChange={handleFormChange}
-            required
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={form.default}
-                onChange={handleFormChange}
-                productName="default"
-              />
-            }
-            label="Set as default"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="contained">
-            Save
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
-  );
-});
+    const [form, setForm] = useState(defaultForm);
+
+    React.useEffect(() => {
+      if (formPrefill && !_.isEmpty(formPrefill)) {
+        setForm(formPrefill);
+      } else {
+        setForm(defaultForm);
+      }
+    }, [formPrefill, open]); // also reset when dialog opens
+
+    const handleFormChange = (e) => {
+      const { name, value, type, checked } = e.target;
+      setForm((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (!form.addressline || !form.pincode || !form.receiverPhone) {
+        alert("Please fill required fields");
+        return;
+      }
+      onSave(form);
+      setForm({
+        addressline: "",
+        pincode: "",
+        landmark: "",
+        city: "",
+        state: "",
+        nation: "",
+        receiverPhone: "",
+        default: false,
+      });
+      onClose();
+    };
+
+    return (
+      <Dialog open={open} onClose={onClose}>
+        <form onSubmit={handleSubmit}>
+          <DialogTitle>Add New Address</DialogTitle>
+          <DialogContent>
+            <TextField
+              fullWidth
+              margin="dense"
+              name="addressline"
+              label="Address Line"
+              value={form.addressline}
+              onChange={handleFormChange}
+              required
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              name="pincode"
+              label="PIN Code"
+              value={form.pincode}
+              onChange={handleFormChange}
+              required
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              name="landmark"
+              label="Landmark"
+              value={form.landmark}
+              onChange={handleFormChange}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              name="city"
+              label="city"
+              value={form.city}
+              onChange={handleFormChange}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              name="state"
+              label="state"
+              value={form.state}
+              onChange={handleFormChange}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              name="nation"
+              label="nation"
+              value={form.nation}
+              onChange={handleFormChange}
+            />
+            <TextField
+              fullWidth
+              margin="dense"
+              name="receiverPhone"
+              label="Receiver Phone"
+              value={form.receiverPhone}
+              onChange={handleFormChange}
+              required
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={form.default}
+                  onChange={handleFormChange}
+                  name="default"
+                />
+              }
+              label="Set as default"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button type="submit" variant="contained">
+              Save
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    );
+  }
+);
 
 // ✅ Main CartItemView component
 const CartItemView = ({ productDetails }) => {
