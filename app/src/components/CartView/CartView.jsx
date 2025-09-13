@@ -210,6 +210,11 @@ const OrderView = () => {
   const userDetails = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { data, error, isLoading, isFetching, isError } = useGetAddressQuery();
+  console.log("CartItem: ", JSON.stringify(cartItems));
+  const [orderPayload, setOrderPayload] = React.useState(
+    transformCartToOrderPayload(cartItems, {})
+  );
+
   return (
     <div
       style={{
@@ -234,7 +239,6 @@ const OrderView = () => {
         <span>
           {`Name: ${userDetails.user.name}`} <span>phone: +91967445373</span>
         </span>
-        {console.log("Data: ", data)}
         {!isLoading && (
           <AddressCard
             // address={{
@@ -297,7 +301,9 @@ const OrderView = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {SAMPLE_ORDER_PAYLOAD.productsInfo.map((item) => (
+            {/* {SAMPLE_ORDER_PAYLOAD.productsInfo.map((item) => ( */}
+            {console.log("Order payload:", orderPayload)}
+            {orderPayload.productsInfo.map((item) => (
               <TableRow
                 key={item.productId}
                 sx={{
@@ -450,129 +456,21 @@ function CartView() {
 
 export default CartView;
 
-const SAMPLE_ORDER_PAYLOAD = {
-  billInfo: {
-    totalmem: "1",
-    totalAmount: 899,
-    address: "sample address",
-  },
-  productsInfo: [
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
+const transformCartToOrderPayload = (cartState, address) => {
+  return {
+    billInfo: {
+      totalmem: String(cartState.totalItems),
+      totalAmount: cartState.totalAmount,
+      address: address || "sample address", // fallback
     },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "test",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-    {
-      productId: "alkjklasjkldj",
-      productName: "testLast",
-      productPrice: 999,
-      productDiscount: 10,
-      price: 890,
-      qty: 1,
-      size: "M",
-    },
-  ],
+    productsInfo: cartState.cartItems.map((item) => ({
+      productId: item.product_id,
+      productName: item.productName,
+      productPrice: item.price,
+      productDiscount: item.discount,
+      price: item.sellingPrice, // already discounted
+      qty: item.quantity,
+      size: item.selectedSize,
+    })),
+  };
 };
