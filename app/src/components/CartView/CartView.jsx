@@ -42,14 +42,22 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { updateUser } from "app/storeCofig/feature/user/UserSlice";
 import {
+  useAddAddressMutation,
   useDeleteAddressMutation,
   useGetAddressQuery,
+  useUpdateAddressMutation,
 } from "app/storeCofig/apiServices/adressApi";
-
-const AddressCard = ({ addresses, onAddressSave }) => {
+const EDIT = "EDIT";
+const ADD_NEW = "ADD_NEW";
+const AddressCard = ({ addresses }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedAddressId, setSelectedAddressId] = React.useState("");
   const [deleteAddress, { isLoading }] = useDeleteAddressMutation();
+  const [addAddress, { isLoading: isLoadingAddAddress }] =
+    useAddAddressMutation();
+  const [updateAddress, { isLoading: isLoadingUpdateAddress }] =
+    useUpdateAddressMutation();
+  const [usedFor, setUsedFor] = React.useState(EDIT);
   // Pick default or first
   React.useEffect(() => {
     if (addresses && addresses.length > 0) {
@@ -60,15 +68,29 @@ const AddressCard = ({ addresses, onAddressSave }) => {
 
   const handleDialogClose = () => {
     setOpen(false);
+    setUsedFor(EDIT);
   };
 
-  const handleDialogSave = (updatedAddress) => {
-    onAddressSave(updatedAddress);
-    setOpen(false);
+  const handleDialogSave = async (address) => {
+    try {
+      if (usedFor === EDIT) {
+        // update logic here
+        await updateAddress(address).unwrap();
+      } else {
+        // add new address
+        await addAddress(address).unwrap();
+      }
+    } catch (e) {
+      console.error("Failed to save address:", e);
+      // optionally show a toast/snackbar
+    } finally {
+      setUsedFor(EDIT);
+      setOpen(false);
+    }
   };
-
   const handleChange = (e) => {
     if (e.target.value === "add_new") {
+      setUsedFor(ADD_NEW);
       setOpen(true);
     } else {
       setSelectedAddressId(e.target.value);
@@ -177,7 +199,7 @@ const AddressCard = ({ addresses, onAddressSave }) => {
         open={open}
         onClose={handleDialogClose}
         onSave={handleDialogSave}
-        formPrefill={selectedAddress}
+        formPrefill={usedFor == ADD_NEW ? null : selectedAddress}
       />
     </>
   );

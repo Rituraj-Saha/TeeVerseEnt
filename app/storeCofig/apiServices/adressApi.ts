@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { syncAddress } from "../feature/user/UserSlice";
+import { addAddress, syncAddress } from "../feature/user/UserSlice";
 import { baseQueryWithReauth } from "./authApi";
 
 type Address = {
@@ -22,7 +22,7 @@ type DeleteAddressRequest = {
   id: number;
 };
 
-type DeleteAddressResponse = {
+type AddOrDeleteResponse = {
   message: string;
   addresses: Address[];
 };
@@ -44,10 +44,7 @@ export const addressApi = createApi({
         }
       },
     }),
-    deleteAddress: builder.mutation<
-      DeleteAddressResponse,
-      DeleteAddressRequest
-    >({
+    deleteAddress: builder.mutation<AddOrDeleteResponse, DeleteAddressRequest>({
       query: (body) => ({
         url: `/auth/address/delete`,
         method: "DELETE",
@@ -63,7 +60,44 @@ export const addressApi = createApi({
         }
       },
     }),
+    addAddress: builder.mutation<AddOrDeleteResponse, Address>({
+      query: (body) => ({
+        url: `/auth/address/add`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Address"],
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(syncAddress(data.addresses)); // ✅ no more type error
+        } catch (err) {
+          console.error("deleteAddress sync error:", err);
+        }
+      },
+    }),
+    updateAddress: builder.mutation<AddOrDeleteResponse, Address>({
+      query: (body) => ({
+        url: `/auth/address/update`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Address"],
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(syncAddress(data.addresses)); // ✅ no more type error
+        } catch (err) {
+          console.error("deleteAddress sync error:", err);
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetAddressQuery, useDeleteAddressMutation } = addressApi;
+export const {
+  useGetAddressQuery,
+  useDeleteAddressMutation,
+  useAddAddressMutation,
+  useUpdateAddressMutation,
+} = addressApi;

@@ -36,7 +36,7 @@ export const AddressAdderDialog = React.memo(
       city: "",
       state: "",
       nation: "",
-      receiverPhone: "",
+      receiverPhoneNumber: "",
       default: false,
     };
 
@@ -60,7 +60,7 @@ export const AddressAdderDialog = React.memo(
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      if (!form.addressline || !form.pincode || !form.receiverPhone) {
+      if (!form.addressline || !form.pincode || !form.receiverPhoneNumber) {
         alert("Please fill required fields");
         return;
       }
@@ -72,7 +72,7 @@ export const AddressAdderDialog = React.memo(
         city: "",
         state: "",
         nation: "",
-        receiverPhone: "",
+        receiverPhoneNumber: "",
         default: false,
       });
       onClose();
@@ -136,9 +136,9 @@ export const AddressAdderDialog = React.memo(
             <TextField
               fullWidth
               margin="dense"
-              name="receiverPhone"
+              name="receiverPhoneNumber"
               label="Receiver Phone"
-              value={form.receiverPhone}
+              value={form.receiverPhoneNumber}
               onChange={handleFormChange}
               required
             />
@@ -262,11 +262,11 @@ const CartItemView = ({ productDetails }) => {
             margin="dense"
             productName="recieverPhone"
             label="Receiver's Phone Number"
-            value={selectedAddress.receiverPhone}
+            value={selectedAddress.receiverPhoneNumber}
             onChange={(event) => {
               handlePhoneChange({
                 ...selectedAddress,
-                receiverPhone: event.target.value,
+                receiverPhoneNumber: event.target.value,
               });
             }}
             disabled={true}
