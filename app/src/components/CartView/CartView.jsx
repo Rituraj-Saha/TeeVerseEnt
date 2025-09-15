@@ -47,9 +47,10 @@ import {
   useGetAddressQuery,
   useUpdateAddressMutation,
 } from "app/storeCofig/apiServices/adressApi";
+import { number } from "framer-motion";
 const EDIT = "EDIT";
 const ADD_NEW = "ADD_NEW";
-const AddressCard = ({ addresses }) => {
+const AddressCard = ({ addresses, selectedAddress, setSelectedAddress }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedAddressId, setSelectedAddressId] = React.useState("");
   const [deleteAddress, { isLoading }] = useDeleteAddressMutation();
@@ -104,8 +105,8 @@ const AddressCard = ({ addresses }) => {
       console.error("Failed to delete address:", err);
     }
   };
-  const selectedAddress =
-    addresses.find((a) => a.id === selectedAddressId) || null;
+
+  setSelectedAddress(addresses.find((a) => a.id === selectedAddressId) || null);
 
   return (
     <>
@@ -205,16 +206,15 @@ const AddressCard = ({ addresses }) => {
   );
 };
 
-const OrderView = () => {
-  const cartItems = useSelector((state) => state.cart);
+const OrderView = ({
+  orderPayload,
+  setOrderPayload,
+  selectedAddress,
+  setSelectedAddress,
+}) => {
   const userDetails = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { data, error, isLoading, isFetching, isError } = useGetAddressQuery();
-  console.log("CartItem: ", JSON.stringify(cartItems));
-  const [orderPayload, setOrderPayload] = React.useState(
-    transformCartToOrderPayload(cartItems, {})
-  );
-
   return (
     <div
       style={{
@@ -241,11 +241,9 @@ const OrderView = () => {
         </span>
         {!isLoading && (
           <AddressCard
-            // address={{
-            //   ...userDetails.user.address,
-            //   recieverPhoneNumeber: userDetails.user.phone_number,
-            // }}
             addresses={data?.addresses}
+            selectedAddress={selectedAddress}
+            setSelectedAddress={setSelectedAddress}
             onAddressSave={(newAddress) =>
               dispatch(updateUser({ ...userDetails.user, address: newAddress }))
             }
@@ -302,7 +300,6 @@ const OrderView = () => {
           </TableHead>
           <TableBody>
             {/* {SAMPLE_ORDER_PAYLOAD.productsInfo.map((item) => ( */}
-            {console.log("Order payload:", orderPayload)}
             {orderPayload.productsInfo.map((item) => (
               <TableRow
                 key={item.productId}
@@ -336,6 +333,7 @@ function CartView() {
   };
   const theme = useTheme();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const cart = useSelector((state) => state.cart);
   // React.useEffect(() => {
   //   dispatch(createOrderFromCart(cartItems));
   // }, [cartItems]);
@@ -345,6 +343,13 @@ function CartView() {
   const showView = useSelector(
     (state) => state.bottomSheetControllerReducer.showView
   );
+  const [selectedAddress, setSelectedAddress] = React.useState({});
+  const [orderPayload, setOrderPayload] = React.useState(
+    transformCartToOrderPayload(cart, selectedAddress)
+  );
+  React.useEffect(() => {
+    setOrderPayload(transformCartToOrderPayload(cart, selectedAddress));
+  }, [selectedAddress, cart]);
   return (
     <div className={styles.cartParent}>
       {showView === CART_VIEW ? (
@@ -380,7 +385,12 @@ function CartView() {
           <div></div>
         </div>
       ) : showView === ORDER_CHECKOUT_VIEW ? (
-        <OrderView />
+        <OrderView
+          orderPayload={orderPayload}
+          setOrderPayload={setOrderPayload}
+          selectedAddress={selectedAddress}
+          setSelectedAddress={setSelectedAddress}
+        />
       ) : (
         <></>
       )}
@@ -414,7 +424,7 @@ function CartView() {
           <span>
             {" "}
             <span className={styles.field_name_text}>Total Amount: </span>
-            <span>₹{totalAmount.toFixed(2)}</span>
+            <span>₹{(totalAmount + 70 + 30).toFixed(2)}</span>
           </span>
         </div>
         <div
@@ -435,6 +445,22 @@ function CartView() {
           >
             close cart
           </Button>
+          {showView !== CART_VIEW && (
+            <Button
+              variant="contained"
+              sx={{
+                flex: 0.5,
+                // margin: "20px",
+                background: theme.palette.custom.main,
+              }}
+              onClick={() => {
+                const finalPayload = { ...orderPayload, payment_method: "COD" };
+                console.log(`orderPayload: ${JSON.stringify(finalPayload)}`);
+              }}
+            >
+              {"💵 CASH ON DELIVERY"}
+            </Button>
+          )}
           <Button
             variant="contained"
             sx={{
@@ -443,10 +469,18 @@ function CartView() {
               background: theme.palette.success.main,
             }}
             onClick={() => {
-              dispatch(setView(ORDER_CHECKOUT_VIEW));
+              if (showView === CART_VIEW) {
+                dispatch(setView(ORDER_CHECKOUT_VIEW));
+              } else {
+                const finalPayload = {
+                  ...orderPayload,
+                  payment_method: "RAZORPAY",
+                };
+                console.log(`orderPayload: ${JSON.stringify(finalPayload)}`);
+              }
             }}
           >
-            Place Order
+            {showView === CART_VIEW ? "Place Order" : "💳 Pay Online"}
           </Button>
         </div>
       </div>
@@ -459,11 +493,15 @@ export default CartView;
 const transformCartToOrderPayload = (cartState, address) => {
   return {
     billInfo: {
-      totalmem: String(cartState.totalItems),
+      totalItem: String(cartState.totalItems),
       totalAmount: cartState.totalAmount,
       address: address || "sample address", // fallback
+      shippingCharge: 70, // need to call delivery
+      currency: "INR",
+      platformFees: 50, // need to call a api to get platformfees
     },
     productsInfo: cartState.cartItems.map((item) => ({
+      cartId: item.cid,
       productId: item.product_id,
       productName: item.productName,
       productPrice: item.price,
