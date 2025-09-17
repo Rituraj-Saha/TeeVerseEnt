@@ -15,6 +15,8 @@ Your multi-stage Dockerfile is structured as:
 
 ## 🔧 1. How to Build the Docker Image
 
+docker build -t my-ssr-app:prod --target prod .
+
 Use the production stage (`prod-env`) to build the image:
 
 ```bash

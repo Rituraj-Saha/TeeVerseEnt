@@ -1,23 +1,30 @@
-# Step 1: Base for installing dev dependencies
+# Step 1: Base for installing deps
 FROM node:20-alpine AS base
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm ci
 
-# Step 2: Dev environment with dev dependencies
-FROM base AS dev-env
+# Step 2: Dev environment
+FROM base AS dev
 COPY . .
+EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
-# Step 3: Build environment for SSR output
-FROM base AS build-env
+# Step 3: Build environment
+FROM base AS build
 COPY . .
 RUN npm run build
 
 # Step 4: Production environment
-FROM node:20-alpine AS prod-env
+FROM node:20-alpine AS prod
 WORKDIR /app
-COPY package.json package-lock.json ./
+
+# Copy only required files
+COPY package*.json ./
 RUN npm ci --omit=dev
-COPY --from=build-env /app/build ./build
+
+# Copy build output (client + server)
+COPY --from=build /app/build ./build
+
+EXPOSE 3000
 CMD ["npm", "run", "start"]

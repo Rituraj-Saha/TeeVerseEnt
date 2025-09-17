@@ -13,7 +13,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    base: env.VITE_BASE_PATH || "/",
+    base: mode === "production" ? "/prodassets/" : "/",
+    build: {
+      outDir: "build/client",
+      assetsDir: "", // prevents nested "assets" folder, keeps clean URLs
+    },
     define: {
       __APP_NAME__: JSON.stringify(env.VITE_APP_NAME),
       __BASE_PATH__: JSON.stringify(env.VITE_BASE_PATH),
@@ -22,11 +26,10 @@ export default defineConfig(({ mode }) => {
     plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
     server: {
       host: "0.0.0.0",
-      hmr: true, // 🔧 disable HMR temporarily
+      hmr: true,
       fs: {
         allow: ["."],
       },
-      // middlewareMode: true,
     },
     resolve: {
       alias: {
@@ -34,7 +37,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     ssr: {
-      noExternal: ["@mui/material", "@emotion/react", "@emotion/styled"], // if you're using MUI
+      noExternal: ["@mui/material", "@emotion/react", "@emotion/styled"],
     },
   };
 });
